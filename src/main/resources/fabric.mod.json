@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "popcounter",
+  "version": "${version}",
+  "name": "PopCounter",
+  "description": "counts the amount of skill issues (totem pops)",
+  "authors": [
+    "uku"
+  ],
+  "contact": {
+    "repo": "https://github.com/uku3lig/popcounter"
+  },
+  "license": "MIT",
+  "icon": "assets/popcounter/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "net.uku3lig.popcounter.PopCounter"
+    ]
+  },
+  "mixins": [
+    "popcounter.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.8",
+    "minecraft": "1.19.1"
+  }
+}
