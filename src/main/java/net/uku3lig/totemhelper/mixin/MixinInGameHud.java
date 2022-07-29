@@ -1,4 +1,4 @@
-package net.uku3lig.popcounter.mixin;
+package net.uku3lig.totemhelper.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;

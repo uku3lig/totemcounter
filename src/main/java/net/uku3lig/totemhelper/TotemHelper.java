@@ -1,4 +1,4 @@
-package net.uku3lig.popcounter;
+package net.uku3lig.totemhelper;
 
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import static net.minecraft.util.Formatting.*;
 
-public class PopCounter implements ModInitializer {
+public class TotemHelper implements ModInitializer {
     @Getter
     protected static final Map<UUID, Integer> pops = new HashMap<>();
 

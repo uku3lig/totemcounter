@@ -1,4 +1,4 @@
-package net.uku3lig.popcounter.mixin;
+package net.uku3lig.totemhelper.mixin;
 
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -10,7 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.uku3lig.popcounter.PopCounter;
+import net.uku3lig.totemhelper.TotemHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -24,12 +24,12 @@ public abstract class MixinPlayerEntityRenderer extends LivingEntityRenderer<Abs
     @Redirect(method = "renderLabelIfPresent(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
     at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/LivingEntityRenderer;renderLabelIfPresent(Lnet/minecraft/entity/Entity;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"))
     public void renderPopCounter(LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> instance, Entity entity, Text text, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        if (!entity.isAlive()) PopCounter.getPops().remove(entity.getUuid());
-        if (PopCounter.getPops().containsKey(entity.getUuid())) {
-            int pops = PopCounter.getPops().get(entity.getUuid());
+        if (!entity.isAlive()) TotemHelper.getPops().remove(entity.getUuid());
+        if (TotemHelper.getPops().containsKey(entity.getUuid())) {
+            int pops = TotemHelper.getPops().get(entity.getUuid());
             text = text.copy()
                     .append(Text.literal(" | ").styled(s -> s.withColor(Formatting.GRAY)))
-                    .append(Text.literal("-" + pops).setStyle(PopCounter.getCounterStyle(pops)));
+                    .append(Text.literal("-" + pops).setStyle(TotemHelper.getCounterStyle(pops)));
         }
         super.renderLabelIfPresent((AbstractClientPlayerEntity) entity, text, matrixStack, vertexConsumerProvider, i);
     }
