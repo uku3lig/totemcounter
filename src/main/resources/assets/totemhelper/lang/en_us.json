@@ -1,0 +1,15 @@
+{
+  "totemhelper.config": "TotemCounter Config",
+  "totemhelper.config.pop": "Pop Counter Config",
+  "totemhelper.config.display": "Totem Display Config",
+  "totemhelper.config.enabled": "Enabled",
+  "totemhelper.config.pop.separator": "Separator",
+  "totemhelper.config.pop.colors": "Text Colors",
+  "totemhelper.config.display.position": "Position",
+  "totemhelper.config.display.defaultTotem": "Default Totem Icon",
+  "totemhelper.position.topLeft": "Top Left",
+  "totemhelper.position.topRight": "Top Right",
+  "totemhelper.position.bottomLeft": "Bottom Left",
+  "totemhelper.position.bottomRight": "Bottom Right",
+  "totemhelper.position.middle": "Above XP Bar"
+}
