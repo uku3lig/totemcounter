@@ -16,6 +16,9 @@
   "entrypoints": {
     "main": [
       "net.uku3lig.totemhelper.TotemHelper"
+    ],
+    "modmenu": [
+      "net.uku3lig.totemhelper.ModMenuHook"
     ]
   },
   "mixins": [
