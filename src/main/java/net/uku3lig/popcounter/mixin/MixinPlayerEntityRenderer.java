@@ -9,6 +9,7 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.uku3lig.popcounter.PopCounter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +27,9 @@ public abstract class MixinPlayerEntityRenderer extends LivingEntityRenderer<Abs
         if (!entity.isAlive()) PopCounter.getPops().remove(entity.getUuid());
         if (PopCounter.getPops().containsKey(entity.getUuid())) {
             int pops = PopCounter.getPops().get(entity.getUuid());
-            text = text.copy().append(" | ").append(Text.literal("-" + pops).setStyle(PopCounter.getCounterStyle(pops)));
+            text = text.copy()
+                    .append(Text.literal(" | ").styled(s -> s.withColor(Formatting.GRAY)))
+                    .append(Text.literal("-" + pops).setStyle(PopCounter.getCounterStyle(pops)));
         }
         super.renderLabelIfPresent((AbstractClientPlayerEntity) entity, text, matrixStack, vertexConsumerProvider, i);
     }
