@@ -25,7 +25,8 @@ public abstract class MixinPlayerEntityRenderer extends LivingEntityRenderer<Abs
     public void renderPopCounter(LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> instance, Entity entity, Text text, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         if (!entity.isAlive()) PopCounter.getPops().remove(entity.getUuid());
         if (PopCounter.getPops().containsKey(entity.getUuid())) {
-            text = text.copy().append(" | -").append(String.valueOf(PopCounter.getPops().get(entity.getUuid())));
+            int pops = PopCounter.getPops().get(entity.getUuid());
+            text = text.copy().append(" | ").append(Text.literal("-" + pops).setStyle(PopCounter.getCounterStyle(pops)));
         }
         super.renderLabelIfPresent((AbstractClientPlayerEntity) entity, text, matrixStack, vertexConsumerProvider, i);
     }
