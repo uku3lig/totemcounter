@@ -6,6 +6,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
+import java.util.stream.Stream;
 
 @Mixin(InGameHud.class)
 public class MixinInGameHud {
@@ -38,7 +40,8 @@ public class MixinInGameHud {
         if (!config.isEnabled()) return;
         TextRenderer textRenderer = client.textRenderer;
 
-        int count = (int) client.player.getInventory().main.stream().filter(TOTEM::isItemEqual).count();
+        PlayerInventory inv = client.player.getInventory();
+        int count = (int) Stream.concat(inv.main.stream(), inv.offHand.stream()).filter(TOTEM::isItemEqual).count();
         if (count == 0) return;
         Text text = Text.of(String.valueOf(count));
         float length = textRenderer.getWidth(text);
