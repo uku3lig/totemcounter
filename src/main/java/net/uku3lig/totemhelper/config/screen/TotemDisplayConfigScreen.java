@@ -1,9 +1,11 @@
-package net.uku3lig.totemhelper.config;
+package net.uku3lig.totemhelper.config.screen;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
+import net.uku3lig.totemhelper.config.GlobalConfig;
+import net.uku3lig.totemhelper.config.TotemDisplayConfig;
 import net.uku3lig.totemhelper.config.TotemDisplayConfig.Position;
 
 import java.util.Arrays;

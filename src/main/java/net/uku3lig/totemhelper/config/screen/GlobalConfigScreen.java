@@ -1,4 +1,4 @@
-package net.uku3lig.totemhelper.config;
+package net.uku3lig.totemhelper.config.screen;
 
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.client.MinecraftClient;
@@ -11,6 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.uku3lig.totemhelper.TotemHelper;
+import net.uku3lig.totemhelper.config.GlobalConfig;
 
 import java.io.IOException;
 

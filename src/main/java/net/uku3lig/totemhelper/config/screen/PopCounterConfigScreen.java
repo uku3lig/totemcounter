@@ -1,8 +1,10 @@
-package net.uku3lig.totemhelper.config;
+package net.uku3lig.totemhelper.config.screen;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
+import net.uku3lig.totemhelper.config.GlobalConfig;
+import net.uku3lig.totemhelper.config.PopCounterConfig;
 
 public class PopCounterConfigScreen extends AbstractConfigScreen {
     private final PopCounterConfig config;

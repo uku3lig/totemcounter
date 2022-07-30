@@ -1,4 +1,4 @@
-package net.uku3lig.totemhelper.config;
+package net.uku3lig.totemhelper.config.screen;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -12,6 +12,7 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.uku3lig.totemhelper.TotemHelper;
+import net.uku3lig.totemhelper.config.GlobalConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
