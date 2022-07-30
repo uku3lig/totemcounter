@@ -26,7 +26,8 @@ public class TotemDisplayConfigScreen extends AbstractConfigScreen {
                         new SimpleOption.PotentialValuesBasedCallbacks<>(Arrays.asList(Position.values()), Codec.STRING.xmap(Position::valueOf, Position::name)),
                         config.getPosition(), config::setPosition),
                 SimpleOption.ofBoolean("totemhelper.config.display.defaultTotem", config.isUseDefaultTotem(), config::setUseDefaultTotem),
-                SimpleOption.ofBoolean("totemhelper.config.colors", config.isColors(), config::setColors)
+                SimpleOption.ofBoolean("totemhelper.config.colors", config.isColors(), config::setColors),
+                SimpleOption.ofBoolean("totemhelper.config.display.coloredXpBar", config.isColoredXpBar(), config::setColoredXpBar)
         };
     }
 }

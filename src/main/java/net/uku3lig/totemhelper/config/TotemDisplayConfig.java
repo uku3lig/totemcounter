@@ -13,6 +13,7 @@ public class TotemDisplayConfig {
     private Position position;
     private boolean useDefaultTotem;
     private boolean colors;
+    private boolean coloredXpBar;
 
     @Getter
     @AllArgsConstructor

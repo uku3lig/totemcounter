@@ -7,6 +7,7 @@
   "totemhelper.config.pop.separator": "Separator",
   "totemhelper.config.display.position": "Position",
   "totemhelper.config.display.defaultTotem": "Default Totem Icon",
+  "totemhelper.config.display.coloredXpBar": "Colored XP Bar",
   "totemhelper.position.topLeft": "Top Left",
   "totemhelper.position.topRight": "Top Right",
   "totemhelper.position.bottomLeft": "Bottom Left",
