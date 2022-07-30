@@ -54,7 +54,8 @@ public class MixinInGameHud {
         switch (config.getPosition()) {
             case MIDDLE -> {
                 x = scaledWidth / 2 - 8;
-                y = scaledHeight - 46 - textRenderer.fontHeight;
+                y = scaledHeight - 38 - textRenderer.fontHeight;
+                if (client.player.experienceLevel > 0) y -= 6;
                 textX = (scaledWidth - length) / 2;
                 textY = y + 18f - textRenderer.fontHeight;
             }
