@@ -100,8 +100,8 @@ public class MixinInGameHud {
 
     @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 1))
     public void hideExperienceBar(InGameHud instance, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
-        if (config.isColoredXpBar() && client.player != null) {
-            int argb = TotemHelper.getTotemColor(getTotemCount(client.player));
+        int argb = TotemHelper.getTotemColor(getTotemCount(client.player));
+        if (config.isColoredXpBar() && argb != 0xFFFFFFFF) {
             RenderSystem.setShaderTexture(0, ICONS);
             RenderSystem.setShaderColor(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
             instance.drawTexture(matrices, x, y, 0, 16, 182, 5);
