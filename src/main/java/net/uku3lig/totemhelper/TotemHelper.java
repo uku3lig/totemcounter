@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.text.Style;
 import net.uku3lig.totemhelper.config.GlobalConfig;
 
+import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,5 +34,16 @@ public class TotemHelper implements ModInitializer {
             case 7, 8 -> GOLD;
             default -> RED;
         });
+    }
+
+    public static int getTotemColor(int amount) {
+        return switch (amount) {
+            case 1, 2 -> 0xFFFF5555;
+            case 3, 4 -> 0xFFFFAA00;
+            case 5, 6 -> 0xFFFFFF55;
+            case 7, 8 -> 0xFF00AA00;
+            case 9, 10 -> 0xFF55FF55;
+            default -> Color.WHITE.getRGB();
+        };
     }
 }

@@ -20,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.awt.*;
 import java.util.stream.Stream;
 
 @Mixin(InGameHud.class)
@@ -85,7 +84,7 @@ public class MixinInGameHud {
         }
 
         matrices.translate(0, 0, itemRenderer.zOffset + 200);
-        textRenderer.drawWithShadow(matrices, text, textX, textY, Color.WHITE.getRGB());
+        textRenderer.drawWithShadow(matrices, text, textX, textY, TotemHelper.getTotemColor(config.isColors() ? count : 999));
         matrices.pop();
     }
 }

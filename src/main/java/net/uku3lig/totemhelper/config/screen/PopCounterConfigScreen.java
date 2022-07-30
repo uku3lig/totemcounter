@@ -19,7 +19,7 @@ public class PopCounterConfigScreen extends AbstractConfigScreen {
         return new SimpleOption[] {
                 SimpleOption.ofBoolean("totemhelper.config.enabled", config.isEnabled(), config::setEnabled),
                 SimpleOption.ofBoolean("totemhelper.config.pop.separator", config.isSeparator(), config::setSeparator),
-                SimpleOption.ofBoolean("totemhelper.config.pop.colors", config.isColors(), config::setColors)
+                SimpleOption.ofBoolean("totemhelper.config.colors", config.isColors(), config::setColors)
         };
     }
 }

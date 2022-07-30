@@ -12,6 +12,7 @@ public class TotemDisplayConfig {
     private boolean enabled;
     private Position position;
     private boolean useDefaultTotem;
+    private boolean colors;
 
     @Getter
     @AllArgsConstructor
