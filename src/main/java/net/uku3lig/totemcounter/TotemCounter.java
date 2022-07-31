@@ -1,4 +1,4 @@
-package net.uku3lig.totemhelper;
+package net.uku3lig.totemcounter;
 
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Style;
-import net.uku3lig.totemhelper.config.GlobalConfig;
+import net.uku3lig.totemcounter.config.GlobalConfig;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
@@ -16,7 +16,7 @@ import java.util.UUID;
 
 import static net.minecraft.util.Formatting.*;
 
-public class TotemHelper implements ModInitializer {
+public class TotemCounter implements ModInitializer {
     @Getter
     private static final Map<UUID, Integer> pops = new HashMap<>();
     @Getter
@@ -24,12 +24,12 @@ public class TotemHelper implements ModInitializer {
     @Getter
     private static KeyBinding resetCounter;
     @Getter
-    private static final File file = new File("./config/totemhelper.toml");
+    private static final File file = new File("./config/totemcounter.toml");
 
     @Override
     public void onInitialize() {
         config = GlobalConfig.readConfig(file);
-        resetCounter = KeyBindingHelper.registerKeyBinding(new KeyBinding("totemhelper.key.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, "TotemHelper"));
+        resetCounter = KeyBindingHelper.registerKeyBinding(new KeyBinding("totemcounter.key.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, "Totemcounter"));
     }
 
     public static Style getCounterStyle(int pops) {

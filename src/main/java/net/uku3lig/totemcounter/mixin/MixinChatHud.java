@@ -1,8 +1,7 @@
-package net.uku3lig.totemhelper.mixin;
+package net.uku3lig.totemcounter.mixin;
 
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.text.Text;
-import net.uku3lig.totemhelper.TotemHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,6 +16,6 @@ public class MixinChatHud {
 
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;IIZ)V", at = @At("HEAD"))
     public void checkForDeath(Text message, int messageId, int timestamp, boolean refresh, CallbackInfo ci) {
-        if (roundEndMessages.stream().anyMatch(m -> message.getString().contains(m))) TotemHelper.getPops().clear();
+        if (roundEndMessages.stream().anyMatch(m -> message.getString().contains(m))) net.uku3lig.totemcounter.TotemCounter.getPops().clear();
     }
 }

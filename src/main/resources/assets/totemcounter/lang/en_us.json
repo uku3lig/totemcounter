@@ -1,0 +1,18 @@
+{
+  "totemcounter.config": "TotemCounter Config",
+  "totemcounter.config.pop": "Pop Counter Config",
+  "totemcounter.config.display": "Totem Display Config",
+  "totemcounter.config.enabled": "Enabled",
+  "totemcounter.config.colors": "Text Colors",
+  "totemcounter.config.pop.separator": "Separator",
+  "totemcounter.config.display.position": "Position",
+  "totemcounter.config.display.defaultTotem": "Default Totem Icon",
+  "totemcounter.config.display.coloredXpBar": "Colored XP Bar",
+  "totemcounter.config.display.alwaysShowBar": "Always Show Colored Bar",
+  "totemcounter.position.topLeft": "Top Left",
+  "totemcounter.position.topRight": "Top Right",
+  "totemcounter.position.bottomLeft": "Bottom Left",
+  "totemcounter.position.bottomRight": "Bottom Right",
+  "totemcounter.position.middle": "Above XP Bar",
+  "totemcounter.reset": "Reset Pop Counter"
+}

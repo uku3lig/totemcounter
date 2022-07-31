@@ -1,4 +1,4 @@
-package net.uku3lig.totemhelper.config;
+package net.uku3lig.totemcounter.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,11 +19,11 @@ public class TotemDisplayConfig {
     @Getter
     @AllArgsConstructor
     public enum Position implements TranslatableOption {
-        TOP_LEFT(0, "totemhelper.position.topLeft"),
-        TOP_RIGHT(1, "totemhelper.position.topRight"),
-        BOTTOM_LEFT(2, "totemhelper.position.bottomLeft"),
-        BOTTOM_RIGHT(3, "totemhelper.position.bottomRight"),
-        MIDDLE(4, "totemhelper.position.middle")
+        TOP_LEFT(0, "totemcounter.position.topLeft"),
+        TOP_RIGHT(1, "totemcounter.position.topRight"),
+        BOTTOM_LEFT(2, "totemcounter.position.bottomLeft"),
+        BOTTOM_RIGHT(3, "totemcounter.position.bottomRight"),
+        MIDDLE(4, "totemcounter.position.middle")
         ;
 
         private final int id;

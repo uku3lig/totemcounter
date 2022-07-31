@@ -1,4 +1,4 @@
-package net.uku3lig.totemhelper.config.screen;
+package net.uku3lig.totemcounter.config.screen;
 
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.client.MinecraftClient;
@@ -10,8 +10,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
-import net.uku3lig.totemhelper.TotemHelper;
-import net.uku3lig.totemhelper.config.GlobalConfig;
+import net.uku3lig.totemcounter.config.GlobalConfig;
 
 import java.io.IOException;
 
@@ -21,7 +20,7 @@ public class GlobalConfigScreen extends GameOptionsScreen {
     private ButtonListWidget buttons;
 
     public GlobalConfigScreen(Screen parent, GlobalConfig config) {
-        super(parent, MinecraftClient.getInstance().options, Text.translatable("totemhelper.config"));
+        super(parent, MinecraftClient.getInstance().options, Text.translatable("totemcounter.config"));
         this.config = config;
     }
 
@@ -30,10 +29,10 @@ public class GlobalConfigScreen extends GameOptionsScreen {
     protected void init() {
         super.init();
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 - 35, 150, 20,
-                Text.translatable("totemhelper.config.pop"), button -> client.setScreen(new PopCounterConfigScreen(this, config))));
+                Text.translatable("totemcounter.config.pop"), button -> client.setScreen(new PopCounterConfigScreen(this, config))));
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 - 10, 150, 20,
-                Text.translatable("totemhelper.config.display"), button -> client.setScreen(new TotemDisplayConfigScreen(this, config))));
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 + 15, 150, 20, Text.translatable("totemhelper.reset"), button -> TotemHelper.getPops().clear()));
+                Text.translatable("totemcounter.config.display"), button -> client.setScreen(new TotemDisplayConfigScreen(this, config))));
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 + 15, 150, 20, Text.translatable("totemcounter.reset"), button -> net.uku3lig.totemcounter.TotemCounter.getPops().clear()));
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 27, 200, 20, ScreenTexts.DONE, button -> this.client.setScreen(this.parent)));
 
         buttons = new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
@@ -51,7 +50,7 @@ public class GlobalConfigScreen extends GameOptionsScreen {
     @Override
     public void removed() {
         try {
-            config.writeConfig(TotemHelper.getFile());
+            config.writeConfig(net.uku3lig.totemcounter.TotemCounter.getFile());
         } catch (IOException e) {
             log.warn("Could not write config", e);
         }

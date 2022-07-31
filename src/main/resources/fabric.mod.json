@@ -1,28 +1,28 @@
 {
   "schemaVersion": 1,
-  "id": "totemhelper",
+  "id": "totemcounter",
   "version": "${version}",
-  "name": "TotemHelper",
+  "name": "TotemCounter",
   "description": "counts the amount of skill issues (totem pops)",
   "authors": [
     "uku"
   ],
   "contact": {
-    "repo": "https://github.com/uku3lig/totemhelper"
+    "repo": "https://github.com/uku3lig/totemcounter"
   },
   "license": "MIT",
-  "icon": "assets/totemhelper/icon.png",
+  "icon": "assets/totemcounter/icon.png",
   "environment": "client",
   "entrypoints": {
     "main": [
-      "net.uku3lig.totemhelper.TotemHelper"
+      "net.uku3lig.totemcounter.TotemCounter"
     ],
     "modmenu": [
-      "net.uku3lig.totemhelper.ModMenuHook"
+      "net.uku3lig.totemcounter.ModMenuHook"
     ]
   },
   "mixins": [
-    "totemhelper.mixins.json"
+    "totemcounter.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.13",

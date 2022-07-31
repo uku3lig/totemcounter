@@ -1,11 +1,10 @@
-package net.uku3lig.totemhelper.mixin;
+package net.uku3lig.totemcounter.mixin;
 
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
-import net.uku3lig.totemhelper.TotemHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,8 +22,8 @@ public class MixinClientPlayNetworkHandler {
         Entity entity = packet.getEntity(world);
         if (entity instanceof OtherClientPlayerEntity player) {
             UUID uuid = player.getUuid();
-            TotemHelper.getPops().putIfAbsent(uuid, 0);
-            TotemHelper.getPops().computeIfPresent(uuid, (u, i) -> i + 1);
+            net.uku3lig.totemcounter.TotemCounter.getPops().putIfAbsent(uuid, 0);
+            net.uku3lig.totemcounter.TotemCounter.getPops().computeIfPresent(uuid, (u, i) -> i + 1);
         }
     }
 }

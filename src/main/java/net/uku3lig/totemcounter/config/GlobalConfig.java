@@ -1,4 +1,4 @@
-package net.uku3lig.totemhelper.config;
+package net.uku3lig.totemcounter.config;
 
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;

@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.uku3lig.totemhelper.mixin",
+  "package": "net.uku3lig.totemcounter.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
     "MixinChatHud",

@@ -1,4 +1,4 @@
-package net.uku3lig.totemhelper.config;
+package net.uku3lig.totemcounter.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
