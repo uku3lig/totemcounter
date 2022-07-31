@@ -38,12 +38,11 @@ public class TotemHelper implements ModInitializer {
 
     public static int getTotemColor(int amount) {
         return switch (amount) {
-            case 1, 2 -> 0xFFFF5555;
-            case 3, 4 -> 0xFFFFAA00;
-            case 5, 6 -> 0xFFFFFF55;
-            case 7, 8 -> 0xFF00AA00;
-            case 9, 10 -> 0xFF55FF55;
-            default -> Color.WHITE.getRGB();
+            case 1, 2 -> 0xFFFF5555; // red
+            case 3, 4 -> 0xFFFFAA00; // gold
+            case 5, 6 -> 0xFFFFFF55; // yellow
+            case 7, 8 -> 0xFF00AA00; // dark green
+            default -> 0xFF55FF55; // light green
         };
     }
 }

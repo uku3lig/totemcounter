@@ -14,6 +14,7 @@ public class TotemDisplayConfig {
     private boolean useDefaultTotem;
     private boolean colors;
     private boolean coloredXpBar;
+    private boolean alwaysShowBar;
 
     @Getter
     @AllArgsConstructor

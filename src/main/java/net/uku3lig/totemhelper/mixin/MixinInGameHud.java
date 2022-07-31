@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,6 +42,11 @@ public class MixinInGameHud {
         if (player == null) return 0;
         PlayerInventory inv = player.getInventory();
         return (int) Stream.concat(inv.main.stream(), inv.offHand.stream()).filter(TOTEM::isItemEqual).count();
+    }
+
+    private boolean shouldRenderBar() {
+        int count = getTotemCount(client.player);
+        return config.isColoredXpBar() && (count <= 10 || config.isAlwaysShowBar()) && count != 0;
     }
 
     @Inject(method = "renderStatusBars", at = @At("RETURN"))
@@ -98,10 +104,15 @@ public class MixinInGameHud {
         matrices.pop();
     }
 
+    @Redirect(method = "renderExperienceBar", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerEntity;experienceProgress:F"))
+    public float changeXpProgress(ClientPlayerEntity instance) {
+        return shouldRenderBar() ? 1 : instance.experienceProgress;
+    }
+
     @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 1))
     public void hideExperienceBar(InGameHud instance, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
-        int argb = TotemHelper.getTotemColor(getTotemCount(client.player));
-        if (config.isColoredXpBar() && argb != 0xFFFFFFFF) {
+        if (shouldRenderBar()) {
+            int argb = TotemHelper.getTotemColor(getTotemCount(client.player));
             RenderSystem.setShaderTexture(0, ICONS);
             RenderSystem.setShaderColor(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
             instance.drawTexture(matrices, x, y, 0, 16, 182, 5);
