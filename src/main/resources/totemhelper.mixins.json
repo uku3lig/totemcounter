@@ -6,6 +6,7 @@
   "client": [
     "MixinClientPlayNetworkHandler",
     "MixinInGameHud",
+    "MixinMinecraftClient",
     "MixinPlayerEntityRenderer"
   ],
   "injectors": {
