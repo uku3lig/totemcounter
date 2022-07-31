@@ -4,6 +4,7 @@
   "package": "net.uku3lig.totemhelper.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "MixinChatHud",
     "MixinClientPlayNetworkHandler",
     "MixinInGameHud",
     "MixinMinecraftClient",
