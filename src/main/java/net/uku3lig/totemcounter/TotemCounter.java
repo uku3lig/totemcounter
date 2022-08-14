@@ -20,7 +20,7 @@ public class TotemCounter implements ModInitializer {
     @Getter
     private static final Map<UUID, Integer> pops = new HashMap<>();
     @Getter
-    private static final KeyBinding resetCounter = new KeyBinding("totemcounter.key.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, "Totemcounter");
+    private static final KeyBinding resetCounter = new KeyBinding("totemcounter.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, "Totemcounter");
     @Getter
     private static final File file = new File("./config/totemcounter.toml");
     @Getter
