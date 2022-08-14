@@ -20,16 +20,15 @@ public class TotemCounter implements ModInitializer {
     @Getter
     private static final Map<UUID, Integer> pops = new HashMap<>();
     @Getter
-    private static GlobalConfig config;
-    @Getter
-    private static KeyBinding resetCounter;
+    private static final KeyBinding resetCounter = new KeyBinding("totemcounter.key.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, "Totemcounter");
     @Getter
     private static final File file = new File("./config/totemcounter.toml");
+    @Getter
+    private static final GlobalConfig config = GlobalConfig.readConfig(file);
 
     @Override
     public void onInitialize() {
-        config = GlobalConfig.readConfig(file);
-        resetCounter = KeyBindingHelper.registerKeyBinding(new KeyBinding("totemcounter.key.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, "Totemcounter"));
+        KeyBindingHelper.registerKeyBinding(resetCounter);
     }
 
     public static Style getCounterStyle(int pops) {
