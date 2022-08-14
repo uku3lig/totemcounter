@@ -1,34 +1,31 @@
 package net.uku3lig.totemcounter.config.screen;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.SimpleOption;
-import net.minecraft.text.Text;
+import net.minecraft.client.option.CyclingOption;
+import net.minecraft.client.option.Option;
+import net.minecraft.text.TranslatableText;
 import net.uku3lig.totemcounter.config.GlobalConfig;
 import net.uku3lig.totemcounter.config.TotemDisplayConfig;
 import net.uku3lig.totemcounter.config.TotemDisplayConfig.Position;
-
-import java.util.Arrays;
 
 public class TotemDisplayConfigScreen extends AbstractConfigScreen {
     private final TotemDisplayConfig config;
 
     public TotemDisplayConfigScreen(Screen parent, GlobalConfig config) {
-        super(parent, Text.translatable("totemcounter.config.display"), config);
+        super(parent, new TranslatableText("totemcounter.config.display"), config);
         this.config = config.getDisplayConfig();
     }
 
     @Override
-    protected SimpleOption<?>[] getOptions() {
-        return new SimpleOption[] {
-                SimpleOption.ofBoolean("totemcounter.config.enabled", config.isEnabled(), config::setEnabled),
-                new SimpleOption<>("totemcounter.config.display.position", SimpleOption.emptyTooltip(), SimpleOption.enumValueText(),
-                        new SimpleOption.PotentialValuesBasedCallbacks<>(Arrays.asList(Position.values()), Codec.STRING.xmap(Position::valueOf, Position::name)),
-                        config.getPosition(), config::setPosition),
-                SimpleOption.ofBoolean("totemcounter.config.display.defaultTotem", config.isUseDefaultTotem(), config::setUseDefaultTotem),
-                SimpleOption.ofBoolean("totemcounter.config.colors", config.isColors(), config::setColors),
-                SimpleOption.ofBoolean("totemcounter.config.display.coloredXpBar", config.isColoredXpBar(), config::setColoredXpBar),
-                SimpleOption.ofBoolean("totemcounter.config.display.alwaysShowBar", config.isAlwaysShowBar(), config::setAlwaysShowBar)
+    protected Option[] getOptions() {
+        return new Option[] {
+                CyclingOption.create("totemcounter.config.enabled", opt -> config.isEnabled(), (opt, option, value) -> config.setEnabled(value)),
+                CyclingOption.create("totemcounter.config.display.position", Position.values(), p -> new TranslatableText(p.getTranslationKey()),
+                        opt -> config.getPosition(), (opt, option, value) -> config.setPosition(value)),
+                CyclingOption.create("totemcounter.config.display.defaultTotem", opt -> config.isUseDefaultTotem(), (opt, option, value) -> config.setUseDefaultTotem(value)),
+                CyclingOption.create("totemcounter.config.colors", opt -> config.isColors(), (opt, option, value) -> config.setColors(value)),
+                CyclingOption.create("totemcounter.config.display.coloredXpBar", opt -> config.isColoredXpBar(), (opt, option, value) -> config.setColoredXpBar(value)),
+                CyclingOption.create("totemcounter.config.display.alwaysShowBar", opt -> config.isAlwaysShowBar(), (opt, option, value) -> config.setAlwaysShowBar(value))
         };
     }
 }

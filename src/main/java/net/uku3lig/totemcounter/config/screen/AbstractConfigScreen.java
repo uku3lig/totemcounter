@@ -3,12 +3,12 @@ package net.uku3lig.totemcounter.config.screen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.option.SimpleOption;
+import net.minecraft.client.option.Option;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.config.GlobalConfig;
@@ -28,7 +28,7 @@ public abstract class AbstractConfigScreen extends GameOptionsScreen {
         this.globalConfig = globalConfig;
     }
 
-    protected abstract SimpleOption<?>[] getOptions();
+    protected abstract Option[] getOptions();
 
     @Override
     protected void init() {

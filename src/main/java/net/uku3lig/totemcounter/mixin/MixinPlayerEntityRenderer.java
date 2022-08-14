@@ -8,6 +8,7 @@ import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -32,8 +33,8 @@ public abstract class MixinPlayerEntityRenderer extends LivingEntityRenderer<Abs
             int pops = net.uku3lig.totemcounter.TotemCounter.getPops().get(entity.getUuid());
 
             MutableText label = text.copy().append(" ");
-            MutableText counter = Text.literal("-" + pops);
-            if (config.isSeparator()) label.append(Text.literal("| ").styled(s -> s.withColor(Formatting.GRAY)));
+            MutableText counter = new LiteralText("-" + pops);
+            if (config.isSeparator()) label.append(new LiteralText("| ").styled(s -> s.withColor(Formatting.GRAY)));
             if (config.isColors()) counter.setStyle(net.uku3lig.totemcounter.TotemCounter.getCounterStyle(pops));
             label.append(counter);
             text = label;

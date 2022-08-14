@@ -4,12 +4,12 @@ import lombok.extern.log4j.Log4j2;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.uku3lig.totemcounter.config.GlobalConfig;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class GlobalConfigScreen extends GameOptionsScreen {
     private ButtonListWidget buttons;
 
     public GlobalConfigScreen(Screen parent, GlobalConfig config) {
-        super(parent, MinecraftClient.getInstance().options, Text.translatable("totemcounter.config"));
+        super(parent, MinecraftClient.getInstance().options, new TranslatableText("totemcounter.config"));
         this.config = config;
     }
 
@@ -29,10 +29,10 @@ public class GlobalConfigScreen extends GameOptionsScreen {
     protected void init() {
         super.init();
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 - 35, 150, 20,
-                Text.translatable("totemcounter.config.pop"), button -> client.setScreen(new PopCounterConfigScreen(this, config))));
+                new TranslatableText("totemcounter.config.pop"), button -> client.setScreen(new PopCounterConfigScreen(this, config))));
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 - 10, 150, 20,
-                Text.translatable("totemcounter.config.display"), button -> client.setScreen(new TotemDisplayConfigScreen(this, config))));
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 + 15, 150, 20, Text.translatable("totemcounter.reset"), button -> net.uku3lig.totemcounter.TotemCounter.getPops().clear()));
+                new TranslatableText("totemcounter.config.display"), button -> client.setScreen(new TotemDisplayConfigScreen(this, config))));
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 + 15, 150, 20, new TranslatableText("totemcounter.reset"), button -> net.uku3lig.totemcounter.TotemCounter.getPops().clear()));
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 27, 200, 20, ScreenTexts.DONE, button -> this.client.setScreen(this.parent)));
 
         buttons = new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);

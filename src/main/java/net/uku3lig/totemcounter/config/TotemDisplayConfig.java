@@ -3,7 +3,6 @@ package net.uku3lig.totemcounter.config;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.util.TranslatableOption;
 
 @Getter
 @Setter
@@ -18,7 +17,7 @@ public class TotemDisplayConfig {
 
     @Getter
     @AllArgsConstructor
-    public enum Position implements TranslatableOption {
+    public enum Position {
         TOP_LEFT(0, "totemcounter.position.topLeft"),
         TOP_RIGHT(1, "totemcounter.position.topRight"),
         BOTTOM_LEFT(2, "totemcounter.position.bottomLeft"),
