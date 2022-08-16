@@ -11,6 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
+import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.totemcounter.config.GlobalConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,7 +58,7 @@ public abstract class AbstractConfigScreen extends GameOptionsScreen {
     @Override
     public void removed() {
         try {
-            globalConfig.writeConfig(net.uku3lig.totemcounter.TotemCounter.getFile());
+            globalConfig.writeConfig(TotemCounter.getFile());
         } catch (IOException e) {
             logger.warn("Could not save configuration file", e);
         }
