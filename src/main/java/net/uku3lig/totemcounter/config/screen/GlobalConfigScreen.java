@@ -10,6 +10,7 @@ import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
+import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.totemcounter.config.GlobalConfig;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class GlobalConfigScreen extends GameOptionsScreen {
                 new TranslatableText("totemcounter.config.pop"), button -> client.setScreen(new PopCounterConfigScreen(this, config))));
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 - 10, 150, 20,
                 new TranslatableText("totemcounter.config.display"), button -> client.setScreen(new TotemDisplayConfigScreen(this, config))));
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 + 15, 150, 20, new TranslatableText("totemcounter.reset"), button -> net.uku3lig.totemcounter.TotemCounter.getPops().clear()));
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - 75, this.height / 2 + 15, 150, 20, new TranslatableText("totemcounter.reset"), button -> TotemCounter.getPops().clear()));
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 27, 200, 20, ScreenTexts.DONE, button -> this.client.setScreen(this.parent)));
 
         buttons = new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
@@ -50,7 +51,7 @@ public class GlobalConfigScreen extends GameOptionsScreen {
     @Override
     public void removed() {
         try {
-            config.writeConfig(net.uku3lig.totemcounter.TotemCounter.getFile());
+            config.writeConfig(TotemCounter.getFile());
         } catch (IOException e) {
             log.warn("Could not write config", e);
         }
