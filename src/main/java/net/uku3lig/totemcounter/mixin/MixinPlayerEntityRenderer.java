@@ -30,10 +30,10 @@ public abstract class MixinPlayerEntityRenderer extends LivingEntityRenderer<Abs
         if (!entity.isAlive()) TotemCounter.getPops().remove(entity.getUuid());
 
         PopCounterConfig config = TotemCounter.getConfig().getCounterConfig();
-        if (TotemCounter.getPops().containsKey(entity.getUuid()) && config.isEnabled()) {
+        if (TotemCounter.getPops().containsKey(entity.getUuid()) && config.isEnabled() && text instanceof MutableText mutableText) {
             int pops = TotemCounter.getPops().get(entity.getUuid());
 
-            MutableText label = text.copy().append(" ");
+            MutableText label = mutableText.append(" ");
             MutableText counter = new LiteralText("-" + pops);
             if (config.isSeparator()) label.append(new LiteralText("| ").styled(s -> s.withColor(Formatting.GRAY)));
             if (config.isColors()) counter.setStyle(TotemCounter.getCounterStyle(pops));
