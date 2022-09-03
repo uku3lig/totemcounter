@@ -22,7 +22,7 @@ public class GlobalConfig {
 
     public GlobalConfig() {
         this(new PopCounterConfig(true, true, true),
-                new TotemDisplayConfig(true, TotemDisplayConfig.Position.MIDDLE, false, true, false, false));
+                new TotemDisplayConfig(true, TotemDisplayConfig.Position.MIDDLE, false, true, false, false, false));
     }
 
     public static GlobalConfig readConfig(File file) {
