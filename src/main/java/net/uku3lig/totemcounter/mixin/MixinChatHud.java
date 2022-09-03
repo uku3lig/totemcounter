@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mixin(ChatHud.class)
 public class MixinChatHud {
-    private static final List<String> roundEndMessages = Arrays.asList("Winners:", "has won the round.", "has won the game!");
+    private static final List<String> roundEndMessages = Arrays.asList("Winners:", "has won the round.", "has won the game!", "Winner: NONE!");
 
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;IIZ)V", at = @At("HEAD"))
     public void checkForDeath(Text message, int messageId, int timestamp, boolean refresh, CallbackInfo ci) {
