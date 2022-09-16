@@ -12,8 +12,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.totemcounter.config.TotemDisplayConfig;
@@ -66,8 +66,8 @@ public class MixinInGameHud {
         int count = getCount(client.player);
         if (count == 0) return;
 
-        MutableText text = Text.literal(String.valueOf(count));
-        if (config.isShowPopCounter()) text = Text.literal("-").append(text);
+        MutableText text = new LiteralText(String.valueOf(count));
+        if (config.isShowPopCounter()) text = new LiteralText("-").append(text);
 
         float length = textRenderer.getWidth(text);
 
