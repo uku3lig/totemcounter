@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.TotemCounter;
@@ -38,14 +39,21 @@ public class MixinInGameHud {
 
     private final TotemDisplayConfig config = TotemCounter.getConfig().getDisplayConfig();
 
-    private int getTotemCount(PlayerEntity player) {
+    private int getCount(PlayerEntity player) {
         if (player == null) return 0;
+        if (config.isShowPopCounter()) return TotemCounter.getPops().getOrDefault(player.getUuid(), 0);
+
         PlayerInventory inv = player.getInventory();
         return (int) Stream.concat(inv.main.stream(), inv.offHand.stream()).filter(TOTEM::isItemEqual).count();
     }
 
+    private int getColor(int count) {
+        if (!config.isColors()) return 0xFFFFFFFF;
+        return config.isShowPopCounter() ? TotemCounter.getPopColor(count) : TotemCounter.getTotemColor(count);
+    }
+
     private boolean shouldRenderBar() {
-        int count = getTotemCount(client.player);
+        int count = getCount(client.player);
         return config.isColoredXpBar() && (count <= 10 || config.isAlwaysShowBar()) && count != 0;
     }
 
@@ -55,9 +63,12 @@ public class MixinInGameHud {
         if (!config.isEnabled()) return;
         TextRenderer textRenderer = client.textRenderer;
 
-        int count = getTotemCount(client.player);
+        int count = getCount(client.player);
         if (count == 0) return;
-        Text text = Text.of(String.valueOf(count));
+
+        MutableText text = Text.literal(String.valueOf(count));
+        if (config.isShowPopCounter()) text = Text.literal("-").append(text);
+
         float length = textRenderer.getWidth(text);
 
         // TOP_LEFT
@@ -100,7 +111,7 @@ public class MixinInGameHud {
         }
 
         matrices.translate(0, 0, itemRenderer.zOffset + 200);
-        textRenderer.drawWithShadow(matrices, text, textX, textY, TotemCounter.getTotemColor(config.isColors() ? count : 999));
+        textRenderer.drawWithShadow(matrices, text, textX, textY, getColor(count));
         matrices.pop();
     }
 
@@ -112,7 +123,7 @@ public class MixinInGameHud {
     @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 1))
     public void hideExperienceBar(InGameHud instance, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if (shouldRenderBar()) {
-            int argb = TotemCounter.getTotemColor(getTotemCount(client.player));
+            int argb = getColor(getCount(client.player));
             RenderSystem.setShaderTexture(0, ICONS);
             RenderSystem.setShaderColor(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
             instance.drawTexture(matrices, x, y, 0, 16, 182, 5);

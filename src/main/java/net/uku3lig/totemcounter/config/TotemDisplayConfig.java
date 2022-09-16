@@ -14,6 +14,7 @@ public class TotemDisplayConfig {
     private boolean colors;
     private boolean coloredXpBar;
     private boolean alwaysShowBar;
+    private boolean showPopCounter;
 
     @Getter
     @AllArgsConstructor

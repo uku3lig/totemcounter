@@ -10,6 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.uku3lig.totemcounter.TotemCounter;
@@ -36,7 +37,7 @@ public abstract class MixinPlayerEntityRenderer extends LivingEntityRenderer<Abs
             MutableText label = mutableText.append(" ");
             MutableText counter = new LiteralText("-" + pops);
             if (config.isSeparator()) label.append(new LiteralText("| ").styled(s -> s.withColor(Formatting.GRAY)));
-            if (config.isColors()) counter.setStyle(TotemCounter.getCounterStyle(pops));
+            if (config.isColors()) counter.setStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(pops)));
             label.append(counter);
             text = label;
         }
