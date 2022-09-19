@@ -9,7 +9,6 @@ import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import net.uku3lig.ukulib.config.ConfigManager;
 import org.lwjgl.glfw.GLFW;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -19,8 +18,6 @@ public class TotemCounter implements ModInitializer {
     private static final Map<UUID, Integer> pops = new HashMap<>();
     @Getter
     private static final KeyBinding resetCounter = new KeyBinding("totemcounter.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, "Totemcounter");
-    @Getter
-    private static final File file = new File("./config/totemcounter.toml");
     @Getter
     private static final ConfigManager<TotemCounterConfig> manager = ConfigManager.create(TotemCounterConfig.class, "totemcounter");
 
