@@ -2,7 +2,7 @@ package net.uku3lig.totemcounter;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import net.uku3lig.totemcounter.config.screen.GlobalConfigScreen;
+import net.uku3lig.totemcounter.config.GlobalConfigScreen;
 
 public class ModMenuHook implements ModMenuApi {
     @Override

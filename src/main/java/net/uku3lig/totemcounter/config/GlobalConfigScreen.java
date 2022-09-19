@@ -1,4 +1,4 @@
-package net.uku3lig.totemcounter.config.screen;
+package net.uku3lig.totemcounter.config;
 
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.client.MinecraftClient;
@@ -11,15 +11,14 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.TotemCounter;
-import net.uku3lig.totemcounter.config.GlobalConfig;
 import net.uku3lig.ukulib.config.ConfigManager;
 
 @Log4j2
 public class GlobalConfigScreen extends GameOptionsScreen {
-    private final ConfigManager<GlobalConfig> config;
+    private final ConfigManager<TotemCounterConfig> config;
     private ButtonListWidget buttons;
 
-    public GlobalConfigScreen(Screen parent, ConfigManager<GlobalConfig> config) {
+    public GlobalConfigScreen(Screen parent, ConfigManager<TotemCounterConfig> config) {
         super(parent, MinecraftClient.getInstance().options, Text.translatable("totemcounter.config"));
         this.config = config;
     }

@@ -16,7 +16,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.TotemCounter;
-import net.uku3lig.totemcounter.config.TotemDisplayConfig;
+import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,7 +37,7 @@ public class MixinInGameHud {
     @Shadow private int scaledWidth;
     @Shadow private int scaledHeight;
 
-    private final TotemDisplayConfig config = TotemCounter.getManager().getConfig().getDisplayConfig();
+    private final TotemCounterConfig.TotemDisplayConfig config = TotemCounter.getManager().getConfig().getDisplayConfig();
 
     private int getCount(PlayerEntity player) {
         if (player == null) return 0;
