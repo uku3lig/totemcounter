@@ -37,7 +37,7 @@ public class MixinInGameHud {
     @Shadow private int scaledWidth;
     @Shadow private int scaledHeight;
 
-    private final TotemDisplayConfig config = TotemCounter.getConfig().getDisplayConfig();
+    private final TotemDisplayConfig config = TotemCounter.getManager().getConfig().getDisplayConfig();
 
     private int getCount(PlayerEntity player) {
         if (player == null) return 0;

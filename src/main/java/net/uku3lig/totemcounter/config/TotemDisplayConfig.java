@@ -2,13 +2,16 @@ package net.uku3lig.totemcounter.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.minecraft.util.TranslatableOption;
+import net.uku3lig.ukulib.config.ISubConfig;
+import net.uku3lig.ukulib.config.Position;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class TotemDisplayConfig {
+@NoArgsConstructor
+public class TotemDisplayConfig implements ISubConfig<TotemDisplayConfig, GlobalConfig> {
     private boolean enabled;
     private Position position;
     private boolean useDefaultTotem;
@@ -17,17 +20,8 @@ public class TotemDisplayConfig {
     private boolean alwaysShowBar;
     private boolean showPopCounter;
 
-    @Getter
-    @AllArgsConstructor
-    public enum Position implements TranslatableOption {
-        TOP_LEFT(0, "totemcounter.position.topLeft"),
-        TOP_RIGHT(1, "totemcounter.position.topRight"),
-        BOTTOM_LEFT(2, "totemcounter.position.bottomLeft"),
-        BOTTOM_RIGHT(3, "totemcounter.position.bottomRight"),
-        MIDDLE(4, "totemcounter.position.middle")
-        ;
-
-        private final int id;
-        private final String translationKey;
+    @Override
+    public TotemDisplayConfig defaultConfig() {
+        return new TotemDisplayConfig(true, Position.MIDDLE, false, true, false, false, false);
     }
 }

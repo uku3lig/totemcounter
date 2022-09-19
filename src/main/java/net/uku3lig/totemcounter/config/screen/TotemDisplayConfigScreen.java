@@ -6,20 +6,20 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.config.GlobalConfig;
 import net.uku3lig.totemcounter.config.TotemDisplayConfig;
-import net.uku3lig.totemcounter.config.TotemDisplayConfig.Position;
+import net.uku3lig.ukulib.config.ConfigManager;
+import net.uku3lig.ukulib.config.Position;
+import net.uku3lig.ukulib.config.screen.SubConfigScreen;
 
 import java.util.Arrays;
 
-public class TotemDisplayConfigScreen extends AbstractConfigScreen {
-    private final TotemDisplayConfig config;
+public class TotemDisplayConfigScreen extends SubConfigScreen<TotemDisplayConfig, GlobalConfig> {
 
-    public TotemDisplayConfigScreen(Screen parent, GlobalConfig config) {
-        super(parent, Text.translatable("totemcounter.config.display"), config);
-        this.config = config.getDisplayConfig();
+    public TotemDisplayConfigScreen(Screen parent, ConfigManager<GlobalConfig> manager) {
+        super(parent, Text.translatable("totemcounter.config.display"), manager, GlobalConfig::getDisplayConfig);
     }
 
     @Override
-    protected SimpleOption<?>[] getOptions() {
+    protected SimpleOption<?>[] getOptions(TotemDisplayConfig config) {
         return new SimpleOption[] {
                 SimpleOption.ofBoolean("totemcounter.config.enabled", config.isEnabled(), config::setEnabled),
                 new SimpleOption<>("totemcounter.config.display.position", SimpleOption.emptyTooltip(), SimpleOption.enumValueText(),

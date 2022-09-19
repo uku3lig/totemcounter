@@ -7,6 +7,6 @@ import net.uku3lig.totemcounter.config.screen.GlobalConfigScreen;
 public class ModMenuHook implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return parent -> new GlobalConfigScreen(parent, TotemCounter.getConfig());
+        return parent -> new GlobalConfigScreen(parent, TotemCounter.getManager());
     }
 }

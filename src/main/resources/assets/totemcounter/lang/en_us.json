@@ -9,10 +9,5 @@
   "totemcounter.config.display.defaultTotem": "Default Totem Icon",
   "totemcounter.config.display.coloredXpBar": "Colored XP Bar",
   "totemcounter.config.display.alwaysShowBar": "Always Show Colored Bar",
-  "totemcounter.position.topLeft": "Top Left",
-  "totemcounter.position.topRight": "Top Right",
-  "totemcounter.position.bottomLeft": "Bottom Left",
-  "totemcounter.position.bottomRight": "Bottom Right",
-  "totemcounter.position.middle": "Above XP Bar",
   "totemcounter.reset": "Reset Pop Counter"
 }

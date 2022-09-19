@@ -29,7 +29,7 @@ public abstract class MixinPlayerEntityRenderer extends LivingEntityRenderer<Abs
     public void renderPopCounter(LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> instance, Entity entity, Text text, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         if (!entity.isAlive()) TotemCounter.getPops().remove(entity.getUuid());
 
-        PopCounterConfig config = TotemCounter.getConfig().getCounterConfig();
+        PopCounterConfig config = TotemCounter.getManager().getConfig().getCounterConfig();
         if (TotemCounter.getPops().containsKey(entity.getUuid()) && config.isEnabled()) {
             int pops = TotemCounter.getPops().get(entity.getUuid());
 

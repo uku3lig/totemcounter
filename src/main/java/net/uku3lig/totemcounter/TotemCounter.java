@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.uku3lig.totemcounter.config.GlobalConfig;
+import net.uku3lig.ukulib.config.ConfigManager;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
@@ -21,7 +22,7 @@ public class TotemCounter implements ModInitializer {
     @Getter
     private static final File file = new File("./config/totemcounter.toml");
     @Getter
-    private static final GlobalConfig config = GlobalConfig.readConfig(file);
+    private static final ConfigManager<GlobalConfig> manager = ConfigManager.create(GlobalConfig.class, "totemcounter");
 
     @Override
     public void onInitialize() {

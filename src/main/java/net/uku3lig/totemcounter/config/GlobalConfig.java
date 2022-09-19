@@ -1,44 +1,18 @@
 package net.uku3lig.totemcounter.config;
 
-import com.moandjiezana.toml.Toml;
-import com.moandjiezana.toml.TomlWriter;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.io.IOException;
+import lombok.*;
+import net.uku3lig.ukulib.config.IConfig;
 
 @Getter
-@Setter
+@Setter(AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class GlobalConfig {
-    private static final Logger logger = LogManager.getLogger(GlobalConfig.class);
-
+@NoArgsConstructor
+public class GlobalConfig implements IConfig<GlobalConfig> {
     private PopCounterConfig counterConfig;
     private TotemDisplayConfig displayConfig;
 
-    public GlobalConfig() {
-        this(new PopCounterConfig(true, true, true),
-                new TotemDisplayConfig(true, TotemDisplayConfig.Position.MIDDLE, false, true, false, false, false));
-    }
-
-    public static GlobalConfig readConfig(File file) {
-        if (!file.exists()) {
-            try {
-                new GlobalConfig().writeConfig(file);
-            } catch (IOException e) {
-                logger.warn("Could not write default configuration file", e);
-            }
-            return new GlobalConfig();
-        } else {
-            return new Toml().read(file).to(GlobalConfig.class);
-        }
-    }
-
-    public void writeConfig(File file) throws IOException {
-        new TomlWriter().write(this, file);
+    @Override
+    public GlobalConfig defaultConfig() {
+        return new GlobalConfig(new PopCounterConfig().defaultConfig(), new TotemDisplayConfig().defaultConfig());
     }
 }

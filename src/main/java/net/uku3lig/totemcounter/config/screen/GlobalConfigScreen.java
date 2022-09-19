@@ -12,15 +12,14 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.totemcounter.config.GlobalConfig;
-
-import java.io.IOException;
+import net.uku3lig.ukulib.config.ConfigManager;
 
 @Log4j2
 public class GlobalConfigScreen extends GameOptionsScreen {
-    private final GlobalConfig config;
+    private final ConfigManager<GlobalConfig> config;
     private ButtonListWidget buttons;
 
-    public GlobalConfigScreen(Screen parent, GlobalConfig config) {
+    public GlobalConfigScreen(Screen parent, ConfigManager<GlobalConfig> config) {
         super(parent, MinecraftClient.getInstance().options, Text.translatable("totemcounter.config"));
         this.config = config;
     }
@@ -50,10 +49,6 @@ public class GlobalConfigScreen extends GameOptionsScreen {
 
     @Override
     public void removed() {
-        try {
-            config.writeConfig(TotemCounter.getFile());
-        } catch (IOException e) {
-            log.warn("Could not write config", e);
-        }
+        config.saveConfig();
     }
 }
