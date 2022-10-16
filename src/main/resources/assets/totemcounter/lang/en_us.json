@@ -9,5 +9,6 @@
   "totemcounter.config.display.defaultTotem": "Default Totem Icon",
   "totemcounter.config.display.coloredXpBar": "Colored XP Bar",
   "totemcounter.config.display.alwaysShowBar": "Always Show Colored Bar",
+  "totemcounter.config.display.showPopCounter": "Show Own Pops",
   "totemcounter.reset": "Reset Pop Counter"
 }
