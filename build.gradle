@@ -13,9 +13,6 @@ repositories {
         url "https://maven.uku3lig.net/releases"
     }
     maven {
-        url "https://maven.uku3lig.net/snapshots"
-    }
-    maven {
         url "https://maven.terraformersmc.com/releases"
     }
 }
@@ -29,7 +26,7 @@ dependencies {
     include modImplementation(fabricApi.module("fabric-resource-loader-v0", project.fabric_version))
     include modImplementation(fabricApi.module("fabric-key-binding-api-v1", project.fabric_version))
 
-    include modApi("net.uku3lig:ukulib:${project.ukulib_version}")
+    modApi("net.uku3lig:ukulib:${project.ukulib_version}")
     modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 

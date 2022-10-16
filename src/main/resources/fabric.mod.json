@@ -19,6 +19,9 @@
     ],
     "modmenu": [
       "net.uku3lig.totemcounter.ModMenuHook"
+    ],
+    "ukulib": [
+      "net.uku3lig.totemcounter.UkulibHook"
     ]
   },
   "mixins": [
@@ -26,6 +29,6 @@
   ],
   "depends": {
     "fabricloader": ">=0.13",
-    "minecraft": "1.19"
+    "ukulib": ">=0.3"
   }
 }
