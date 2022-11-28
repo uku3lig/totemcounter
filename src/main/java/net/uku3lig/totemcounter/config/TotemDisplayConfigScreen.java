@@ -1,23 +1,23 @@
-package net.uku3lig.totemcounter.config.screen;
+package net.uku3lig.totemcounter.config;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.CyclingOption;
 import net.minecraft.client.option.Option;
 import net.minecraft.text.TranslatableText;
-import net.uku3lig.totemcounter.config.GlobalConfig;
-import net.uku3lig.totemcounter.config.TotemDisplayConfig;
-import net.uku3lig.totemcounter.config.TotemDisplayConfig.Position;
+import net.uku3lig.ukulib.config.ConfigManager;
+import net.uku3lig.ukulib.config.Position;
+import net.uku3lig.ukulib.config.screen.SubConfigScreen;
 
-public class TotemDisplayConfigScreen extends AbstractConfigScreen {
-    private final TotemDisplayConfig config;
+import java.util.Arrays;
 
-    public TotemDisplayConfigScreen(Screen parent, GlobalConfig config) {
-        super(parent, new TranslatableText("totemcounter.config.display"), config);
-        this.config = config.getDisplayConfig();
+public class TotemDisplayConfigScreen extends SubConfigScreen<TotemCounterConfig.TotemDisplayConfig, TotemCounterConfig> {
+
+    public TotemDisplayConfigScreen(Screen parent, ConfigManager<TotemCounterConfig> manager) {
+        super(parent, new TranslatableText("totemcounter.config.display"), manager, TotemCounterConfig::getDisplayConfig);
     }
 
     @Override
-    protected Option[] getOptions() {
+    protected Option[] getOptions(TotemCounterConfig.TotemDisplayConfig config) {
         return new Option[] {
                 CyclingOption.create("totemcounter.config.enabled", opt -> config.isEnabled(), (opt, option, value) -> config.setEnabled(value)),
                 CyclingOption.create("totemcounter.config.display.position", Position.values(), p -> new TranslatableText(p.getTranslationKey()),

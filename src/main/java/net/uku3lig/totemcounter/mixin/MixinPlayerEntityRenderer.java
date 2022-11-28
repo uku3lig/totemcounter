@@ -14,7 +14,7 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.uku3lig.totemcounter.TotemCounter;
-import net.uku3lig.totemcounter.config.PopCounterConfig;
+import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -30,7 +30,7 @@ public abstract class MixinPlayerEntityRenderer extends LivingEntityRenderer<Abs
     public void renderPopCounter(LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> instance, Entity entity, Text text, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         if (!entity.isAlive()) TotemCounter.getPops().remove(entity.getUuid());
 
-        PopCounterConfig config = TotemCounter.getConfig().getCounterConfig();
+        TotemCounterConfig.PopCounterConfig config = TotemCounter.getManager().getConfig().getCounterConfig();
         if (TotemCounter.getPops().containsKey(entity.getUuid()) && config.isEnabled() && text instanceof MutableText mutableText) {
             int pops = TotemCounter.getPops().get(entity.getUuid());
 

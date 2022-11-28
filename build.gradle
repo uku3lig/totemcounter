@@ -1,15 +1,16 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
-    id 'io.github.juuxel.loom-quiltflower' version '1.7.2'
-    id "io.freefair.lombok" version "6.5.0.3"
+    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'io.github.juuxel.loom-quiltflower' version '1.7.4'
+    id "io.freefair.lombok" version "6.6-rc1"
 }
 
 version = "${project.mod_version}+mc${project.minecraft_version}"
 group = project.maven_group
 
 repositories {
+    mavenLocal()
     maven {
-        url "https://maven.terraformersmc.com/releases"
+        url "https://maven.uku3lig.net/releases"
     }
 }
 
@@ -22,8 +23,7 @@ dependencies {
     include modImplementation(fabricApi.module("fabric-resource-loader-v0", project.fabric_version))
     include modImplementation(fabricApi.module("fabric-key-binding-api-v1", project.fabric_version))
 
-    include implementation("com.moandjiezana.toml:toml4j:${project.toml4j_version}")
-    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+    modApi("net.uku3lig:ukulib:${project.ukulib_version}")
 }
 
 processResources {
