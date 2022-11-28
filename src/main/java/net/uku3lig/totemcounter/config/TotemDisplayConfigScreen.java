@@ -8,8 +8,6 @@ import net.uku3lig.ukulib.config.ConfigManager;
 import net.uku3lig.ukulib.config.Position;
 import net.uku3lig.ukulib.config.screen.SubConfigScreen;
 
-import java.util.Arrays;
-
 public class TotemDisplayConfigScreen extends SubConfigScreen<TotemCounterConfig.TotemDisplayConfig, TotemCounterConfig> {
 
     public TotemDisplayConfigScreen(Screen parent, ConfigManager<TotemCounterConfig> manager) {
@@ -20,8 +18,7 @@ public class TotemDisplayConfigScreen extends SubConfigScreen<TotemCounterConfig
     protected Option[] getOptions(TotemCounterConfig.TotemDisplayConfig config) {
         return new Option[] {
                 CyclingOption.create("totemcounter.config.enabled", opt -> config.isEnabled(), (opt, option, value) -> config.setEnabled(value)),
-                CyclingOption.create("totemcounter.config.display.position", Position.values(), p -> new TranslatableText(p.getTranslationKey()),
-                        opt -> config.getPosition(), (opt, option, value) -> config.setPosition(value)),
+                Position.getOption(config::getPosition, config::setPosition),
                 CyclingOption.create("totemcounter.config.display.defaultTotem", opt -> config.isUseDefaultTotem(), (opt, option, value) -> config.setUseDefaultTotem(value)),
                 CyclingOption.create("totemcounter.config.colors", opt -> config.isColors(), (opt, option, value) -> config.setColors(value)),
                 CyclingOption.create("totemcounter.config.display.coloredXpBar", opt -> config.isColoredXpBar(), (opt, option, value) -> config.setColoredXpBar(value)),

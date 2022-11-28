@@ -12,7 +12,7 @@ public class MixinMinecraftClient {
     @Inject(method = "tick", at = @At("RETURN"))
     public void processKeyBinds(CallbackInfo ci) {
         while (TotemCounter.getResetCounter().wasPressed()) {
-            TotemCounter.getPops().clear();
+            TotemCounter.resetPopCounter();
         }
     }
 }

@@ -3,8 +3,12 @@ package net.uku3lig.totemcounter;
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.toast.SystemToast;
+import net.minecraft.client.toast.ToastManager;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import net.uku3lig.ukulib.config.ConfigManager;
 import org.lwjgl.glfw.GLFW;
@@ -44,5 +48,11 @@ public class TotemCounter implements ModInitializer {
             case 7, 8 -> 0xFF00AA00; // dark green
             default -> 0xFF55FF55; // light green
         };
+    }
+
+    public static void resetPopCounter() {
+        pops.clear();
+        ToastManager toastManager = MinecraftClient.getInstance().getToastManager();
+        SystemToast.show(toastManager, SystemToast.Type.NARRATOR_TOGGLE, Text.of("Successfully reset pop counter"), Text.of("You can now start counting again!"));
     }
 }
