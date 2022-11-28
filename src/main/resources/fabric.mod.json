@@ -17,9 +17,6 @@
     "main": [
       "net.uku3lig.totemcounter.TotemCounter"
     ],
-    "modmenu": [
-      "net.uku3lig.totemcounter.ModMenuHook"
-    ],
     "ukulib": [
       "net.uku3lig.totemcounter.UkulibHook"
     ]
