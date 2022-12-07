@@ -8,9 +8,11 @@ version = "${project.mod_version}+mc${project.minecraft_version}"
 group = project.maven_group
 
 repositories {
-    mavenLocal()
     maven {
         url "https://maven.uku3lig.net/releases"
+    }
+    maven {
+        url "https://maven.uku3lig.net/snapshots"
     }
 }
 

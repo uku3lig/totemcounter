@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
-    @Shadow @Final private MinecraftClient client;
+    @Shadow @Final MinecraftClient client;
 
     @Inject(method = "showFloatingItem", at = @At("HEAD"))
     public void updateClientCounter(ItemStack floatingItem, CallbackInfo ci) {
