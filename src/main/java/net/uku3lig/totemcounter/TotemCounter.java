@@ -9,6 +9,7 @@ import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -60,8 +61,8 @@ public class TotemCounter implements ModInitializer {
             int pops = TotemCounter.getPops().get(entity.getUuid());
 
             MutableText label = text.copy().append(" ");
-            MutableText counter = Text.literal("-" + pops);
-            if (config.isSeparator()) label.append(Text.literal("| ").styled(s -> s.withColor(Formatting.GRAY)));
+            MutableText counter = new LiteralText("-" + pops);
+            if (config.isSeparator()) label.append(new LiteralText("| ").styled(s -> s.withColor(Formatting.GRAY)));
             if (config.isColors()) counter.setStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(pops)));
             label.append(counter);
             text = label;
