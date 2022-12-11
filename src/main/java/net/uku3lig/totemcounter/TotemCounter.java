@@ -8,7 +8,11 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import net.uku3lig.ukulib.config.ConfigManager;
 import org.lwjgl.glfw.GLFW;
@@ -48,6 +52,22 @@ public class TotemCounter implements ModInitializer {
             case 7, 8 -> 0xFF00AA00; // dark green
             default -> 0xFF55FF55; // light green
         };
+    }
+
+    public static Text showPopsInText(PlayerEntity entity, Text text) {
+        TotemCounterConfig.PopCounterConfig config = TotemCounter.getManager().getConfig().getCounterConfig();
+        if (TotemCounter.getPops().containsKey(entity.getUuid()) && config.isEnabled()) {
+            int pops = TotemCounter.getPops().get(entity.getUuid());
+
+            MutableText label = text.copy().append(" ");
+            MutableText counter = Text.literal("-" + pops);
+            if (config.isSeparator()) label.append(Text.literal("| ").styled(s -> s.withColor(Formatting.GRAY)));
+            if (config.isColors()) counter.setStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(pops)));
+            label.append(counter);
+            text = label;
+        }
+
+        return text;
     }
 
     public static void resetPopCounter() {
