@@ -26,6 +26,6 @@
   ],
   "depends": {
     "fabricloader": ">=0.13",
-    "ukulib": ">=0.3"
+    "ukulib": ">=0.4"
   }
 }
