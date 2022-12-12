@@ -3,7 +3,6 @@ package net.uku3lig.totemcounter.config;
 import lombok.*;
 import net.uku3lig.ukulib.config.IConfig;
 import net.uku3lig.ukulib.config.ISubConfig;
-import net.uku3lig.ukulib.config.Position;
 
 @Getter
 @Setter(AccessLevel.PRIVATE)
@@ -24,7 +23,8 @@ public class TotemCounterConfig implements IConfig<TotemCounterConfig> {
     @NoArgsConstructor
     public static class TotemDisplayConfig implements ISubConfig<TotemDisplayConfig, TotemCounterConfig> {
         private boolean enabled;
-        private Position position;
+        private int x;
+        private int y;
         private boolean useDefaultTotem;
         private boolean colors;
         private boolean coloredXpBar;
@@ -33,7 +33,7 @@ public class TotemCounterConfig implements IConfig<TotemCounterConfig> {
 
         @Override
         public TotemDisplayConfig defaultConfig() {
-            return new TotemDisplayConfig(true, Position.MIDDLE, false, true, false, false, false);
+            return new TotemDisplayConfig(true, 10, 10, false, true, false, false, false);
         }
     }
 
