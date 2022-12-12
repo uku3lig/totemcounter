@@ -10,11 +10,8 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import org.spongepowered.asm.mixin.Final;
@@ -29,9 +26,6 @@ import java.util.stream.Stream;
 
 @Mixin(InGameHud.class)
 public class MixinInGameHud {
-    private static final ItemStack TOTEM = new ItemStack(Items.TOTEM_OF_UNDYING);
-    private static final Identifier ICONS = new Identifier("totemcounter", "gui/icons.png");
-
     @Shadow @Final private MinecraftClient client;
     @Shadow @Final private ItemRenderer itemRenderer;
     @Shadow private int scaledWidth;
@@ -44,7 +38,7 @@ public class MixinInGameHud {
         if (config.isShowPopCounter()) return TotemCounter.getPops().getOrDefault(player.getUuid(), 0);
 
         PlayerInventory inv = player.getInventory();
-        return (int) Stream.concat(inv.main.stream(), inv.offHand.stream()).filter(TOTEM::isItemEqual).count();
+        return (int) Stream.concat(inv.main.stream(), inv.offHand.stream()).filter(TotemCounter.TOTEM::isItemEqual).count();
     }
 
     private int getColor(int count) {
@@ -104,10 +98,10 @@ public class MixinInGameHud {
         matrices.push();
         if (config.isUseDefaultTotem()) {
             RenderSystem.setShaderColor(1, 1, 1, 1);
-            RenderSystem.setShaderTexture(0, ICONS);
+            RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
             ((InGameHud) (Object) this).drawTexture(matrices, x, y, 0, 0, 16, 16);
         } else {
-            itemRenderer.renderGuiItemIcon(TOTEM, x, y);
+            itemRenderer.renderGuiItemIcon(TotemCounter.TOTEM, x, y);
         }
 
         matrices.translate(0, 0, itemRenderer.zOffset + 200);
@@ -124,7 +118,7 @@ public class MixinInGameHud {
     public void hideExperienceBar(InGameHud instance, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if (shouldRenderBar()) {
             int argb = getColor(getCount(client.player));
-            RenderSystem.setShaderTexture(0, ICONS);
+            RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
             RenderSystem.setShaderColor(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
             instance.drawTexture(matrices, x, y, 0, 16, 182, 5);
 
