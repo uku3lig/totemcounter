@@ -60,7 +60,7 @@ public class TotemCounter implements ModInitializer {
         if (TotemCounter.getPops().containsKey(entity.getUuid()) && config.isEnabled()) {
             int pops = TotemCounter.getPops().get(entity.getUuid());
 
-            MutableText label = text.copy().append(" ");
+            MutableText label = new LiteralText(text.getString() + " ");
             MutableText counter = new LiteralText("-" + pops);
             if (config.isSeparator()) label.append(new LiteralText("| ").styled(s -> s.withColor(Formatting.GRAY)));
             if (config.isColors()) counter.setStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(pops)));
