@@ -18,9 +18,9 @@ public class GlobalConfigScreen extends AbstractConfigScreen<TotemCounterConfig>
     @Override
     protected Option[] getOptions(TotemCounterConfig config) {
         return new Option[] {
-                Ukutils.createOpenButton("totemcounter.config.pop", "", parent -> new PopCounterConfigScreen(parent, manager)),
-                Ukutils.createOpenButton("totemcounter.config.display", "", parent -> new TotemDisplayConfigScreen(parent, manager)),
-                Ukutils.createButton("totemcounter.reset", "", parent -> TotemCounter.resetPopCounter())
+                Ukutils.createOpenButton("totemcounter.config.pop", parent -> new PopCounterConfigScreen(parent, manager)),
+                Ukutils.createOpenButton("totemcounter.config.display", parent -> new TotemDisplayConfigScreen(parent, manager)),
+                Ukutils.createButton("totemcounter.reset", parent -> TotemCounter.resetPopCounter())
         };
     }
 }

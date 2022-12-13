@@ -5,8 +5,8 @@ import net.minecraft.client.option.CyclingOption;
 import net.minecraft.client.option.Option;
 import net.minecraft.text.TranslatableText;
 import net.uku3lig.ukulib.config.ConfigManager;
-import net.uku3lig.ukulib.config.Position;
 import net.uku3lig.ukulib.config.screen.SubConfigScreen;
+import net.uku3lig.ukulib.utils.Ukutils;
 
 public class TotemDisplayConfigScreen extends SubConfigScreen<TotemCounterConfig.TotemDisplayConfig, TotemCounterConfig> {
 
@@ -18,7 +18,7 @@ public class TotemDisplayConfigScreen extends SubConfigScreen<TotemCounterConfig
     protected Option[] getOptions(TotemCounterConfig.TotemDisplayConfig config) {
         return new Option[] {
                 CyclingOption.create("totemcounter.config.enabled", opt -> config.isEnabled(), (opt, option, value) -> config.setEnabled(value)),
-                Position.getOption(config::getPosition, config::setPosition),
+                Ukutils.createOpenButton("ukulib.position", parent -> new DisplayPositionSelectScreen(parent, config)),
                 CyclingOption.create("totemcounter.config.display.defaultTotem", opt -> config.isUseDefaultTotem(), (opt, option, value) -> config.setUseDefaultTotem(value)),
                 CyclingOption.create("totemcounter.config.colors", opt -> config.isColors(), (opt, option, value) -> config.setColors(value)),
                 CyclingOption.create("totemcounter.config.display.coloredXpBar", opt -> config.isColoredXpBar(), (opt, option, value) -> config.setColoredXpBar(value)),
