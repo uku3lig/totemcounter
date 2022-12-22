@@ -25,7 +25,7 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
     }
 
     @Override
-    public void draw(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    protected void draw(MatrixStack matrices, int mouseX, int mouseY, float delta, int x, int y) {
         matrices.push();
         if (TotemCounter.getManager().getConfig().getDisplayConfig().isUseDefaultTotem()) {
             RenderSystem.setShaderColor(1, 1, 1, 1);
@@ -42,5 +42,12 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
         matrices.translate(0, 0, itemRenderer.zOffset + 200);
         drawTextWithShadow(matrices, this.textRenderer, exampleText, coords.t1(), coords.t2(), color);
         matrices.pop();
+    }
+
+    @Override
+    protected void drawDefault(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        int x = width / 2 - 8;
+        int y = height - 38 - textRenderer.fontHeight;
+        draw(matrices, mouseX, mouseY, delta, x, y);
     }
 }
