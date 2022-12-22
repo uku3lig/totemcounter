@@ -31,6 +31,7 @@ public class MixinInGameHud {
     @Shadow @Final private ItemRenderer itemRenderer;
     @Shadow private int scaledWidth;
 
+    @Shadow private int scaledHeight;
     private final TotemCounterConfig.TotemDisplayConfig config = TotemCounter.getManager().getConfig().getDisplayConfig();
 
     private int getCount(PlayerEntity player) {
@@ -63,15 +64,24 @@ public class MixinInGameHud {
         MutableText text = new LiteralText(String.valueOf(count));
         if (config.isShowPopCounter()) text = new LiteralText("-").append(text);
 
-        Ukutils.Tuple2<Integer, Integer> coords = Ukutils.getTextCoords(text, scaledWidth, textRenderer, config.getX(), config.getY());
+        int x = config.getX();
+        int y = config.getY();
+
+        if (x == -1 || y == -1) {
+            x = scaledWidth / 2 - 8;
+            y = scaledHeight - 38 - textRenderer.fontHeight;
+            if (client != null && client.player != null && client.player.experienceLevel > 0) y -= 6;
+        }
+
+        Ukutils.Tuple2<Integer, Integer> coords = Ukutils.getTextCoords(text, scaledWidth, textRenderer, x, y);
 
         matrices.push();
         if (config.isUseDefaultTotem()) {
             RenderSystem.setShaderColor(1, 1, 1, 1);
             RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
-            ((InGameHud) (Object) this).drawTexture(matrices, config.getX(), config.getY(), 0, 0, 16, 16);
+            ((InGameHud) (Object) this).drawTexture(matrices, x, y, 0, 0, 16, 16);
         } else {
-            itemRenderer.renderGuiItemIcon(TotemCounter.TOTEM, config.getX(), config.getY());
+            itemRenderer.renderGuiItemIcon(TotemCounter.TOTEM, x, y);
         }
 
         matrices.translate(0, 0, itemRenderer.zOffset + 200);
