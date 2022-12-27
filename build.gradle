@@ -22,11 +22,8 @@ dependencies {
     mappings "org.quiltmc:quilt-mappings:${project.quilt_mappings}:intermediary-v2"
     modImplementation "org.quiltmc:quilt-loader:${project.loader_version}"
 
-    // include modImplementation(fabricApi.module("fabric-resource-loader-v0", project.fabric_version))
-    // include modImplementation(fabricApi.module("fabric-key-binding-api-v1", project.fabric_version))
-    modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${qfapi_version}"
-    modImplementation "org.quiltmc:qsl:${qsl_version}"
-
+    modImplementation "org.quiltmc.quilted-fabric-api:fabric-key-binding-api-v1:${project.qfapi_version}"
+    modImplementation "org.quiltmc.qsl:core:${qsl_version}"
     modApi("net.uku3lig:ukulib:${project.ukulib_version}")
 
     modRuntimeOnly "maven.modrinth:lazydfu:0.1.3"

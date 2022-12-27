@@ -20,6 +20,7 @@ import net.uku3lig.ukulib.config.ConfigManager;
 import org.lwjgl.glfw.GLFW;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +40,11 @@ public class TotemCounter implements ModInitializer {
     @Override
     public void onInitialize(ModContainer mod) {
         KeyBindingHelper.registerKeyBinding(resetCounter);
+        ClientTickEvents.END.register(client -> {
+            while (resetCounter.wasPressed()) {
+                resetPopCounter();
+            }
+        });
     }
 
     public static int getPopColor(int pops) {

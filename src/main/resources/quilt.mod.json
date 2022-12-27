@@ -28,8 +28,12 @@
         "versions": ">=0.17"
       },
       {
-        "id": "quilted_fabric_api",
-        "versions": ">=5.0.0-"
+        "id": "quilt_lifecycle_events",
+        "versions": "*"
+      },
+      {
+        "id": "fabric-key-binding-api-v1",
+        "versions": "*"
       },
       {
         "id": "ukulib",
