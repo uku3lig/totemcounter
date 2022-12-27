@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Mixin(EntityRenderer.class)
 @Slf4j
@@ -29,7 +30,7 @@ public abstract class MixinEntityRenderer {
 
         final Text finalText = text; // i hate lambdas
         Optional<? extends PlayerEntity> playerOpt = entity.world.getPlayers().stream()
-                .filter(p -> finalText.getString().matches("(.*[^\\w\\n])?" + p.getEntityName() + "(\\W.*)?"))
+                .filter(p -> finalText.getString().matches("(.*[^\\w\\n])?" + Pattern.quote(p.getEntityName()) + "(\\W.*)?"))
                 .findFirst();
 
         if (entity instanceof ArmorStandEntity && playerOpt.isPresent()) {

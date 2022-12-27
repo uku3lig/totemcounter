@@ -23,8 +23,8 @@ public class TotemCounterConfig implements IConfig<TotemCounterConfig> {
     @NoArgsConstructor
     public static class TotemDisplayConfig implements ISubConfig<TotemDisplayConfig, TotemCounterConfig> {
         private boolean enabled;
-        private int x;
-        private int y;
+        private int x = -1;
+        private int y = -1;
         private boolean useDefaultTotem;
         private boolean colors;
         private boolean coloredXpBar;
@@ -33,7 +33,7 @@ public class TotemCounterConfig implements IConfig<TotemCounterConfig> {
 
         @Override
         public TotemDisplayConfig defaultConfig() {
-            return new TotemDisplayConfig(true, 10, 10, false, true, false, false, false);
+            return new TotemDisplayConfig(true, -1, -1, false, true, false, false, false);
         }
     }
 
