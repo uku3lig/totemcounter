@@ -1,13 +1,12 @@
 package net.uku3lig.totemcounter;
 
+import com.mojang.blaze3d.platform.InputUtil;
 import lombok.Getter;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.option.KeyBind;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.toast.ToastManager;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -19,6 +18,8 @@ import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import net.uku3lig.ukulib.config.ConfigManager;
 import org.lwjgl.glfw.GLFW;
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class TotemCounter implements ModInitializer {
     @Getter
     private static final Map<UUID, Integer> pops = new HashMap<>();
     @Getter
-    private static final KeyBinding resetCounter = new KeyBinding("totemcounter.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, "Totemcounter");
+    private static final KeyBind resetCounter = new KeyBind("totemcounter.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, "Totemcounter");
     @Getter
     private static final ConfigManager<TotemCounterConfig> manager = ConfigManager.create(TotemCounterConfig.class, "totemcounter");
 
@@ -36,7 +37,7 @@ public class TotemCounter implements ModInitializer {
     public static final Identifier ICONS = new Identifier("totemcounter", "gui/icons.png");
 
     @Override
-    public void onInitialize() {
+    public void onInitialize(ModContainer mod) {
         KeyBindingHelper.registerKeyBinding(resetCounter);
     }
 

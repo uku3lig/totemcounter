@@ -1,7 +1,7 @@
 package net.uku3lig.totemcounter.config;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.SimpleOption;
+import net.minecraft.client.option.Option;
 import net.minecraft.text.Text;
 import net.uku3lig.ukulib.config.ConfigManager;
 import net.uku3lig.ukulib.config.screen.SubConfigScreen;
@@ -12,11 +12,11 @@ public class PopCounterConfigScreen extends SubConfigScreen<TotemCounterConfig.P
     }
 
     @Override
-    protected SimpleOption<?>[] getOptions(TotemCounterConfig.PopCounterConfig config) {
-        return new SimpleOption[] {
-                SimpleOption.ofBoolean("totemcounter.config.enabled", config.isEnabled(), config::setEnabled),
-                SimpleOption.ofBoolean("totemcounter.config.pop.separator", config.isSeparator(), config::setSeparator),
-                SimpleOption.ofBoolean("totemcounter.config.colors", config.isColors(), config::setColors)
+    protected Option<?>[] getOptions(TotemCounterConfig.PopCounterConfig config) {
+        return new Option[] {
+                Option.ofBoolean("totemcounter.config.enabled", config.isEnabled(), config::setEnabled),
+                Option.ofBoolean("totemcounter.config.pop.separator", config.isSeparator(), config::setSeparator),
+                Option.ofBoolean("totemcounter.config.colors", config.isColors(), config::setColors)
         };
     }
 }

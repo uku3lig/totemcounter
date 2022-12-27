@@ -1,7 +1,7 @@
 plugins {
-    id 'fabric-loom' version '1.0-SNAPSHOT'
-    id 'io.github.juuxel.loom-quiltflower' version '1.8.0'
-    id "io.freefair.lombok" version "6.6.1"
+    id 'org.quiltmc.loom' version '1.+'
+    id 'io.github.juuxel.loom-quiltflower' version '1.8.+'
+    id "io.freefair.lombok" version "6.6.+"
 }
 
 version = "${project.mod_version}+mc${project.minecraft_version}"
@@ -19,11 +19,13 @@ repositories {
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    mappings "org.quiltmc:quilt-mappings:${project.quilt_mappings}:intermediary-v2"
+    modImplementation "org.quiltmc:quilt-loader:${project.loader_version}"
 
-    include modImplementation(fabricApi.module("fabric-resource-loader-v0", project.fabric_version))
-    include modImplementation(fabricApi.module("fabric-key-binding-api-v1", project.fabric_version))
+    // include modImplementation(fabricApi.module("fabric-resource-loader-v0", project.fabric_version))
+    // include modImplementation(fabricApi.module("fabric-key-binding-api-v1", project.fabric_version))
+    modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${qfapi_version}"
+    modImplementation "org.quiltmc:qsl:${qsl_version}"
 
     modApi("net.uku3lig:ukulib:${project.ukulib_version}")
 
