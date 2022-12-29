@@ -10,5 +10,7 @@
   "totemcounter.config.display.coloredXpBar": "Colored XP Bar",
   "totemcounter.config.display.alwaysShowBar": "Always Show Colored Bar",
   "totemcounter.config.display.showPopCounter": "Show Own Pops",
-  "totemcounter.reset": "Reset Pop Counter"
+  "totemcounter.reset": "Reset Pop Counter",
+  "totemcounter.reset.success": "§bSuccessfully reset the pop counter!",
+  "totemcounter.reset.player": "§bSuccessfully reset counter for %s§b!"
 }
