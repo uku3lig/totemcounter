@@ -4,8 +4,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -15,10 +14,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
@@ -30,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
+import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.*;
 import static net.minecraft.util.Formatting.*;
 
 public class TotemCounter implements ModInitializer {
@@ -43,26 +39,24 @@ public class TotemCounter implements ModInitializer {
 
     public static final ItemStack TOTEM = new ItemStack(Items.TOTEM_OF_UNDYING);
     public static final Identifier ICONS = new Identifier("totemcounter", "gui/icons.png");
-    private static final Text PREFIX = Text.empty()
-            .append(Text.literal("Totem").formatted(YELLOW, BOLD))
-            .append(Text.literal("Counter").formatted(GOLD, BOLD))
-            .append(Text.literal(" » ").formatted(GRAY, BOLD))
-            .append(Text.empty().formatted(RESET));
+    private static final Text PREFIX = new LiteralText("")
+            .append(new LiteralText("Totem").formatted(YELLOW, BOLD))
+            .append(new LiteralText("Counter").formatted(GOLD, BOLD))
+            .append(new LiteralText(" » ").formatted(GRAY, BOLD))
+            .append(new LiteralText("").formatted(RESET));
 
     @Override
     public void onInitialize() {
         KeyBindingHelper.registerKeyBinding(resetCounter);
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
-            dispatcher.register(literal("resetcounter").executes(this::resetCounterCommand).then(
-                    argument("player", PlayerArgumentType.player()).executes(this::resetPlayerCounterCommand)
-            ))
-        );
+        DISPATCHER.register(literal("resetcounter").executes(this::resetCounterCommand).then(
+                argument("player", PlayerArgumentType.player()).executes(this::resetPlayerCounterCommand)
+        ));
     }
 
     private int resetCounterCommand(CommandContext<FabricClientCommandSource> context) {
         TotemCounter.resetPopCounter();
 
-        Text message = PREFIX.copy().append(Text.translatable("totemcounter.reset.success"));
+        Text message = PREFIX.copy().append(new TranslatableText("totemcounter.reset.success"));
         context.getSource().sendFeedback(message);
         return 0;
     }
@@ -71,7 +65,7 @@ public class TotemCounter implements ModInitializer {
         PlayerEntity player = PlayerArgumentType.getPlayer("player", context);
         pops.remove(player.getUuid());
 
-        Text message = PREFIX.copy().append(Text.translatable("totemcounter.reset.player", player.getEntityName()).fillStyle(Style.EMPTY.withColor(GREEN)));
+        Text message = PREFIX.copy().append(new TranslatableText("totemcounter.reset.player", player.getEntityName()).fillStyle(Style.EMPTY.withColor(GREEN)));
         context.getSource().sendFeedback(message);
         return 0;
     }

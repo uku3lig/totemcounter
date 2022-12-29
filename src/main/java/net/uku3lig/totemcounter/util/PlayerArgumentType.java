@@ -7,17 +7,17 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 
 public class PlayerArgumentType implements ArgumentType<PlayerArgumentType.PlayerSelector> {
-    public static final SimpleCommandExceptionType PLAYER_NOT_FOUND_EXCEPTION = new SimpleCommandExceptionType(Text.translatable("name.entity.notfound.player"));
+    public static final SimpleCommandExceptionType PLAYER_NOT_FOUND_EXCEPTION = new SimpleCommandExceptionType(new TranslatableText("name.entity.notfound.player"));
 
     public static PlayerArgumentType player() {
         return new PlayerArgumentType();
