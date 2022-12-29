@@ -1,7 +1,11 @@
 package net.uku3lig.totemcounter;
 
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -18,12 +22,16 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
+import net.uku3lig.totemcounter.util.PlayerArgumentType;
 import net.uku3lig.ukulib.config.ConfigManager;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
+import static net.minecraft.util.Formatting.*;
 
 public class TotemCounter implements ModInitializer {
     @Getter
@@ -35,10 +43,37 @@ public class TotemCounter implements ModInitializer {
 
     public static final ItemStack TOTEM = new ItemStack(Items.TOTEM_OF_UNDYING);
     public static final Identifier ICONS = new Identifier("totemcounter", "gui/icons.png");
+    private static final Text PREFIX = Text.empty()
+            .append(Text.literal("Totem").formatted(YELLOW, BOLD))
+            .append(Text.literal("Counter").formatted(GOLD, BOLD))
+            .append(Text.literal(" » ").formatted(GRAY, BOLD))
+            .append(Text.empty().formatted(RESET));
 
     @Override
     public void onInitialize() {
         KeyBindingHelper.registerKeyBinding(resetCounter);
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
+            dispatcher.register(literal("resetcounter").executes(this::resetCounterCommand).then(
+                    argument("player", PlayerArgumentType.player()).executes(this::resetPlayerCounterCommand)
+            ))
+        );
+    }
+
+    private int resetCounterCommand(CommandContext<FabricClientCommandSource> context) {
+        TotemCounter.resetPopCounter();
+
+        Text message = PREFIX.copy().append(Text.translatable("totemcounter.reset.success"));
+        context.getSource().sendFeedback(message);
+        return 0;
+    }
+
+    private int resetPlayerCounterCommand(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+        PlayerEntity player = PlayerArgumentType.getPlayer("player", context);
+        pops.remove(player.getUuid());
+
+        Text message = PREFIX.copy().append(Text.translatable("totemcounter.reset.player", player.getEntityName()).fillStyle(Style.EMPTY.withColor(GREEN)));
+        context.getSource().sendFeedback(message);
+        return 0;
     }
 
     public static int getPopColor(int pops) {
