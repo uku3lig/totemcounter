@@ -38,13 +38,13 @@ public class MixinInGameHud {
         if (player == null) return 0;
         if (config.isShowPopCounter()) return TotemCounter.getPops().getOrDefault(player.getUuid(), 0);
 
-        PlayerInventory inv = player.getInventory();
+        PlayerInventory inv = player.inventory;
         return (int) Stream.concat(inv.main.stream(), inv.offHand.stream()).filter(TotemCounter.TOTEM::isItemEqual).count();
     }
 
     private int getColor(int count) {
         if (!config.isColors()) return 0xFFFFFFFF;
-        return config.isShowPopCounter() ? TotemCounter.getPopColor(count) : TotemCounter.getTotemColor(count);
+        return config.isShowPopCounter() ? TotemCounter.getPopColorInt(count) : TotemCounter.getTotemColor(count);
     }
 
     private boolean shouldRenderBar() {
@@ -77,15 +77,15 @@ public class MixinInGameHud {
 
         matrices.push();
         if (config.isUseDefaultTotem()) {
-            RenderSystem.setShaderColor(1, 1, 1, 1);
-            RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
+            RenderSystem.color4f(1, 1, 1, 1);
+            MinecraftClient.getInstance().getTextureManager().bindTexture(TotemCounter.ICONS);
             ((InGameHud) (Object) this).drawTexture(matrices, x, y, 0, 0, 16, 16);
         } else {
             itemRenderer.renderGuiItemIcon(TotemCounter.TOTEM, x, y);
         }
 
         matrices.translate(0, 0, itemRenderer.zOffset + 200);
-        textRenderer.drawWithShadow(matrices, text, coords.t1(), coords.t2(), getColor(count));
+        textRenderer.drawWithShadow(matrices, text, coords.getT1(), coords.getT2(), getColor(count));
         matrices.pop();
     }
 
@@ -98,12 +98,12 @@ public class MixinInGameHud {
     public void hideExperienceBar(InGameHud instance, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if (shouldRenderBar()) {
             int argb = getColor(getCount(client.player));
-            RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
-            RenderSystem.setShaderColor(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
+            MinecraftClient.getInstance().getTextureManager().bindTexture(TotemCounter.ICONS);
+            RenderSystem.color4f(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
             instance.drawTexture(matrices, x, y, 0, 16, 182, 5);
 
-            RenderSystem.setShaderTexture(0, DrawableHelper.GUI_ICONS_TEXTURE);
-            RenderSystem.setShaderColor(1, 1, 1, 1);
+            MinecraftClient.getInstance().getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+            RenderSystem.color4f(1, 1, 1, 1);
         } else {
             instance.drawTexture(matrices, x, y, u, v, width, height);
         }

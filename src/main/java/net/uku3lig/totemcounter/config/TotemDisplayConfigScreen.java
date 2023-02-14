@@ -1,9 +1,9 @@
 package net.uku3lig.totemcounter.config;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.CyclingOption;
 import net.minecraft.client.option.Option;
 import net.minecraft.text.TranslatableText;
+import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.ukulib.config.ConfigManager;
 import net.uku3lig.ukulib.config.screen.SubConfigScreen;
 import net.uku3lig.ukulib.utils.Ukutils;
@@ -17,13 +17,13 @@ public class TotemDisplayConfigScreen extends SubConfigScreen<TotemCounterConfig
     @Override
     protected Option[] getOptions(TotemCounterConfig.TotemDisplayConfig config) {
         return new Option[] {
-                CyclingOption.create("totemcounter.config.enabled", opt -> config.isEnabled(), (opt, option, value) -> config.setEnabled(value)),
+                TotemCounter.onOffOption("totemcounter.config.enabled", config::isEnabled, config::setEnabled),
                 Ukutils.createOpenButton("ukulib.position", parent -> new DisplayPositionSelectScreen(parent, config)),
-                CyclingOption.create("totemcounter.config.display.defaultTotem", opt -> config.isUseDefaultTotem(), (opt, option, value) -> config.setUseDefaultTotem(value)),
-                CyclingOption.create("totemcounter.config.colors", opt -> config.isColors(), (opt, option, value) -> config.setColors(value)),
-                CyclingOption.create("totemcounter.config.display.coloredXpBar", opt -> config.isColoredXpBar(), (opt, option, value) -> config.setColoredXpBar(value)),
-                CyclingOption.create("totemcounter.config.display.alwaysShowBar", opt -> config.isAlwaysShowBar(), (opt, option, value) -> config.setAlwaysShowBar(value)),
-                CyclingOption.create("totemcounter.config.display.showPopCounter", opt -> config.isShowPopCounter(),  (opt, option, value) -> config.setShowPopCounter(value))
+                TotemCounter.onOffOption("totemcounter.config.display.defaultTotem", config::isUseDefaultTotem, config::setUseDefaultTotem),
+                TotemCounter.onOffOption("totemcounter.config.colors", config::isColors, config::setColors),
+                TotemCounter.onOffOption("totemcounter.config.display.coloredXpBar", config::isColoredXpBar, config::setColoredXpBar),
+                TotemCounter.onOffOption("totemcounter.config.display.alwaysShowBar", config::isAlwaysShowBar, config::setAlwaysShowBar),
+                TotemCounter.onOffOption("totemcounter.config.display.showPopCounter", config::isShowPopCounter, config::setShowPopCounter)
         };
     }
 }

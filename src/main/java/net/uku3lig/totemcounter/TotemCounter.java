@@ -2,11 +2,14 @@ package net.uku3lig.totemcounter;
 
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ScreenTexts;
+import net.minecraft.client.option.CyclingOption;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.toast.ToastManager;
@@ -24,7 +27,9 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.function.BooleanSupplier;
 
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.*;
 import static net.minecraft.util.Formatting.*;
@@ -70,14 +75,18 @@ public class TotemCounter implements ModInitializer {
         return 0;
     }
 
-    public static int getPopColor(int pops) {
+    public static Formatting getPopColor(int pops) {
         return switch (pops) {
-            case 1, 2 -> 0xFF55FF55; // light green
-            case 3, 4 -> 0xFF00AA00; // dark green
-            case 5, 6 -> 0xFFFFFF55; // yellow
-            case 7, 8 -> 0xFFFFAA00; // gold
-            default -> 0xFFFF5555; // red
+            case 1, 2 -> GREEN; // light green
+            case 3, 4 -> DARK_GREEN; // dark green
+            case 5, 6 -> YELLOW; // yellow
+            case 7, 8 -> GOLD; // gold
+            default -> RED; // red
         };
+    }
+
+    public static int getPopColorInt(int pops) {
+        return Optional.ofNullable(getPopColor(pops)).map(Formatting::getColorValue).orElse(0);
     }
 
     public static int getTotemColor(int amount) {
@@ -110,5 +119,11 @@ public class TotemCounter implements ModInitializer {
         pops.clear();
         ToastManager toastManager = MinecraftClient.getInstance().getToastManager();
         SystemToast.show(toastManager, SystemToast.Type.NARRATOR_TOGGLE, Text.of("Successfully reset pop counter"), Text.of("You can now start counting again!"));
+    }
+
+    public static CyclingOption onOffOption(String key, BooleanSupplier getter, BooleanConsumer setter) {
+        return new CyclingOption(key, (opt, amount) -> setter.accept((amount % 2 == 0) == getter.getAsBoolean()),
+                (opt, option) -> new TranslatableText("options.generic_value", new TranslatableText(key),
+                        getter.getAsBoolean() ? ScreenTexts.ON : ScreenTexts.OFF));
     }
 }

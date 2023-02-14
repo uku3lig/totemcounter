@@ -1,6 +1,7 @@
 package net.uku3lig.totemcounter.config;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -28,8 +29,8 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
     protected void draw(MatrixStack matrices, int mouseX, int mouseY, float delta, int x, int y) {
         matrices.push();
         if (TotemCounter.getManager().getConfig().getDisplayConfig().isUseDefaultTotem()) {
-            RenderSystem.setShaderColor(1, 1, 1, 1);
-            RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
+            RenderSystem.color4f(1, 1, 1, 1);
+            MinecraftClient.getInstance().getTextureManager().bindTexture(TotemCounter.ICONS);
             drawTexture(matrices, x, y, 0, 0, 16, 16);
         } else {
             itemRenderer.renderGuiItemIcon(TotemCounter.TOTEM, x, y);
@@ -40,7 +41,7 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
         Ukutils.Tuple2<Integer, Integer> coords = Ukutils.getTextCoords(exampleText, this.width, textRenderer, x, y);
 
         matrices.translate(0, 0, itemRenderer.zOffset + 200);
-        drawTextWithShadow(matrices, this.textRenderer, exampleText, coords.t1(), coords.t2(), color);
+        drawTextWithShadow(matrices, this.textRenderer, exampleText, coords.getT1(), coords.getT2(), color);
         matrices.pop();
     }
 

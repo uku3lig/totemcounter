@@ -16,12 +16,12 @@ import java.util.UUID;
 
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
-    @Shadow @Final MinecraftClient client;
+    @Shadow @Final private MinecraftClient client;
 
     @Inject(method = "showFloatingItem", at = @At("HEAD"))
     public void updateClientCounter(ItemStack floatingItem, CallbackInfo ci) {
         if (client.player == null) return;
-        if (floatingItem.isOf(Items.TOTEM_OF_UNDYING)) {
+        if (floatingItem.getItem().equals(Items.TOTEM_OF_UNDYING)) {
             UUID uuid = client.player.getUuid();
             TotemCounter.getPops().putIfAbsent(uuid, 0);
             TotemCounter.getPops().computeIfPresent(uuid, (u, i) -> i + 1);

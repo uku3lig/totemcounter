@@ -1,6 +1,6 @@
 package net.uku3lig.totemcounter.mixin;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Mixin(EntityRenderer.class)
-@Slf4j
+@Log4j2
 public class MixinEntityRenderer {
     @ModifyArgs(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/EntityRenderer;renderLabelIfPresent(Lnet/minecraft/entity/Entity;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"))
     public void label(Args args) {
