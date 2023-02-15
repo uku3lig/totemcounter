@@ -18,6 +18,8 @@ public class PopCounterConfigScreen extends SubConfigScreen<TotemCounterConfig.P
                 TotemCounter.onOffOption("totemcounter.config.enabled", config::isEnabled, config::setEnabled),
                 TotemCounter.onOffOption("totemcounter.config.pop.separator", config::isSeparator, config::setSeparator),
                 TotemCounter.onOffOption("totemcounter.config.colors", config::isColors, config::setColors)
+                CyclingOption.create("totemcounter.config.tab", new TranslatableText("totemcounter.experimental"),
+                        opt -> config.isShowInTab(), (opt, option, value) -> config.setShowInTab(value))
         };
     }
 }

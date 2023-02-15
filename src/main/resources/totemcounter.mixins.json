@@ -4,13 +4,14 @@
   "package": "net.uku3lig.totemcounter.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "MixinEntityRenderer",
     "MixinChatHud",
     "MixinClientPlayNetworkHandler",
+    "MixinEntityRenderer",
     "MixinGameRenderer",
     "MixinInGameHud",
     "MixinMinecraftClient",
-    "MixinPlayerEntityRenderer"
+    "MixinPlayerEntityRenderer",
+    "MixinPlayerListHud"
   ],
   "injectors": {
     "defaultRequire": 1
