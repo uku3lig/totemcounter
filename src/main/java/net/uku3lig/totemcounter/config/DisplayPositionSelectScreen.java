@@ -12,7 +12,7 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
     private int ticksElapsed = 0;
 
     protected DisplayPositionSelectScreen(Screen parent, TotemCounterConfig.TotemDisplayConfig config) {
-        super(parent, config.getX(), config.getY(), TotemCounter.getManager(), (x, y) -> {
+        super(Text.of("Position Select"), parent, config.getX(), config.getY(), TotemCounter.getManager(), (x, y) -> {
             config.setX(x);
             config.setY(y);
         });

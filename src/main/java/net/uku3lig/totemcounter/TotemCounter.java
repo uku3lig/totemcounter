@@ -5,6 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -18,8 +19,8 @@ import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
-import net.uku3lig.totemcounter.util.PlayerArgumentType;
 import net.uku3lig.ukulib.config.ConfigManager;
+import net.uku3lig.ukulib.utils.PlayerArgumentType;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
@@ -27,6 +28,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.*;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 import static net.minecraft.util.Formatting.*;
 
 public class TotemCounter implements ModInitializer {
@@ -44,12 +47,22 @@ public class TotemCounter implements ModInitializer {
             .append(new LiteralText("Counter").formatted(GOLD, BOLD))
             .append(new LiteralText(" » ").formatted(GRAY, BOLD))
             .append(new LiteralText("").formatted(RESET));
+    private static final Text HEADER = Text.empty()
+            .append(new LiteralText(" ====== ").formatted(GRAY))
+            .append(new LiteralText("Totem").formatted(YELLOW, BOLD))
+            .append(new LiteralText("Counter").formatted(GREEN, BOLD))
+            .append(new LiteralText(" ====== ").formatted(GRAY))
+            .append(new LiteralText("").formatted(RESET));
+    private static final String PLAYER_ARG = "player";
 
     @Override
     public void onInitialize() {
         KeyBindingHelper.registerKeyBinding(resetCounter);
         DISPATCHER.register(literal("resetcounter").executes(this::resetCounterCommand).then(
-                argument("player", PlayerArgumentType.player()).executes(this::resetPlayerCounterCommand)
+                argument(PLAYER_ARG, PlayerArgumentType.player()).executes(this::resetPlayerCounterCommand)
+        ));
+        DISPATCHER.register(literal("showpops").executes(this::showPopsCommand).then(
+                argument(PLAYER_ARG, PlayerArgumentType.player()).executes(this::showPlayerPopsCommand)
         ));
     }
 
@@ -62,11 +75,45 @@ public class TotemCounter implements ModInitializer {
     }
 
     private int resetPlayerCounterCommand(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
-        PlayerEntity player = PlayerArgumentType.getPlayer("player", context);
+        PlayerEntity player = PlayerArgumentType.getPlayer(PLAYER_ARG, context);
         pops.remove(player.getUuid());
 
         Text message = PREFIX.copy().append(new TranslatableText("totemcounter.reset.player", player.getEntityName()).fillStyle(Style.EMPTY.withColor(GREEN)));
         context.getSource().sendFeedback(message);
+        return 0;
+    }
+
+    private int showPopsCommand(CommandContext<FabricClientCommandSource> context) {
+        if (pops.isEmpty()) {
+            context.getSource().sendFeedback(PREFIX.copy().append(new TranslatableText("totemcounter.show.noPops")));
+        } else {
+            context.getSource().sendFeedback(HEADER);
+            pops.forEach((uuid, popCount) -> {
+                PlayerEntity player = context.getSource().getWorld().getPlayerByUuid(uuid);
+                Text text = (player != null ? player.getDisplayName().copy() : new LiteralText(uuid.toString())).formatted(DARK_AQUA)
+                        .append(new LiteralText(": ").formatted(GRAY))
+                        .append(new LiteralText("-" + popCount).fillStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(popCount))));
+                context.getSource().sendFeedback(text);
+            });
+        }
+
+        return 0;
+    }
+
+    private int showPlayerPopsCommand(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+        PlayerEntity player = PlayerArgumentType.getPlayer(PLAYER_ARG, context);
+        Text playerName = player.getDisplayName().copy().formatted(DARK_AQUA);
+        int popCount = pops.getOrDefault(player.getUuid(), 0);
+        MutableText text = PREFIX.copy();
+
+        if (popCount == 0) {
+            text.append(new TranslatableText("totemcounter.show.player.noPops", playerName));
+        } else {
+            Text popText = new LiteralText(String.valueOf(popCount)).fillStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(popCount)));
+            text.append(new TranslatableText("totemcounter.show.player", playerName, popText));
+        }
+
+        context.getSource().sendFeedback(text);
         return 0;
     }
 
@@ -95,7 +142,7 @@ public class TotemCounter implements ModInitializer {
         if (TotemCounter.getPops().containsKey(entity.getUuid()) && config.isEnabled()) {
             int pops = TotemCounter.getPops().get(entity.getUuid());
 
-            MutableText label = new LiteralText(text.getString() + " ");
+            MutableText label = text.copy().append(" ");
             MutableText counter = new LiteralText("-" + pops);
             if (config.isSeparator()) label.append(new LiteralText("| ").styled(s -> s.withColor(Formatting.GRAY)));
             if (config.isColors()) counter.setStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(pops)));

@@ -4,6 +4,7 @@
   "totemcounter.config.display": "Totem Display Config",
   "totemcounter.config.enabled": "Enabled",
   "totemcounter.config.colors": "Text Colors",
+  "totemcounter.config.tab": "Show In Player List",
   "totemcounter.config.pop.separator": "Separator",
   "totemcounter.config.display.position": "Position",
   "totemcounter.config.display.defaultTotem": "Default Totem Icon",
@@ -12,5 +13,9 @@
   "totemcounter.config.display.showPopCounter": "Show Own Pops",
   "totemcounter.reset": "Reset Pop Counter",
   "totemcounter.reset.success": "§bSuccessfully reset the pop counter!",
-  "totemcounter.reset.player": "§bSuccessfully reset counter for %s§b!"
+  "totemcounter.reset.player": "§bSuccessfully reset counter for %s§b!",
+  "totemcounter.show.noPops": "No one popped totems D:",
+  "totemcounter.show.player.noPops": "%s never popped a totem. Simply built different.",
+  "totemcounter.show.player": "%s popped %s totem(s)!",
+  "totemcounter.experimental": "Experimental feature. It is known not to work on mcpvp.club"
 }
