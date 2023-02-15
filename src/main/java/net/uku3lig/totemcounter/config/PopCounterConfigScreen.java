@@ -16,7 +16,9 @@ public class PopCounterConfigScreen extends SubConfigScreen<TotemCounterConfig.P
         return new SimpleOption[] {
                 SimpleOption.ofBoolean("totemcounter.config.enabled", config.isEnabled(), config::setEnabled),
                 SimpleOption.ofBoolean("totemcounter.config.pop.separator", config.isSeparator(), config::setSeparator),
-                SimpleOption.ofBoolean("totemcounter.config.colors", config.isColors(), config::setColors)
+                SimpleOption.ofBoolean("totemcounter.config.colors", config.isColors(), config::setColors),
+                SimpleOption.ofBoolean("totemcounter.config.tab", SimpleOption.constantTooltip(Text.translatable("totemcounter.experimental")),
+                        config.isShowInTab(), config::setShowInTab)
         };
     }
 }
