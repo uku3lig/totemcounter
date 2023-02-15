@@ -44,7 +44,7 @@ public class TotemCounter implements ModInitializer {
     public static final Identifier ICONS = new Identifier("totemcounter", "gui/icons.png");
     private static final Text PREFIX = Text.empty()
             .append(Text.literal("Totem").formatted(YELLOW, BOLD))
-            .append(Text.literal("Counter").formatted(GOLD, BOLD))
+            .append(Text.literal("Counter").formatted(GREEN, BOLD))
             .append(Text.literal(" » ").formatted(GRAY, BOLD))
             .append(Text.empty().formatted(RESET));
 
