@@ -5,7 +5,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -28,8 +27,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.*;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 import static net.minecraft.util.Formatting.*;
 
 public class TotemCounter implements ModInitializer {
@@ -47,7 +44,7 @@ public class TotemCounter implements ModInitializer {
             .append(new LiteralText("Counter").formatted(GOLD, BOLD))
             .append(new LiteralText(" » ").formatted(GRAY, BOLD))
             .append(new LiteralText("").formatted(RESET));
-    private static final Text HEADER = Text.empty()
+    private static final Text HEADER = new LiteralText("")
             .append(new LiteralText(" ====== ").formatted(GRAY))
             .append(new LiteralText("Totem").formatted(YELLOW, BOLD))
             .append(new LiteralText("Counter").formatted(GREEN, BOLD))
