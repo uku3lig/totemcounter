@@ -21,8 +21,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
-import net.uku3lig.totemcounter.util.PlayerArgumentType;
 import net.uku3lig.ukulib.config.ConfigManager;
+import net.uku3lig.ukulib.utils.PlayerArgumentType;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
