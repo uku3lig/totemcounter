@@ -21,8 +21,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
-import net.uku3lig.totemcounter.util.PlayerArgumentType;
 import net.uku3lig.ukulib.config.ConfigManager;
+import net.uku3lig.ukulib.utils.PlayerArgumentType;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
@@ -44,18 +44,29 @@ public class TotemCounter implements ModInitializer {
     public static final Identifier ICONS = new Identifier("totemcounter", "gui/icons.png");
     private static final Text PREFIX = Text.empty()
             .append(Text.literal("Totem").formatted(YELLOW, BOLD))
-            .append(Text.literal("Counter").formatted(GOLD, BOLD))
+            .append(Text.literal("Counter").formatted(GREEN, BOLD))
             .append(Text.literal(" » ").formatted(GRAY, BOLD))
             .append(Text.empty().formatted(RESET));
+    private static final Text HEADER = Text.empty()
+            .append(Text.literal(" ====== ").formatted(GRAY))
+            .append(Text.literal("Totem").formatted(YELLOW, BOLD))
+            .append(Text.literal("Counter").formatted(GREEN, BOLD))
+            .append(Text.literal(" ====== ").formatted(GRAY))
+            .append(Text.empty().formatted(RESET));
+    private static final String PLAYER_ARG = "player";
 
     @Override
     public void onInitialize() {
         KeyBindingHelper.registerKeyBinding(resetCounter);
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(literal("resetcounter").executes(this::resetCounterCommand).then(
-                    argument("player", PlayerArgumentType.player()).executes(this::resetPlayerCounterCommand)
-            ))
-        );
+                    argument(PLAYER_ARG, PlayerArgumentType.player()).executes(this::resetPlayerCounterCommand)
+            ));
+
+            dispatcher.register(literal("showpops").executes(this::showPopsCommand).then(
+                    argument(PLAYER_ARG, PlayerArgumentType.player()).executes(this::showPlayerPopsCommand)
+            ));
+        });
     }
 
     private int resetCounterCommand(CommandContext<FabricClientCommandSource> context) {
@@ -67,11 +78,45 @@ public class TotemCounter implements ModInitializer {
     }
 
     private int resetPlayerCounterCommand(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
-        PlayerEntity player = PlayerArgumentType.getPlayer("player", context);
+        PlayerEntity player = PlayerArgumentType.getPlayer(PLAYER_ARG, context);
         pops.remove(player.getUuid());
 
         Text message = PREFIX.copy().append(Text.translatable("totemcounter.reset.player", player.getEntityName()).fillStyle(Style.EMPTY.withColor(GREEN)));
         context.getSource().sendFeedback(message);
+        return 0;
+    }
+
+    private int showPopsCommand(CommandContext<FabricClientCommandSource> context) {
+        if (pops.isEmpty()) {
+            context.getSource().sendFeedback(PREFIX.copy().append(Text.translatable("totemcounter.show.noPops")));
+        } else {
+            context.getSource().sendFeedback(HEADER);
+            pops.forEach((uuid, popCount) -> {
+                PlayerEntity player = context.getSource().getWorld().getPlayerByUuid(uuid);
+                Text text = (player != null ? player.getDisplayName().copy() : Text.literal(uuid.toString())).formatted(DARK_AQUA)
+                        .append(Text.literal(": ").formatted(GRAY))
+                        .append(Text.literal("-" + popCount).fillStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(popCount))));
+                context.getSource().sendFeedback(text);
+            });
+        }
+
+        return 0;
+    }
+
+    private int showPlayerPopsCommand(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+        PlayerEntity player = PlayerArgumentType.getPlayer(PLAYER_ARG, context);
+        Text playerName = player.getDisplayName().copy().formatted(DARK_AQUA);
+        int popCount = pops.getOrDefault(player.getUuid(), 0);
+        MutableText text = PREFIX.copy();
+
+        if (popCount == 0) {
+            text.append(Text.translatable("totemcounter.show.player.noPops", playerName));
+        } else {
+            Text popText = Text.literal(String.valueOf(popCount)).fillStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(popCount)));
+            text.append(Text.translatable("totemcounter.show.player", playerName, popText));
+        }
+
+        context.getSource().sendFeedback(text);
         return 0;
     }
 

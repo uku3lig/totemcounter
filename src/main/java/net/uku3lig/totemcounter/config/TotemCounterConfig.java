@@ -45,10 +45,11 @@ public class TotemCounterConfig implements IConfig<TotemCounterConfig> {
         private boolean enabled;
         private boolean separator;
         private boolean colors;
+        private boolean showInTab;
 
         @Override
         public PopCounterConfig defaultConfig() {
-            return new PopCounterConfig(true, true, true);
+            return new PopCounterConfig(true, true, true, false);
         }
     }
 }
