@@ -16,6 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinPlayerListHud {
     @Inject(method = "getPlayerName", at = @At("RETURN"), cancellable = true)
     public void addPopCounter(PlayerListEntry entry, CallbackInfoReturnable<Text> cir) {
+        if (!TotemCounter.getManager().getConfig().getCounterConfig().isShowInTab()) return;
+
         World world = MinecraftClient.getInstance().world;
         if (world != null) {
             PlayerEntity entity = world.getPlayerByUuid(entry.getProfile().getId());
