@@ -79,12 +79,12 @@ public class MixinInGameHud {
         if (config.isUseDefaultTotem()) {
             RenderSystem.setShaderColor(1, 1, 1, 1);
             RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
-            ((InGameHud) (Object) this).drawTexture(matrices, x, y, 0, 0, 16, 16);
+            DrawableHelper.drawTexture(matrices, x, y, 0, 0, 16, 16);
         } else {
-            itemRenderer.renderGuiItemIcon(TotemCounter.TOTEM, x, y);
+            itemRenderer.renderGuiItemIcon(matrices, TotemCounter.TOTEM, x, y);
         }
 
-        matrices.translate(0, 0, itemRenderer.zOffset + 200);
+        matrices.translate(0, 0, 200);
         textRenderer.drawWithShadow(matrices, text, coords.t1(), coords.t2(), getColor(count));
         matrices.pop();
     }
@@ -95,17 +95,17 @@ public class MixinInGameHud {
     }
 
     @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 1))
-    public void hideExperienceBar(InGameHud instance, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
+    public void hideExperienceBar(MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if (shouldRenderBar()) {
             int argb = getColor(getCount(client.player));
             RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
             RenderSystem.setShaderColor(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
-            instance.drawTexture(matrices, x, y, 0, 16, 182, 5);
+            DrawableHelper.drawTexture(matrices, x, y, 0, 16, 182, 5);
 
             RenderSystem.setShaderTexture(0, DrawableHelper.GUI_ICONS_TEXTURE);
             RenderSystem.setShaderColor(1, 1, 1, 1);
         } else {
-            instance.drawTexture(matrices, x, y, u, v, width, height);
+            DrawableHelper.drawTexture(matrices, x, y, u, v, width, height);
         }
     }
 }

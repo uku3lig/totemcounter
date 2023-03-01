@@ -32,14 +32,14 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
             RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
             drawTexture(matrices, x, y, 0, 0, 16, 16);
         } else {
-            itemRenderer.renderGuiItemIcon(TotemCounter.TOTEM, x, y);
+            itemRenderer.renderGuiItemIcon(matrices, TotemCounter.TOTEM, x, y);
         }
 
         final Text exampleText = Text.of(String.valueOf(this.ticksElapsed / 4));
         final int color = TotemCounter.getTotemColor(this.ticksElapsed / 10);
         Ukutils.Tuple2<Integer, Integer> coords = Ukutils.getTextCoords(exampleText, this.width, textRenderer, x, y);
 
-        matrices.translate(0, 0, itemRenderer.zOffset + 200);
+        matrices.translate(0, 0, 200);
         drawTextWithShadow(matrices, this.textRenderer, exampleText, coords.t1(), coords.t2(), color);
         matrices.pop();
     }
