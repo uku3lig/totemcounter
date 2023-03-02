@@ -120,13 +120,22 @@ public class TotemCounter implements ModInitializer {
     }
 
     public static Formatting getPopColor(int pops) {
-        return switch (pops) {
-            case 1, 2 -> GREEN; // light green
-            case 3, 4 -> DARK_GREEN; // dark green
-            case 5, 6 -> YELLOW; // yellow
-            case 7, 8 -> GOLD; // gold
-            default -> RED; // red
-        };
+        switch (pops) {
+            case 1:
+            case 2:
+                return GREEN; // light green
+            case 3:
+            case 4:
+                return DARK_GREEN; // dark green
+            case 5:
+            case 6:
+                return YELLOW; // yellow
+            case 7:
+            case 8:
+                return GOLD; // gold
+            default:
+                return RED; // red
+        }
     }
 
     public static int getPopColorInt(int pops) {
@@ -134,13 +143,22 @@ public class TotemCounter implements ModInitializer {
     }
 
     public static int getTotemColor(int amount) {
-        return switch (amount) {
-            case 1, 2 -> 0xFFFF5555; // red
-            case 3, 4 -> 0xFFFFAA00; // gold
-            case 5, 6 -> 0xFFFFFF55; // yellow
-            case 7, 8 -> 0xFF00AA00; // dark green
-            default -> 0xFF55FF55; // light green
-        };
+        switch (amount) {
+            case 1:
+            case 2:
+                return 0xFFFF5555; //red
+            case 3:
+            case 4:
+                return 0xFFFFAA00; // gold
+            case 5:
+            case 6:
+                return 0xFFFFFF55; // yellow
+            case 7:
+            case 8:
+                return 0xFF00AA00; // dark green
+            default:
+                return 0xFF55FF55; // light green
+        }
     }
 
     public static Text showPopsInText(PlayerEntity entity, Text text) {

@@ -21,7 +21,8 @@ public class MixinClientPlayNetworkHandler {
     @Inject(method = "onEntityStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleManager;addEmitter(Lnet/minecraft/entity/Entity;Lnet/minecraft/particle/ParticleEffect;I)V"))
     public void updateCounter(EntityStatusS2CPacket packet, CallbackInfo ci) {
         Entity entity = packet.getEntity(world);
-        if (entity instanceof OtherClientPlayerEntity player) {
+        if (entity instanceof OtherClientPlayerEntity) {
+            OtherClientPlayerEntity player = (OtherClientPlayerEntity) entity;
             UUID uuid = player.getUuid();
             TotemCounter.getPops().putIfAbsent(uuid, 0);
             TotemCounter.getPops().computeIfPresent(uuid, (u, i) -> i + 1);

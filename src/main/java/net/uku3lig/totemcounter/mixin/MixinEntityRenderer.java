@@ -24,7 +24,7 @@ public class MixinEntityRenderer {
         Text text = args.get(1);
 
         if (!entity.world.isClient) return;
-        if (text == null || text.getString().isEmpty() || text.getString().isBlank()) return;
+        if (text == null || text.getString().isEmpty()) return;
 
         final Text finalText = text; // i hate lambdas
         Optional<? extends PlayerEntity> playerOpt = entity.world.getPlayers().stream()
