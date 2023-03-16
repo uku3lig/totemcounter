@@ -11,7 +11,7 @@ import net.uku3lig.ukulib.utils.Ukutils;
 public class DisplayPositionSelectScreen extends PositionSelectScreen {
     private int ticksElapsed = 0;
 
-    protected DisplayPositionSelectScreen(Screen parent, TotemCounterConfig.TotemDisplayConfig config) {
+    protected DisplayPositionSelectScreen(Screen parent, TotemCounterConfig config) {
         super(Text.of("Position Select"), parent, config.getX(), config.getY(), TotemCounter.getManager(), (x, y) -> {
             config.setX(x);
             config.setY(y);
@@ -27,7 +27,7 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
     @Override
     protected void draw(MatrixStack matrices, int mouseX, int mouseY, float delta, int x, int y) {
         matrices.push();
-        if (TotemCounter.getManager().getConfig().getDisplayConfig().isUseDefaultTotem()) {
+        if (TotemCounter.getManager().getConfig().isUseDefaultTotem()) {
             RenderSystem.setShaderColor(1, 1, 1, 1);
             RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
             drawTexture(matrices, x, y, 0, 0, 16, 16);

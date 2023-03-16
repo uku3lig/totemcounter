@@ -32,7 +32,7 @@ public class MixinInGameHud {
     @Shadow private int scaledWidth;
 
     @Shadow private int scaledHeight;
-    private final TotemCounterConfig.TotemDisplayConfig config = TotemCounter.getManager().getConfig().getDisplayConfig();
+    private final TotemCounterConfig config = TotemCounter.getManager().getConfig();
 
     private int getCount(PlayerEntity player) {
         if (player == null) return 0;
@@ -43,7 +43,7 @@ public class MixinInGameHud {
     }
 
     private int getColor(int count) {
-        if (!config.isColors()) return 0xFFFFFFFF;
+        if (!config.isDisplayColors()) return 0xFFFFFFFF;
         return config.isShowPopCounter() ? TotemCounter.getPopColor(count) : TotemCounter.getTotemColor(count);
     }
 
@@ -55,7 +55,7 @@ public class MixinInGameHud {
     @Inject(method = "renderStatusBars", at = @At("RETURN"))
     private void renderCounter(MatrixStack matrices, CallbackInfo ci) {
         if (client.player == null) return;
-        if (!config.isEnabled()) return;
+        if (!config.isDisplayEnabled()) return;
         TextRenderer textRenderer = client.textRenderer;
 
         int count = getCount(client.player);

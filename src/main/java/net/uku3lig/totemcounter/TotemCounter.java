@@ -141,14 +141,14 @@ public class TotemCounter implements ModInitializer {
     }
 
     public static Text showPopsInText(PlayerEntity entity, Text text) {
-        TotemCounterConfig.PopCounterConfig config = TotemCounter.getManager().getConfig().getCounterConfig();
-        if (TotemCounter.getPops().containsKey(entity.getUuid()) && config.isEnabled()) {
+        TotemCounterConfig config = TotemCounter.getManager().getConfig();
+        if (TotemCounter.getPops().containsKey(entity.getUuid()) && config.isCounterEnabled()) {
             int pops = TotemCounter.getPops().get(entity.getUuid());
 
             MutableText label = text.copy().append(" ");
             MutableText counter = Text.literal("-" + pops);
             if (config.isSeparator()) label.append(Text.literal("| ").styled(s -> s.withColor(Formatting.GRAY)));
-            if (config.isColors()) counter.setStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(pops)));
+            if (config.isCounterColors()) counter.setStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(pops)));
             label.append(counter);
             text = label;
         }
