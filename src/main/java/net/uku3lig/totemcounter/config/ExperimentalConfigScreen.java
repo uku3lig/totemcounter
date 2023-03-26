@@ -1,7 +1,9 @@
 package net.uku3lig.totemcounter.config;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.SimpleOption;
+import net.minecraft.client.option.CyclingOption;
+import net.minecraft.client.option.DoubleOption;
+import net.minecraft.client.option.Option;
 import net.minecraft.text.Text;
 import net.uku3lig.ukulib.config.ConfigManager;
 import net.uku3lig.ukulib.config.screen.SubConfigScreen;
@@ -12,16 +14,15 @@ public class ExperimentalConfigScreen extends SubConfigScreen<TotemCounterConfig
     }
 
     @Override
-    protected SimpleOption<?>[] getOptions(TotemCounterConfig.ExperimentalConfig config) {
-        return new SimpleOption[]{
-                SimpleOption.ofBoolean("Disable Armor Stands", config.isDisableArmorStands(), config::setDisableArmorStands),
-                new SimpleOption<>("Armor Stand Distance", SimpleOption.emptyTooltip(), this::getDistanceText,
-                        new SimpleOption.ValidatingIntSliderCallbacks(1, 100).withModifier(i -> (double) i, Double::intValue),
-                        config.getMaxDistance(), config::setMaxDistance),
+    protected Option[] getOptions(TotemCounterConfig.ExperimentalConfig config) {
+        return new Option[]{
+                CyclingOption.create("Disable Armor Stands", opt -> config.isDisableArmorStands(), (opt, option, value) -> config.setDisableArmorStands(value)),
+                new DoubleOption("Armor Stand Distance", 1, 100, 1, opt -> config.getMaxDistance(), (opt, value) -> config.setMaxDistance(value),
+                        (opt, option) -> getDistanceText(config.getMaxDistance())),
         };
     }
 
-    private Text getDistanceText(Text prefix, double value) {
-        return Text.of("%s: %.0f blocks".formatted(prefix.getString(), value));
+    private Text getDistanceText(double value) {
+        return Text.of("Armor Stand Distance: %.0f blocks".formatted(value));
     }
 }
