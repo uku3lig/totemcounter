@@ -29,7 +29,7 @@ public class MixinEntityRenderer {
         if (text == null || text.getString().isEmpty()) return;
 
         final Text finalText = text; // i hate lambda
-        double distance = MathHelper.square(TotemCounter.getManager().getConfig().getExperimentalConfig().getMaxDistance());
+        double distance = MathHelper.square((float) TotemCounter.getManager().getConfig().getExperimentalConfig().getMaxDistance());
 
         Text fixedText = entity.world.getPlayers().stream()
                 .filter(p -> p.squaredDistanceTo(entity) < distance)
