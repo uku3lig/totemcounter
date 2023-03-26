@@ -24,6 +24,10 @@ public class TotemCounterConfig implements IConfig<TotemCounterConfig> {
     private boolean counterColors = true;
     private boolean showInTab = false;
 
+    // === EXPERIMENTAL CONFIG ===
+    private boolean disableArmorStands = false;
+    private double maxDistance = 20;
+
     @Override
     public TotemCounterConfig defaultConfig() {
         return new TotemCounterConfig();

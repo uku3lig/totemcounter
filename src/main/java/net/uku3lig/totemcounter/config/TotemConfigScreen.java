@@ -1,8 +1,6 @@
 package net.uku3lig.totemcounter.config;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tab.TabManager;
@@ -12,7 +10,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.uku3lig.totemcounter.TotemCounter;
-import net.uku3lig.ukulib.config.Position;
 import net.uku3lig.ukulib.config.screen.CloseableScreen;
 import net.uku3lig.ukulib.utils.Ukutils;
 
@@ -35,7 +32,7 @@ public class TotemConfigScreen extends CloseableScreen {
     @Override
     protected void init() {
         this.tabWidget = TabNavigationWidget.builder(this.tabManager, this.width)
-                .tabs(new PopCounterTab(), new TotemDisplayTab())
+                .tabs(new PopCounterTab(), new TotemDisplayTab(), new ExperimentalTab())
                 .build();
         this.addDrawableChild(this.tabWidget);
         this.tabWidget.selectTab(0, false);
@@ -81,10 +78,6 @@ public class TotemConfigScreen extends CloseableScreen {
     }
 
     public static class TotemDisplayTab extends OptionTab<TotemCounterConfig> {
-        @Getter
-        @Setter
-        private Position position = Position.MIDDLE;
-
         public TotemDisplayTab() {
             super("totemcounter.config.display", TotemCounter.getManager());
         }
@@ -100,6 +93,26 @@ public class TotemConfigScreen extends CloseableScreen {
                     SimpleOption.ofBoolean("totemcounter.config.display.alwaysShowBar", config.isAlwaysShowBar(), config::setAlwaysShowBar),
                     SimpleOption.ofBoolean("totemcounter.config.display.showPopCounter", config.isShowPopCounter(), config::setShowPopCounter)
             };
+        }
+    }
+
+    public static class ExperimentalTab extends OptionTab<TotemCounterConfig> {
+        public ExperimentalTab() {
+            super("Experimental", TotemCounter.getManager());
+        }
+
+        @Override
+        public SimpleOption<?>[] getOptions(TotemCounterConfig config) {
+            return new SimpleOption[] {
+                    SimpleOption.ofBoolean("Disable Armor Stands", config.isDisableArmorStands(), config::setDisableArmorStands),
+                    new SimpleOption<>("Armor Stand Distance", SimpleOption.emptyTooltip(), this::getDistanceText,
+                            new SimpleOption.ValidatingIntSliderCallbacks(1, 100).withModifier(i -> (double) i, Double::intValue),
+                            config.getMaxDistance(), config::setMaxDistance),
+            };
+        }
+
+        private Text getDistanceText(Text prefix, double value) {
+            return Text.of("%s: %.0f blocks".formatted(prefix.getString(), value));
         }
     }
 }
