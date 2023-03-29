@@ -26,7 +26,6 @@ public class TotemCounterConfig implements IConfig<TotemCounterConfig> {
 
     // === EXPERIMENTAL CONFIG ===
     private boolean disableArmorStands = false;
-    private double maxDistance = 20;
 
     @Override
     public TotemCounterConfig defaultConfig() {

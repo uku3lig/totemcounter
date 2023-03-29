@@ -103,16 +103,9 @@ public class TotemConfigScreen extends CloseableScreen {
 
         @Override
         public SimpleOption<?>[] getOptions(TotemCounterConfig config) {
-            return new SimpleOption[] {
+            return new SimpleOption[]{
                     SimpleOption.ofBoolean("Disable Armor Stands", config.isDisableArmorStands(), config::setDisableArmorStands),
-                    new SimpleOption<>("Armor Stand Distance", SimpleOption.emptyTooltip(), this::getDistanceText,
-                            new SimpleOption.ValidatingIntSliderCallbacks(1, 100).withModifier(i -> (double) i, Double::intValue),
-                            config.getMaxDistance(), config::setMaxDistance),
             };
-        }
-
-        private Text getDistanceText(Text prefix, double value) {
-            return Text.of("%s: %.0f blocks".formatted(prefix.getString(), value));
         }
     }
 }

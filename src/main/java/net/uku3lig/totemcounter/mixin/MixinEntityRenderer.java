@@ -5,7 +5,6 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
 import net.uku3lig.totemcounter.TotemCounter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,10 +28,9 @@ public class MixinEntityRenderer {
         if (text == null || text.getString().isBlank()) return;
 
         final Text finalText = text; // i hate lambda
-        double distance = MathHelper.square(TotemCounter.getManager().getConfig().getMaxDistance());
 
         Text fixedText = entity.world.getPlayers().stream()
-                .filter(p -> p.squaredDistanceTo(entity) < distance)
+                .filter(p -> finalText.getString().contains(p.getEntityName()))
                 .filter(p -> finalText.getString().matches("(.*[^\\w\\n])?" + Pattern.quote(p.getEntityName()) + "(\\W.*)?"))
                 .findFirst()
                 .map(player -> {
