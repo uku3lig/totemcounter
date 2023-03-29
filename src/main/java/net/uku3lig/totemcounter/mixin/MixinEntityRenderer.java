@@ -4,14 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.TotemCounter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
-
-import java.util.regex.Pattern;
 
 @Mixin(EntityRenderer.class)
 @Slf4j
@@ -30,16 +29,21 @@ public class MixinEntityRenderer {
         final String stringText = text.getString();
         if (stringText.isBlank()) return;
 
-        Text fixedText = entity.world.getPlayers().stream()
-                .filter(p -> stringText.contains(p.getEntityName()))
-                .filter(p -> stringText.matches("(?<!\\w)" + Pattern.quote(p.getEntityName()) + "(?!\\w)"))
-                .findFirst()
-                .map(player -> {
-                    if (!player.isAlive()) TotemCounter.getPops().remove(entity.getUuid());
-                    return TotemCounter.showPopsInText(player, text);
-                })
-                .orElse(text);
+        Text fixedText = text;
+        for (PlayerEntity player : entity.world.getPlayers()) {
+            int index = stringText.indexOf(player.getEntityName());
+            if (isSurrounded(stringText, index, player.getEntityName().length())) continue;
+
+            if (!player.isAlive()) TotemCounter.getPops().remove(entity.getUuid());
+            fixedText = TotemCounter.showPopsInText(player, text);
+        }
 
         args.set(1, fixedText);
+    }
+
+    private boolean isSurrounded(String stringText, int index, int length) {
+        return index == -1 || // not found
+                (index > 0 && Character.isLetterOrDigit(stringText.charAt(index - 1))) || // first char is alphanumeric
+                (index + length < stringText.length() && Character.isLetterOrDigit(stringText.charAt(index + length)));
     }
 }
