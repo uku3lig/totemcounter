@@ -25,17 +25,18 @@ public class MixinEntityRenderer {
 
         if (!(entity instanceof ArmorStandEntity)) return;
         if (!entity.world.isClient) return;
-        if (text == null || text.getString().isBlank()) return;
+        if (text == null) return;
 
-        final Text finalText = text; // i hate lambda
+        final String stringText = text.getString();
+        if (stringText.isBlank()) return;
 
         Text fixedText = entity.world.getPlayers().stream()
-                .filter(p -> finalText.getString().contains(p.getEntityName()))
-                .filter(p -> finalText.getString().matches("(.*[^\\w\\n])?" + Pattern.quote(p.getEntityName()) + "(\\W.*)?"))
+                .filter(p -> stringText.contains(p.getEntityName()))
+                .filter(p -> stringText.matches("(?<!\\w)" + Pattern.quote(p.getEntityName()) + "(?!\\w)"))
                 .findFirst()
                 .map(player -> {
                     if (!player.isAlive()) TotemCounter.getPops().remove(entity.getUuid());
-                    return TotemCounter.showPopsInText(player, finalText);
+                    return TotemCounter.showPopsInText(player, text);
                 })
                 .orElse(text);
 
