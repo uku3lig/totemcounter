@@ -6,12 +6,11 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import net.uku3lig.ukulib.utils.Ukutils;
@@ -28,9 +27,7 @@ import java.util.stream.Stream;
 @Mixin(InGameHud.class)
 public class MixinInGameHud {
     @Shadow @Final private MinecraftClient client;
-    @Shadow @Final private ItemRenderer itemRenderer;
     @Shadow private int scaledWidth;
-
     @Shadow private int scaledHeight;
     private final TotemCounterConfig config = TotemCounter.getManager().getConfig();
 
@@ -53,7 +50,7 @@ public class MixinInGameHud {
     }
 
     @Inject(method = "renderStatusBars", at = @At("RETURN"))
-    private void renderCounter(MatrixStack matrices, CallbackInfo ci) {
+    private void renderCounter(DrawableHelper drawableHelper, CallbackInfo ci) {
         if (client.player == null) return;
         if (!config.isDisplayEnabled()) return;
         TextRenderer textRenderer = client.textRenderer;
@@ -75,18 +72,16 @@ public class MixinInGameHud {
 
         Ukutils.Tuple2<Integer, Integer> coords = Ukutils.getTextCoords(text, scaledWidth, textRenderer, x, y);
 
-        matrices.push();
+        drawableHelper.method_51448().push();
         if (config.isUseDefaultTotem()) {
-            RenderSystem.setShaderColor(1, 1, 1, 1);
-            RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
-            DrawableHelper.drawTexture(matrices, x, y, 0, 0, 16, 16);
+            drawableHelper.drawTexture(TotemCounter.ICONS, x, y, 0, 0, 16, 16);
         } else {
-            itemRenderer.renderGuiItemIcon(matrices, TotemCounter.TOTEM, x, y);
+            drawableHelper.method_51427(TotemCounter.TOTEM, x, y);
         }
 
-        matrices.translate(0, 0, 200);
-        textRenderer.drawWithShadow(matrices, text, coords.t1(), coords.t2(), getColor(count));
-        matrices.pop();
+        drawableHelper.method_51448().translate(0, 0, 200);
+        drawableHelper.drawTextWithShadow(textRenderer, text, coords.t1(), coords.t2(), getColor(count));
+        drawableHelper.method_51448().pop();
     }
 
     @Redirect(method = "renderExperienceBar", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerEntity;experienceProgress:F"))
@@ -94,18 +89,15 @@ public class MixinInGameHud {
         return shouldRenderBar() ? 1 : instance.experienceProgress;
     }
 
-    @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 1))
-    public void hideExperienceBar(MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
+    @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawableHelper;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
+    public void hideExperienceBar(DrawableHelper drawableHelper, Identifier texture, int x, int y, int u, int v, int width, int height) {
         if (shouldRenderBar()) {
             int argb = getColor(getCount(client.player));
-            RenderSystem.setShaderTexture(0, TotemCounter.ICONS);
             RenderSystem.setShaderColor(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
-            DrawableHelper.drawTexture(matrices, x, y, 0, 16, 182, 5);
-
-            RenderSystem.setShaderTexture(0, DrawableHelper.GUI_ICONS_TEXTURE);
+            drawableHelper.drawTexture(TotemCounter.ICONS, x, this.scaledHeight - 32 + 3, 0, 16, 182, 5);
             RenderSystem.setShaderColor(1, 1, 1, 1);
         } else {
-            DrawableHelper.drawTexture(matrices, x, y, u, v, width, height);
+            drawableHelper.drawTexture(texture, x, y, u, v, width, height);
         }
     }
 }
