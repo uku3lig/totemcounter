@@ -6,12 +6,13 @@ import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.ukulib.config.screen.PositionSelectScreen;
 import net.uku3lig.ukulib.utils.Ukutils;
+import org.joml.Vector2ic;
 
 public class DisplayPositionSelectScreen extends PositionSelectScreen {
     private int ticksElapsed = 0;
 
     protected DisplayPositionSelectScreen(Screen parent, TotemCounterConfig config) {
-        super(Text.of("Position Select"), parent, config.getX(), config.getY(), TotemCounter.getManager(), (x, y) -> {
+        super("Position Select", parent, config.getX(), config.getY(), TotemCounter.getManager(), (x, y) -> {
             config.setX(x);
             config.setY(y);
         });
@@ -34,10 +35,10 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
 
         final Text exampleText = Text.of(String.valueOf(this.ticksElapsed / 4));
         final int color = TotemCounter.getTotemColor(this.ticksElapsed / 10);
-        Ukutils.Tuple2<Integer, Integer> coords = Ukutils.getTextCoords(exampleText, this.width, textRenderer, x, y);
+        Vector2ic coords = Ukutils.getTextCoords(exampleText, this.width, textRenderer, x, y);
 
         drawContext.getMatrices().translate(0, 0, 200);
-        drawContext.drawTextWithShadow(this.textRenderer, exampleText, coords.t1(), coords.t2(), color);
+        drawContext.drawTextWithShadow(this.textRenderer, exampleText, coords.x(), coords.y(), color);
         drawContext.getMatrices().pop();
     }
 

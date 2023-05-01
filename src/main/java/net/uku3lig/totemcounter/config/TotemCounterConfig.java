@@ -1,13 +1,17 @@
 package net.uku3lig.totemcounter.config;
 
-import lombok.*;
-import net.uku3lig.ukulib.config.IConfig;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TotemCounterConfig implements IConfig<TotemCounterConfig> {
+public class TotemCounterConfig implements Serializable {
     // === TOTEM DISPLAY CONFIG ===
     private boolean displayEnabled = true;
     private int x = -1;
@@ -26,9 +30,4 @@ public class TotemCounterConfig implements IConfig<TotemCounterConfig> {
 
     // === EXPERIMENTAL CONFIG ===
     private boolean disableArmorStands = false;
-
-    @Override
-    public TotemCounterConfig defaultConfig() {
-        return new TotemCounterConfig();
-    }
 }

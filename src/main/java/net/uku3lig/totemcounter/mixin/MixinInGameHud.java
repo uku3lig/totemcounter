@@ -14,6 +14,7 @@ import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import net.uku3lig.ukulib.utils.Ukutils;
+import org.joml.Vector2ic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -70,7 +71,7 @@ public class MixinInGameHud {
             if (client != null && client.player != null && client.player.experienceLevel > 0) y -= 6;
         }
 
-        Ukutils.Tuple2<Integer, Integer> coords = Ukutils.getTextCoords(text, scaledWidth, textRenderer, x, y);
+        Vector2ic coords = Ukutils.getTextCoords(text, scaledWidth, textRenderer, x, y);
 
         drawContext.getMatrices().push();
         if (config.isUseDefaultTotem()) {
@@ -80,7 +81,7 @@ public class MixinInGameHud {
         }
 
         drawContext.getMatrices().translate(0, 0, 200);
-        drawContext.drawTextWithShadow(textRenderer, text, coords.t1(), coords.t2(), getColor(count));
+        drawContext.drawTextWithShadow(textRenderer, text, coords.x(), coords.y(), getColor(count));
         drawContext.getMatrices().pop();
     }
 
