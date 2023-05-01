@@ -3,7 +3,7 @@ package net.uku3lig.totemcounter.mixin;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -50,7 +50,7 @@ public class MixinInGameHud {
     }
 
     @Inject(method = "renderStatusBars", at = @At("RETURN"))
-    private void renderCounter(DrawableHelper drawableHelper, CallbackInfo ci) {
+    private void renderCounter(DrawContext drawContext, CallbackInfo ci) {
         if (client.player == null) return;
         if (!config.isDisplayEnabled()) return;
         TextRenderer textRenderer = client.textRenderer;
@@ -72,16 +72,16 @@ public class MixinInGameHud {
 
         Ukutils.Tuple2<Integer, Integer> coords = Ukutils.getTextCoords(text, scaledWidth, textRenderer, x, y);
 
-        drawableHelper.method_51448().push();
+        drawContext.getMatrices().push();
         if (config.isUseDefaultTotem()) {
-            drawableHelper.drawTexture(TotemCounter.ICONS, x, y, 0, 0, 16, 16);
+            drawContext.drawTexture(TotemCounter.ICONS, x, y, 0, 0, 16, 16);
         } else {
-            drawableHelper.method_51427(TotemCounter.TOTEM, x, y);
+            drawContext.drawItem(TotemCounter.TOTEM, x, y);
         }
 
-        drawableHelper.method_51448().translate(0, 0, 200);
-        drawableHelper.drawTextWithShadow(textRenderer, text, coords.t1(), coords.t2(), getColor(count));
-        drawableHelper.method_51448().pop();
+        drawContext.getMatrices().translate(0, 0, 200);
+        drawContext.drawTextWithShadow(textRenderer, text, coords.t1(), coords.t2(), getColor(count));
+        drawContext.getMatrices().pop();
     }
 
     @Redirect(method = "renderExperienceBar", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerEntity;experienceProgress:F"))
@@ -89,15 +89,15 @@ public class MixinInGameHud {
         return shouldRenderBar() ? 1 : instance.experienceProgress;
     }
 
-    @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawableHelper;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
-    public void hideExperienceBar(DrawableHelper drawableHelper, Identifier texture, int x, int y, int u, int v, int width, int height) {
+    @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
+    public void hideExperienceBar(DrawContext drawContext, Identifier texture, int x, int y, int u, int v, int width, int height) {
         if (shouldRenderBar()) {
             int argb = getColor(getCount(client.player));
             RenderSystem.setShaderColor(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
-            drawableHelper.drawTexture(TotemCounter.ICONS, x, this.scaledHeight - 32 + 3, 0, 16, 182, 5);
+            drawContext.drawTexture(TotemCounter.ICONS, x, this.scaledHeight - 32 + 3, 0, 16, 182, 5);
             RenderSystem.setShaderColor(1, 1, 1, 1);
         } else {
-            drawableHelper.drawTexture(texture, x, y, u, v, width, height);
+            drawContext.drawTexture(texture, x, y, u, v, width, height);
         }
     }
 }

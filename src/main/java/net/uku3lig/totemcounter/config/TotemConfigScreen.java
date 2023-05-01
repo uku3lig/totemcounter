@@ -1,6 +1,6 @@
 package net.uku3lig.totemcounter.config;
 
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tab.TabManager;
@@ -52,10 +52,10 @@ public class TotemConfigScreen extends CloseableScreen {
     }
 
     @Override
-    public void render(DrawableHelper drawableHelper, int mouseX, int mouseY, float delta) {
-        this.renderBackground(drawableHelper);
-        drawableHelper.drawTexture(FOOTER_SEPARATOR_TEXTURE, 0, MathHelper.roundUpToMultiple(this.height - 36 - 2, 2), 0.0F, 0.0F, this.width, 2, 32, 2);
-        super.render(drawableHelper, mouseX, mouseY, delta);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.renderBackground(drawContext);
+        drawContext.drawTexture(FOOTER_SEPARATOR_TEXTURE, 0, MathHelper.roundUpToMultiple(this.height - 36 - 2, 2), 0.0F, 0.0F, this.width, 2, 32, 2);
+        super.render(drawContext, mouseX, mouseY, delta);
     }
 
     public static class PopCounterTab extends OptionTab<TotemCounterConfig> {

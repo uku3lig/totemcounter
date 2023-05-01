@@ -23,14 +23,14 @@ public class MixinEntityRenderer {
         Text text = args.get(1);
 
         if (!(entity instanceof ArmorStandEntity)) return;
-        if (!entity.world.isClient) return;
+        if (!entity.getWorld().isClient) return;
         if (text == null) return;
 
         final String stringText = text.getString();
         if (stringText.isBlank()) return;
 
         Text fixedText = text;
-        for (PlayerEntity player : entity.world.getPlayers()) {
+        for (PlayerEntity player : entity.getWorld().getPlayers()) {
             int index = stringText.indexOf(player.getEntityName());
             if (isSurrounded(stringText, index, player.getEntityName().length())) continue;
 

@@ -1,6 +1,6 @@
 package net.uku3lig.totemcounter.config;
 
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.TotemCounter;
@@ -24,27 +24,27 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
     }
 
     @Override
-    protected void draw(DrawableHelper drawableHelper, int mouseX, int mouseY, float delta, int x, int y) {
-        drawableHelper.method_51448().push();
+    protected void draw(DrawContext drawContext, int mouseX, int mouseY, float delta, int x, int y) {
+        drawContext.getMatrices().push();
         if (TotemCounter.getManager().getConfig().isUseDefaultTotem()) {
-            drawableHelper.drawTexture(TotemCounter.ICONS, x, y, 0, 0, 16, 16);
+            drawContext.drawTexture(TotemCounter.ICONS, x, y, 0, 0, 16, 16);
         } else {
-            drawableHelper.method_51427(TotemCounter.TOTEM, x, y);
+            drawContext.drawItem(TotemCounter.TOTEM, x, y);
         }
 
         final Text exampleText = Text.of(String.valueOf(this.ticksElapsed / 4));
         final int color = TotemCounter.getTotemColor(this.ticksElapsed / 10);
         Ukutils.Tuple2<Integer, Integer> coords = Ukutils.getTextCoords(exampleText, this.width, textRenderer, x, y);
 
-        drawableHelper.method_51448().translate(0, 0, 200);
-        drawableHelper.drawTextWithShadow(this.textRenderer, exampleText, coords.t1(), coords.t2(), color);
-        drawableHelper.method_51448().pop();
+        drawContext.getMatrices().translate(0, 0, 200);
+        drawContext.drawTextWithShadow(this.textRenderer, exampleText, coords.t1(), coords.t2(), color);
+        drawContext.getMatrices().pop();
     }
 
     @Override
-    protected void drawDefault(DrawableHelper matrices, int mouseX, int mouseY, float delta) {
+    protected void drawDefault(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         int x = width / 2 - 8;
         int y = height - 38 - textRenderer.fontHeight;
-        draw(matrices, mouseX, mouseY, delta, x, y);
+        draw(drawContext, mouseX, mouseY, delta, x, y);
     }
 }
