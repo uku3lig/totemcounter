@@ -29,6 +29,6 @@
     "fabric-resource-loader-v0": "*",
     "fabric-key-binding-api-v1": "*",
     "fabric-command-api-v2": "*",
-    "ukulib": ">=0.6.1"
+    "ukulib": "^1.0.0-"
   }
 }
