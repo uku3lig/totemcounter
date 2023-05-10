@@ -36,7 +36,7 @@ public class MixinInGameHud {
         if (config.isShowPopCounter()) return TotemCounter.getPops().getOrDefault(player.getUuid(), 0);
 
         PlayerInventory inv = player.getInventory();
-        return (int) Stream.concat(inv.main.stream(), inv.offHand.stream()).filter(TotemCounter.TOTEM::isItemEqual).count();
+        return (int) Stream.concat(inv.main.stream(), inv.offHand.stream()).filter(i -> i.isOf(TotemCounter.TOTEM.getItem())).count();
     }
 
     private int getColor(int count) {
