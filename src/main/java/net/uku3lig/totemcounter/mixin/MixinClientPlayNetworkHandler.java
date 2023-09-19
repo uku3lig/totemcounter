@@ -23,8 +23,7 @@ public class MixinClientPlayNetworkHandler {
         Entity entity = packet.getEntity(world);
         if (entity instanceof OtherClientPlayerEntity player) {
             UUID uuid = player.getUuid();
-            TotemCounter.getPops().putIfAbsent(uuid, 0);
-            TotemCounter.getPops().computeIfPresent(uuid, (u, i) -> i + 1);
+            TotemCounter.getPops().compute(uuid, (u, i) -> i == null ? 1 : i + 1);
         }
     }
 }

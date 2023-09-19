@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.TotemCounter;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
@@ -41,6 +42,7 @@ public class MixinEntityRenderer {
         args.set(1, fixedText);
     }
 
+    @Unique
     private boolean isSurrounded(String stringText, int index, int length) {
         return index == -1 || // not found
                 (index > 0 && Character.isLetterOrDigit(stringText.charAt(index - 1))) || // first char is alphanumeric
