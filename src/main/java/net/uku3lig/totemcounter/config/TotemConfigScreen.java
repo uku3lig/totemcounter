@@ -10,8 +10,8 @@ import net.uku3lig.ukulib.config.option.WidgetCreator;
 import net.uku3lig.ukulib.config.option.widget.ButtonTab;
 import net.uku3lig.ukulib.config.screen.TabbedConfigScreen;
 
-public class GlobalConfigScreen extends TabbedConfigScreen<TotemCounterConfig> {
-    public GlobalConfigScreen(Screen parent) {
+public class TotemConfigScreen extends TabbedConfigScreen<TotemCounterConfig> {
+    public TotemConfigScreen(Screen parent) {
         super("totemcounter.config", parent, TotemCounter.getManager());
     }
 
@@ -24,7 +24,7 @@ public class GlobalConfigScreen extends TabbedConfigScreen<TotemCounterConfig> {
 
     public class PopCounterTab extends ButtonTab<TotemCounterConfig> {
         public PopCounterTab() {
-            super("totemcounter.config.pop", GlobalConfigScreen.this.manager);
+            super("totemcounter.config.pop", TotemConfigScreen.this.manager);
         }
 
         @Override
@@ -41,7 +41,7 @@ public class GlobalConfigScreen extends TabbedConfigScreen<TotemCounterConfig> {
 
     public class TotemDisplayTab extends ButtonTab<TotemCounterConfig> {
         public TotemDisplayTab() {
-            super("totemcounter.config.display", GlobalConfigScreen.this.manager);
+            super("totemcounter.config.display", TotemConfigScreen.this.manager);
         }
 
         @Override
@@ -60,7 +60,7 @@ public class GlobalConfigScreen extends TabbedConfigScreen<TotemCounterConfig> {
 
     public class ExperimentalTab extends ButtonTab<TotemCounterConfig> {
         public ExperimentalTab() {
-            super("Experimental", GlobalConfigScreen.this.manager);
+            super("Experimental", TotemConfigScreen.this.manager);
         }
 
         @Override
