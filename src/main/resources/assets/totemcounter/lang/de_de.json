@@ -9,7 +9,7 @@
   "totemcounter.config.display.position": "Position",
   "totemcounter.config.display.defaultTotem": "Standard Totembild",
   "totemcounter.config.display.coloredXpBar": "Farbige Erfahrungsleiste",
-  "totemcounter.config.display.alwaysShowBar": "Zeigt immer die farbige Erfahrungsleiste an",
+  "totemcounter.config.display.alwaysShowBar": "Immer farbige Erfahrungsleiste anzeigen",
   "totemcounter.config.display.showPopCounter": "Zeigt deine Verbräuche",
   "totemcounter.reset": "Setzt deine Verbräuche zurück",
   "totemcounter.reset.success": "§bErfolgreiches zurücksetzen des Zählers!",
