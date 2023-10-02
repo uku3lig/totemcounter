@@ -12,7 +12,7 @@
   "totemcounter.config.display.alwaysShowBar": "Immer farbige Erfahrungsleiste anzeigen",
   "totemcounter.config.display.showPopCounter": "Zeige eigenen Verbrauch",
   "totemcounter.reset": "Verbrauch zurücksetzen",
-  "totemcounter.reset.success": "§bErfolgreiches zurücksetzen des Zählers!",
+  "totemcounter.reset.success": "§bZähler erfolgreich zurückgesetzt!",
   "totemcounter.reset.player": "§bErfolgreiches den Zähler für %s zurücksetzt§b!",
   "totemcounter.show.noPops": "Keiner hat Totems benutzt D:",
   "totemcounter.show.player.noPops": "%s hat kein Totem benutzt. Einfach zu gut.",
