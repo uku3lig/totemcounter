@@ -81,7 +81,7 @@ public class TotemCounter implements ModInitializer {
         PlayerEntity player = PlayerArgumentType.getPlayer(PLAYER_ARG, context);
         pops.remove(player.getUuid());
 
-        Text message = PREFIX.copy().append(Text.translatable("totemcounter.reset.player", player.getEntityName()).fillStyle(Style.EMPTY.withColor(GREEN)));
+        Text message = PREFIX.copy().append(Text.translatable("totemcounter.reset.player", player.getNameForScoreboard()).fillStyle(Style.EMPTY.withColor(GREEN)));
         context.getSource().sendFeedback(message);
         return 0;
     }

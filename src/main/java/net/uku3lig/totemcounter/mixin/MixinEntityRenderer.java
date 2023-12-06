@@ -32,8 +32,8 @@ public class MixinEntityRenderer {
 
         Text fixedText = text;
         for (PlayerEntity player : entity.getWorld().getPlayers()) {
-            int index = stringText.indexOf(player.getEntityName());
-            if (isSurrounded(stringText, index, player.getEntityName().length())) continue;
+            int index = stringText.indexOf(player.getNameForScoreboard());
+            if (isSurrounded(stringText, index, player.getNameForScoreboard().length())) continue;
 
             if (!player.isAlive()) TotemCounter.getPops().remove(entity.getUuid());
             fixedText = TotemCounter.showPopsInText(player, text);
