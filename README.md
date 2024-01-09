@@ -16,3 +16,9 @@ Download at [Modrinth](https://modrinth.com/mod/totemcounter)
 
 ## Dependencies
 * [ukulib](https://github.com/uku3lig/ukulib)
+
+## Sponsors
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Tutanota_logo.svg" width=300 />
+
+Massive thanks to [Tuta](https://tuta.com) for their support!
