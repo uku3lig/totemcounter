@@ -18,7 +18,7 @@ public class TotemConfigScreen extends TabbedConfigScreen<TotemCounterConfig> {
     @Override
     protected Tab[] getTabs(TotemCounterConfig config) {
         return new Tab[]{
-                new PopCounterTab(), new TotemDisplayTab(), new ExperimentalTab()
+                new PopCounterTab(), new TotemDisplayTab(),
         };
     }
 
@@ -54,19 +54,6 @@ public class TotemConfigScreen extends TabbedConfigScreen<TotemCounterConfig> {
                     CyclingOption.ofBoolean("totemcounter.config.display.coloredXpBar", config.isColoredXpBar(), config::setColoredXpBar),
                     CyclingOption.ofBoolean("totemcounter.config.display.alwaysShowBar", config.isAlwaysShowBar(), config::setAlwaysShowBar),
                     CyclingOption.ofBoolean("totemcounter.config.display.showPopCounter", config.isShowPopCounter(), config::setShowPopCounter)
-            };
-        }
-    }
-
-    public class ExperimentalTab extends ButtonTab<TotemCounterConfig> {
-        public ExperimentalTab() {
-            super("Experimental", TotemConfigScreen.this.manager);
-        }
-
-        @Override
-        public WidgetCreator[] getWidgets(TotemCounterConfig config) {
-            return new WidgetCreator[]{
-                    CyclingOption.ofBoolean("Disable Armor Stands", config.isDisableArmorStands(), config::setDisableArmorStands),
             };
         }
     }

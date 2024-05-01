@@ -10,7 +10,6 @@
     "MixinGameRenderer",
     "MixinInGameHud",
     "MixinMinecraftClient",
-    "MixinPlayerEntityRenderer",
     "MixinPlayerListHud"
   ],
   "injectors": {

@@ -1,10 +1,12 @@
 package net.uku3lig.totemcounter.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.MutableText;
@@ -20,7 +22,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.stream.Stream;
@@ -28,8 +29,6 @@ import java.util.stream.Stream;
 @Mixin(InGameHud.class)
 public class MixinInGameHud {
     @Shadow @Final private MinecraftClient client;
-    @Shadow private int scaledWidth;
-    @Shadow private int scaledHeight;
 
     @Unique
     private int getCount(PlayerEntity player) {
@@ -53,7 +52,7 @@ public class MixinInGameHud {
     }
 
     @Inject(method = "renderStatusBars", at = @At("RETURN"))
-    private void renderCounter(DrawContext drawContext, CallbackInfo ci) {
+    private void renderCounter(DrawContext context, CallbackInfo ci) {
         if (client.player == null) return;
         if (!TotemCounterConfig.get().isDisplayEnabled()) return;
         TextRenderer textRenderer = client.textRenderer;
@@ -68,39 +67,39 @@ public class MixinInGameHud {
         int y = TotemCounterConfig.get().getY();
 
         if (x == -1 || y == -1) {
-            x = scaledWidth / 2 - 8;
-            y = scaledHeight - 38 - textRenderer.fontHeight;
+            x = context.getScaledWindowWidth() / 2 - 8;
+            y = context.getScaledWindowHeight() - 38 - textRenderer.fontHeight;
             if (client != null && client.player != null && client.player.experienceLevel > 0) y -= 6;
         }
 
-        Vector2ic coords = Ukutils.getTextCoords(text, scaledWidth, textRenderer, x, y);
+        Vector2ic coords = Ukutils.getTextCoords(text, context.getScaledWindowWidth(), textRenderer, x, y);
 
-        drawContext.getMatrices().push();
+        context.getMatrices().push();
         if (TotemCounterConfig.get().isUseDefaultTotem()) {
-            drawContext.drawTexture(TotemCounter.ICONS, x, y, 0, 0, 16, 16);
+            context.drawTexture(TotemCounter.ICONS, x, y, 0, 0, 16, 16);
         } else {
-            drawContext.drawItem(TotemCounter.TOTEM, x, y);
+            context.drawItem(TotemCounter.TOTEM, x, y);
         }
 
-        drawContext.getMatrices().translate(0, 0, 200);
-        drawContext.drawTextWithShadow(textRenderer, text, coords.x(), coords.y(), getColor(count));
-        drawContext.getMatrices().pop();
+        context.getMatrices().translate(0, 0, 200);
+        context.drawTextWithShadow(textRenderer, text, coords.x(), coords.y(), getColor(count));
+        context.getMatrices().pop();
     }
 
-    @Redirect(method = "renderExperienceBar", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerEntity;experienceProgress:F"))
-    public float changeXpProgress(ClientPlayerEntity instance) {
-        return shouldRenderBar() ? 1 : instance.experienceProgress;
+    @ModifyExpressionValue(method = "renderExperienceBar", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerEntity;experienceProgress:F"))
+    public float changeXpProgress(float original) {
+        return shouldRenderBar() ? 1 : original;
     }
 
-    @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V"))
-    public void hideExperienceBar(DrawContext drawContext, Identifier texture, int i, int j, int k, int l, int x, int y, int width, int height) {
+    @WrapOperation(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V"))
+    public void hideExperienceBar(DrawContext context, Identifier texture, int i, int j, int k, int l, int x, int y, int width, int height, Operation<Void> original) {
         if (shouldRenderBar()) {
             int argb = getColor(getCount(client.player));
-            drawContext.setShaderColor(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
-            drawContext.drawTexture(TotemCounter.ICONS, x, this.scaledHeight - 32 + 3, 0, 16, 182, 5);
-            drawContext.setShaderColor(1, 1, 1, 1);
+            context.setShaderColor(((argb >> 16) & 0xFF) / 255f, ((argb >> 8) & 0xFF) / 255f, (argb & 0xFF) / 255f, 1);
+            context.drawTexture(TotemCounter.ICONS, x, context.getScaledWindowHeight() - 32 + 3, 0, 16, 182, 5);
+            context.setShaderColor(1, 1, 1, 1);
         } else {
-            drawContext.drawGuiTexture(texture, i, j, k, l, x, y, width, height);
+            original.call(context, texture, i, j, k, l, x, y, width, height);
         }
     }
 }

@@ -26,9 +26,6 @@ public class TotemCounterConfig implements Serializable {
     private boolean counterColors = true;
     private boolean showInTab = false;
 
-    // === EXPERIMENTAL CONFIG ===
-    private boolean disableArmorStands = false;
-
     public static TotemCounterConfig get() {
         return TotemCounter.getManager().getConfig();
     }
