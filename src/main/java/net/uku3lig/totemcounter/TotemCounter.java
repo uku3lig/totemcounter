@@ -41,7 +41,7 @@ public class TotemCounter implements ModInitializer {
     private static final ConfigManager<TotemCounterConfig> manager = ConfigManager.createDefault(TotemCounterConfig.class, "totemcounter");
 
     public static final ItemStack TOTEM = new ItemStack(Items.TOTEM_OF_UNDYING);
-    public static final Identifier ICONS = new Identifier("totemcounter", "gui/icons.png");
+    public static final Identifier ICONS = Identifier.of("totemcounter", "gui/icons.png");
     private static final Text PREFIX = Text.empty()
             .append(Text.literal("Totem").formatted(YELLOW, BOLD))
             .append(Text.literal("Counter").formatted(GREEN, BOLD))
