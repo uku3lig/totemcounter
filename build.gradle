@@ -1,7 +1,7 @@
 plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
-    id 'io.github.juuxel.loom-quiltflower' version '1.10.0'
-    id "io.freefair.lombok" version "8.0.1"
+    id 'fabric-loom' version '1.3-SNAPSHOT'
+    id 'io.github.juuxel.loom-vineflower' version '1.11.0'
+    id "io.freefair.lombok" version "8.3"
     id 'org.ajoberstar.grgit' version '5.0.0'
 }
 
@@ -11,13 +11,6 @@ group = project.maven_group
 repositories {
     maven {
         url "https://maven.uku3lig.net/releases"
-    }
-    maven {
-        url = "https://api.modrinth.com/maven"
-    }
-
-    maven {
-        url = "https://maven.uku3lig.net/snapshots"
     }
 }
 
@@ -35,8 +28,6 @@ dependencies {
     modRuntimeOnly(fabricApi.module("fabric-screen-api-v1", project.fabric_version))
 
     modApi("net.uku3lig:ukulib:${project.ukulib_version}")
-
-    modRuntimeOnly "maven.modrinth:lazydfu:0.1.3"
 }
 
 processResources {
