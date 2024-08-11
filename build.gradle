@@ -12,9 +12,6 @@ repositories {
     maven {
         url "https://maven.uku3lig.net/releases"
     }
-    maven {
-        url = "https://maven.uku3lig.net/snapshots"
-    }
 }
 
 dependencies {
