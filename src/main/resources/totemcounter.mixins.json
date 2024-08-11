@@ -12,6 +12,9 @@
     "MixinMinecraftClient",
     "MixinPlayerListHud"
   ],
+  "mixins": [
+    "MixinPlayerEntity"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
