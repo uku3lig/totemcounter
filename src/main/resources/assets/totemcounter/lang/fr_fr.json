@@ -1,0 +1,20 @@
+{
+  "totemcounter.config": "Configuration de TotemCounter",
+  "totemcounter.config.pop": "Compteur de pops",
+  "totemcounter.config.display": "Affichage des totems",
+  "totemcounter.config.enabled": "Activé",
+  "totemcounter.config.colors": "Couleurs",
+  "totemcounter.config.tab": "Afficher dans la liste des joueurs",
+  "totemcounter.config.pop.separator": "Séparateur",
+  "totemcounter.config.display.position": "Position",
+  "totemcounter.config.display.defaultTotem": "Icône de totem par défaut",
+  "totemcounter.config.display.coloredXpBar": "Barre d'XP colorée",
+  "totemcounter.config.display.alwaysShowBar": "Toujours afficher la barre colorée",
+  "totemcounter.config.display.showPopCounter": "Afficher ses propres pops",
+  "totemcounter.reset": "Réinitialiser le compteur de pops",
+  "totemcounter.reset.success": "§bLe compteur de pops a été réinitialisé avec succès!",
+  "totemcounter.reset.player": "§bCompteur réinitialisé avec succès pour %s§b!",
+  "totemcounter.show.noPops": "Personne n'a pop de totems D:",
+  "totemcounter.show.player.noPops": "%s n'a jamais pop de totem. Simplement meilleur.e",
+  "totemcounter.show.player": "%s a pop %s totem(s)!"
+}
