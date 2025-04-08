@@ -10,6 +10,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -30,15 +31,22 @@ import java.util.stream.Stream;
 
 @Mixin(InGameHud.class)
 public class MixinInGameHud {
-    @Shadow @Final private MinecraftClient client;
+    @Shadow
+    @Final
+    private MinecraftClient client;
 
     @Unique
     private int getCount(PlayerEntity player) {
         if (player == null) return 0;
-        if (TotemCounterConfig.get().isShowPopCounter()) return TotemCounter.getPops().getOrDefault(player.getUuid(), 0);
+        if (TotemCounterConfig.get().isShowPopCounter())
+            return TotemCounter.getPops().getOrDefault(player.getUuid(), 0);
 
         PlayerInventory inv = player.getInventory();
-        return (int) Stream.concat(inv.main.stream(), inv.offHand.stream()).filter(i -> i.isOf(TotemCounter.TOTEM.getItem())).count();
+        ItemStack offhand = inv.getStack(PlayerInventory.OFF_HAND_SLOT);
+
+        return (int) Stream.concat(inv.getMainStacks().stream(), Stream.of(offhand))
+                .filter(i -> i.isOf(TotemCounter.TOTEM.getItem()))
+                .count();
     }
 
     @Unique
