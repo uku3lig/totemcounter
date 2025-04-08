@@ -8,7 +8,8 @@
     "MixinClientPlayNetworkHandler",
     "MixinGameRenderer",
     "MixinInGameHud",
-    "MixinPlayerListHud"
+    "MixinPlayerListHud",
+    "MixinTextDisplayEntityRenderer"
   ],
   "mixins": [
     "MixinPlayerEntity"
