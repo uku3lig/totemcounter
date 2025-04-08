@@ -9,7 +9,7 @@ group = project.maven_group
 
 repositories {
     maven {
-        url "https://maven.uku3lig.net/releases"
+        url = "https://maven.uku3lig.net/releases"
     }
 }
 
@@ -27,7 +27,7 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
-    filteringCharset "UTF-8"
+    filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version
