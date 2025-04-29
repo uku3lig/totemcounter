@@ -1,26 +1,22 @@
 package net.uku3lig.totemcounter.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.DisplayEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.decoration.DisplayEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.OrderedText;
+import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.TotemCounter;
-import net.uku3lig.ukulib.utils.Ukutils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(DisplayEntityRenderer.TextDisplayEntityRenderer.class)
 public class MixinTextDisplayEntityRenderer {
-    @WrapOperation(method = "render(Lnet/minecraft/client/render/entity/state/TextDisplayEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IF)V",
-    at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/decoration/DisplayEntity$TextDisplayEntity$TextLine;contents()Lnet/minecraft/text/OrderedText;"))
-    public OrderedText label(DisplayEntity.TextDisplayEntity.TextLine instance, Operation<OrderedText> original) {
-        final Text text = Ukutils.getStyledText(instance.contents());
+    @ModifyArg(method = "getLines", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;wrapLines(Lnet/minecraft/text/StringVisitable;I)Ljava/util/List;"), index = 0)
+    public StringVisitable editText(StringVisitable original) {
+        final Text text = (Text) original;
         final String stringText = text.getString();
         final ClientWorld world = MinecraftClient.getInstance().world;
 
@@ -30,12 +26,12 @@ public class MixinTextDisplayEntityRenderer {
                 int index = stringText.indexOf(player.getNameForScoreboard());
                 if (!isSurrounded(stringText, index, player.getNameForScoreboard().length())) {
                     if (!player.isAlive()) TotemCounter.getPops().remove(player.getUuid());
-                    return TotemCounter.showPopsInText(player, text).asOrderedText();
+                    return TotemCounter.showPopsInText(player, text);
                 }
             }
         }
 
-        return instance.contents();
+        return original;
     }
 
     // 2024 edit: i have no fucking clue what this does but sure uku3lig from the past, slay queen
