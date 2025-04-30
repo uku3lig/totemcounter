@@ -17,7 +17,7 @@ import java.util.List;
 @Mixin(ChatHud.class)
 public class MixinChatHud {
     @Unique
-    private static final List<String> roundEndMessages = Arrays.asList("Winners:", "has won the round.", "has won the game!", "Winner: NONE!");
+    private static final List<String> roundEndMessages = Arrays.asList("Winners:", "has won the round.", "has won the game!", "Winner: NONE!", "Match Complete");
 
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", at = @At("HEAD"))
     public void checkForDeath(Text message, MessageSignatureData signature, MessageIndicator indicator, CallbackInfo ci) {
