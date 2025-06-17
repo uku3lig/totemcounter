@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.MutableText;
@@ -25,6 +26,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 import static net.minecraft.util.Formatting.*;
@@ -120,6 +122,24 @@ public class TotemCounter implements ModInitializer {
 
         context.getSource().sendFeedback(text);
         return 0;
+    }
+
+    public static int getCount(PlayerEntity player) {
+        if (player == null) return 0;
+        if (TotemCounterConfig.get().isShowPopCounter())
+            return TotemCounter.getPops().getOrDefault(player.getUuid(), 0);
+
+        PlayerInventory inv = player.getInventory();
+        ItemStack offhand = inv.getStack(PlayerInventory.OFF_HAND_SLOT);
+
+        return (int) Stream.concat(inv.getMainStacks().stream(), Stream.of(offhand))
+                .filter(i -> i.isOf(TotemCounter.TOTEM.getItem()))
+                .count();
+    }
+
+    public static int getColor(int count) {
+        if (!TotemCounterConfig.get().isDisplayColors()) return 0xFFFFFFFF;
+        return TotemCounterConfig.get().isShowPopCounter() ? TotemCounter.getPopColor(count) : TotemCounter.getTotemColor(count);
     }
 
     public static int getPopColor(int pops) {

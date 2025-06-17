@@ -1,19 +1,12 @@
 package net.uku3lig.totemcounter.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import net.uku3lig.ukulib.utils.Ukutils;
@@ -21,13 +14,9 @@ import org.joml.Vector2ic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 @Mixin(InGameHud.class)
 public class MixinInGameHud {
@@ -35,39 +24,13 @@ public class MixinInGameHud {
     @Final
     private MinecraftClient client;
 
-    @Unique
-    private int getCount(PlayerEntity player) {
-        if (player == null) return 0;
-        if (TotemCounterConfig.get().isShowPopCounter())
-            return TotemCounter.getPops().getOrDefault(player.getUuid(), 0);
-
-        PlayerInventory inv = player.getInventory();
-        ItemStack offhand = inv.getStack(PlayerInventory.OFF_HAND_SLOT);
-
-        return (int) Stream.concat(inv.getMainStacks().stream(), Stream.of(offhand))
-                .filter(i -> i.isOf(TotemCounter.TOTEM.getItem()))
-                .count();
-    }
-
-    @Unique
-    private int getColor(int count) {
-        if (!TotemCounterConfig.get().isDisplayColors()) return 0xFFFFFFFF;
-        return TotemCounterConfig.get().isShowPopCounter() ? TotemCounter.getPopColor(count) : TotemCounter.getTotemColor(count);
-    }
-
-    @Unique
-    private boolean shouldRenderBar() {
-        int count = getCount(client.player);
-        return TotemCounterConfig.get().isColoredXpBar() && (count <= 10 || TotemCounterConfig.get().isAlwaysShowBar()) && count != 0;
-    }
-
     @Inject(method = "renderStatusBars", at = @At("RETURN"))
     private void renderCounter(DrawContext context, CallbackInfo ci) {
         if (client.player == null) return;
         if (!TotemCounterConfig.get().isDisplayEnabled()) return;
         TextRenderer textRenderer = client.textRenderer;
 
-        int count = getCount(client.player);
+        int count = TotemCounter.getCount(client.player);
         if (count == 0) return;
 
         MutableText text = Text.literal(String.valueOf(count));
@@ -84,30 +47,14 @@ public class MixinInGameHud {
 
         Vector2ic coords = Ukutils.getTextCoords(text, context.getScaledWindowWidth(), textRenderer, x, y);
 
-        context.getMatrices().push();
+        context.getMatrices().pushMatrix();
         if (TotemCounterConfig.get().isUseDefaultTotem()) {
-            context.drawTexture(RenderLayer::getGuiTextured, TotemCounter.DEFAULT_TOTEM, x, y, 0, 0, 16, 16, 16, 16);
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, TotemCounter.DEFAULT_TOTEM, x, y, 0, 0, 16, 16, 16, 16);
         } else {
             context.drawItem(TotemCounter.TOTEM, x, y);
         }
 
-        context.getMatrices().translate(0, 0, 200);
-        context.drawTextWithShadow(textRenderer, text, coords.x(), coords.y(), getColor(count));
-        context.getMatrices().pop();
-    }
-
-    @ModifyExpressionValue(method = "renderExperienceBar", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerEntity;experienceProgress:F"))
-    public float changeXpProgress(float original) {
-        return shouldRenderBar() ? 1 : original;
-    }
-
-    @WrapOperation(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIIIIIII)V"))
-    public void hideExperienceBar(DrawContext context, Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int textureWidth, int textureHeight, int u, int v, int x, int y, int width, int height, Operation<Void> original) {
-        if (shouldRenderBar()) {
-            int argb = getColor(getCount(client.player));
-            context.drawTexture(renderLayers, TotemCounter.WHITE_BAR, x, y, 0, 0, 182, 5, 182, 5, argb);
-        } else {
-            original.call(context, renderLayers, sprite, textureWidth, textureHeight, u, v, x, y, width, height);
-        }
+        context.drawTextWithShadow(textRenderer, text, coords.x(), coords.y(), TotemCounter.getColor(count));
+        context.getMatrices().popMatrix();
     }
 }

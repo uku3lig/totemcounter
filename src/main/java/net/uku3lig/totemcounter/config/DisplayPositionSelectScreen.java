@@ -1,8 +1,8 @@
 package net.uku3lig.totemcounter.config;
 
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.ukulib.config.screen.PositionSelectScreen;
@@ -27,9 +27,9 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
 
     @Override
     protected void draw(DrawContext drawContext, int mouseX, int mouseY, float delta, int x, int y) {
-        drawContext.getMatrices().push();
+        drawContext.getMatrices().pushMatrix();
         if (TotemCounter.getManager().getConfig().isUseDefaultTotem()) {
-            drawContext.drawTexture(RenderLayer::getGuiTextured, TotemCounter.DEFAULT_TOTEM, x, y, 0, 0, 16, 16, 16, 16);
+            drawContext.drawTexture(RenderPipelines.GUI_TEXTURED, TotemCounter.DEFAULT_TOTEM, x, y, 0, 0, 16, 16, 16, 16);
         } else {
             drawContext.drawItem(TotemCounter.TOTEM, x, y);
         }
@@ -38,9 +38,8 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
         final int color = TotemCounter.getTotemColor(this.ticksElapsed / 10);
         Vector2ic coords = Ukutils.getTextCoords(exampleText, this.width, textRenderer, x, y);
 
-        drawContext.getMatrices().translate(0, 0, 200);
         drawContext.drawTextWithShadow(this.textRenderer, exampleText, coords.x(), coords.y(), color);
-        drawContext.getMatrices().pop();
+        drawContext.getMatrices().popMatrix();
     }
 
     @Override
