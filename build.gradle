@@ -1,6 +1,6 @@
 plugins {
-    id "fabric-loom" version "1.10-SNAPSHOT"
-    id "io.freefair.lombok" version "8.13.1"
+    id "fabric-loom" version "1.11-SNAPSHOT"
+    id "io.freefair.lombok" version "9.0.0-rc2"
     id "org.ajoberstar.grgit" version "5.0.0"
 }
 
