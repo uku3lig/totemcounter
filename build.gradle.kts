@@ -1,6 +1,6 @@
 plugins {
     id("fabric-loom") version "1.11-SNAPSHOT"
-    id("io.freefair.lombok") version "9.0.0-rc2"
+    id("io.freefair.lombok") version "9.0.0"
 }
 
 version = "${project.property("mod_version")}+mc${project.property("minecraft_version")}"
