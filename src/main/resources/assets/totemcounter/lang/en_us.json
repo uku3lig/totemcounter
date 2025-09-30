@@ -16,5 +16,6 @@
   "totemcounter.reset.player": "§bSuccessfully reset counter for %s§b!",
   "totemcounter.show.noPops": "No one popped totems D:",
   "totemcounter.show.player.noPops": "%s never popped a totem. Simply built different.",
-  "totemcounter.show.player": "%s popped %s totem(s)!"
+  "totemcounter.show.player": "%s popped %s totem(s)!",
+  "key.category.totemcounter.key": "TotemCounter"
 }

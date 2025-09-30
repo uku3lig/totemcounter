@@ -25,10 +25,10 @@
     "totemcounter.mixins.json"
   ],
   "depends": {
-    "minecraft": ">=1.21.6",
-    "fabricloader": ">=0.16",
+    "minecraft": ">=1.21.9",
+    "fabricloader": ">=0.17",
     "fabric-resource-loader-v0": "*",
     "fabric-command-api-v2": "*",
-    "ukulib": "^1.8.0"
+    "ukulib": "^1.9.0"
   }
 }

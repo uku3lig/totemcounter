@@ -39,7 +39,8 @@ public class TotemCounter implements ModInitializer {
     @Getter
     private static final ConfigManager<TotemCounterConfig> manager = ConfigManager.createDefault(TotemCounterConfig.class, MOD_ID);
 
-    private static final KeyBinding resetCounter = new KeyBinding("totemcounter.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, "Totemcounter");
+    private static final KeyBinding.Category category = KeyBinding.Category.create(Identifier.of("totemcounter", "key"));
+    private static final KeyBinding resetCounter = new KeyBinding("totemcounter.reset", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F10, category);
 
     public static final ItemStack TOTEM = new ItemStack(Items.TOTEM_OF_UNDYING);
     public static final Identifier DEFAULT_TOTEM = Identifier.of(MOD_ID, "gui/totem.png");

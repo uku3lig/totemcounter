@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(DisplayEntityRenderer.TextDisplayEntityRenderer.class)
 public class MixinTextDisplayEntityRenderer {
-    @WrapOperation(method = "render(Lnet/minecraft/client/render/entity/state/TextDisplayEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IF)V",
+    @WrapOperation(method = "render(Lnet/minecraft/client/render/entity/state/TextDisplayEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;IF)V",
     at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/decoration/DisplayEntity$TextDisplayEntity$TextLine;contents()Lnet/minecraft/text/OrderedText;"))
     public OrderedText label(DisplayEntity.TextDisplayEntity.TextLine instance, Operation<OrderedText> original) {
         final Text text = Ukutils.getStyledText(instance.contents());

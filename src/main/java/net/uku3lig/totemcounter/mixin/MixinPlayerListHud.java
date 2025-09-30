@@ -20,7 +20,7 @@ public class MixinPlayerListHud {
 
         World world = MinecraftClient.getInstance().world;
         if (world != null) {
-            PlayerEntity entity = world.getPlayerByUuid(entry.getProfile().getId());
+            PlayerEntity entity = world.getPlayerByUuid(entry.getProfile().id());
             if (entity != null) {
                 if (!entity.isAlive()) TotemCounter.getPops().remove(entity.getUuid());
                 return TotemCounter.showPopsInText(entity, original);
