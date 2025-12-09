@@ -10,6 +10,7 @@ import net.minecraft.client.gui.hud.bar.ExperienceBar;
 import net.minecraft.util.Identifier;
 import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +23,7 @@ public class MixinExperienceBar {
         return TotemCounterConfig.get().isColoredXpBar() && (count <= 10 || TotemCounterConfig.get().isAlwaysShowBar()) && count != 0;
     }
 
-    @ModifyExpressionValue(method = "renderBar", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerEntity;experienceProgress:F"))
+    @ModifyExpressionValue(method = "renderBar", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerEntity;experienceProgress:F", opcode = Opcodes.GETFIELD))
     public float changeXpProgress(float original) {
         return shouldRenderBar() ? 1 : original;
     }
