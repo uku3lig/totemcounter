@@ -1,9 +1,9 @@
 package net.uku3lig.totemcounter.config;
 
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
 import net.uku3lig.totemcounter.TotemCounter;
 import net.uku3lig.ukulib.config.screen.PositionSelectScreen;
 import net.uku3lig.ukulib.utils.Ukutils;
@@ -26,26 +26,26 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
     }
 
     @Override
-    protected void draw(DrawContext drawContext, int mouseX, int mouseY, float delta, int x, int y) {
-        drawContext.getMatrices().pushMatrix();
+    protected void draw(GuiGraphics graphics, int mouseX, int mouseY, float delta, int x, int y) {
+        graphics.pose().pushMatrix();
         if (TotemCounter.getManager().getConfig().isUseDefaultTotem()) {
-            drawContext.drawTexture(RenderPipelines.GUI_TEXTURED, TotemCounter.DEFAULT_TOTEM, x, y, 0, 0, 16, 16, 16, 16);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, TotemCounter.DEFAULT_TOTEM, x, y, 0, 0, 16, 16, 16, 16);
         } else {
-            drawContext.drawItem(TotemCounter.TOTEM, x, y);
+            graphics.renderItem(TotemCounter.TOTEM, x, y);
         }
 
-        final Text exampleText = Text.of(String.valueOf(this.ticksElapsed / 4));
+        final Component exampleText = Component.nullToEmpty(String.valueOf(this.ticksElapsed / 4));
         final int color = TotemCounter.getTotemColor(this.ticksElapsed / 10);
-        Vector2ic coords = Ukutils.getTextCoords(exampleText, this.width, textRenderer, x, y);
+        Vector2ic coords = Ukutils.getTextCoords(exampleText, this.width, font, x, y);
 
-        drawContext.drawTextWithShadow(this.textRenderer, exampleText, coords.x(), coords.y(), color);
-        drawContext.getMatrices().popMatrix();
+        graphics.drawString(this.font, exampleText, coords.x(), coords.y(), color);
+        graphics.pose().popMatrix();
     }
 
     @Override
-    protected void drawDefault(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+    protected void drawDefault(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         int x = width / 2 - 8;
-        int y = height - 38 - textRenderer.fontHeight;
-        draw(drawContext, mouseX, mouseY, delta, x, y);
+        int y = height - 38 - font.lineHeight;
+        draw(graphics, mouseX, mouseY, delta, x, y);
     }
 }
