@@ -14,7 +14,7 @@
   "icon": "assets/totemcounter/icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": [
+    "client": [
       "net.uku3lig.totemcounter.TotemCounter"
     ],
     "ukulib": [

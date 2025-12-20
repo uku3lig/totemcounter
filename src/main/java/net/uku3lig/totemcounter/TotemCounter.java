@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import lombok.Getter;
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;
@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 import static net.minecraft.ChatFormatting.*;
 
-public class TotemCounter implements ModInitializer {
+public class TotemCounter implements ClientModInitializer {
     private static final String MOD_ID = "totemcounter";
 
     @Getter
@@ -61,7 +61,7 @@ public class TotemCounter implements ModInitializer {
     private static final String PLAYER_ARG = "player";
 
     @Override
-    public void onInitialize() {
+    public void onInitializeClient() {
         Ukutils.registerKeybinding(resetCounter, client -> resetPopCounter());
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
