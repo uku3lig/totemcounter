@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -23,9 +24,7 @@ import net.uku3lig.ukulib.utils.PlayerArgumentType;
 import net.uku3lig.ukulib.utils.Ukutils;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
@@ -41,6 +40,8 @@ public class TotemCounter implements ModInitializer {
 
     private static final KeyMapping.Category category = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("totemcounter", "key"));
     private static final KeyMapping resetCounter = new KeyMapping("totemcounter.reset", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F10, category);
+
+    private static final List<Identifier> CUSTOM_TOTEMS = List.of(Identifier.fromNamespaceAndPath("voidtotem", "totem_of_void_undying"));
 
     public static final ItemStack TOTEM = new ItemStack(Items.TOTEM_OF_UNDYING);
     public static final Identifier DEFAULT_TOTEM = Identifier.fromNamespaceAndPath(MOD_ID, "gui/totem.png");
@@ -134,9 +135,16 @@ public class TotemCounter implements ModInitializer {
         ItemStack offhand = inv.getItem(Inventory.SLOT_OFFHAND);
 
         return Stream.concat(inv.getNonEquipmentItems().stream(), Stream.of(offhand))
-                .filter(i -> i.is(TotemCounter.TOTEM.getItem()))
+                .filter(TotemCounter::isTotem)
                 .mapToInt(ItemStack::getCount)
                 .sum();
+    }
+
+    public static boolean isTotem(ItemStack stack) {
+        if (stack.is(Items.TOTEM_OF_UNDYING)) return true;
+
+        Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        return CUSTOM_TOTEMS.contains(id);
     }
 
     public static int getColor(int count) {
