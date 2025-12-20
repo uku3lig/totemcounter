@@ -133,9 +133,10 @@ public class TotemCounter implements ModInitializer {
         Inventory inv = player.getInventory();
         ItemStack offhand = inv.getItem(Inventory.SLOT_OFFHAND);
 
-        return (int) Stream.concat(inv.getNonEquipmentItems().stream(), Stream.of(offhand))
+        return Stream.concat(inv.getNonEquipmentItems().stream(), Stream.of(offhand))
                 .filter(i -> i.is(TotemCounter.TOTEM.getItem()))
-                .count();
+                .mapToInt(ItemStack::getCount)
+                .sum();
     }
 
     public static int getColor(int count) {
