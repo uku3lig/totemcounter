@@ -15,7 +15,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.uku3lig.totemcounter.TotemCounter"
+      "net.uku3lig.totemcounter.fabric.TotemCounterFabric"
     ],
     "ukulib": [
       "net.uku3lig.totemcounter.UkulibHook"

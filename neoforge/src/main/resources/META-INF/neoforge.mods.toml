@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "totemcounter"
+displayName = "TotemCounter"
+version = "${version}"
+
+logoFile = "assets/totemcounter/icon.png"
+authors = "uku"
+description = "counts the amount of skill issues (totem pops)"
+
+[[dependencies.totemcounter]]
+modId = "minecraft"
+type = "required"
+versionRange = "[26.1,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.totemcounter]]
+modId = "neoforge"
+type = "required"
+versionRange = "[26.1.0.0,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.totemcounter]]
+modId = "ukulib"
+type = "required"
+versionRange = "[2.0.0,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[mixins]]
+config = "totemcounter.mixins.json"

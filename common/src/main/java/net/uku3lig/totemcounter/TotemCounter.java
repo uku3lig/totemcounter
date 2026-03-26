@@ -1,12 +1,7 @@
 package net.uku3lig.totemcounter;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import lombok.Getter;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,17 +15,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import net.uku3lig.ukulib.config.ConfigManager;
-import net.uku3lig.ukulib.utils.PlayerArgumentType;
 import net.uku3lig.ukulib.utils.Ukutils;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 import java.util.stream.Stream;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 import static net.minecraft.ChatFormatting.*;
 
-public class TotemCounter implements ClientModInitializer {
+public class TotemCounter {
     private static final String MOD_ID = "totemcounter";
 
     @Getter
@@ -47,83 +40,21 @@ public class TotemCounter implements ClientModInitializer {
     public static final Identifier DEFAULT_TOTEM = Identifier.fromNamespaceAndPath(MOD_ID, "gui/totem.png");
     public static final Identifier WHITE_BAR = Identifier.fromNamespaceAndPath(MOD_ID, "gui/bar.png");
 
-    private static final Component PREFIX = Component.empty()
+    public static final Component PREFIX = Component.empty()
             .append(Component.literal("Totem").withStyle(YELLOW, BOLD))
             .append(Component.literal("Counter").withStyle(GREEN, BOLD))
             .append(Component.literal(" » ").withStyle(GRAY, BOLD))
             .append(Component.empty().withStyle(RESET));
-    private static final Component HEADER = Component.empty()
+    public static final Component HEADER = Component.empty()
             .append(Component.literal(" ====== ").withStyle(GRAY))
             .append(Component.literal("Totem").withStyle(YELLOW, BOLD))
             .append(Component.literal("Counter").withStyle(GREEN, BOLD))
             .append(Component.literal(" ====== ").withStyle(GRAY))
             .append(Component.empty().withStyle(RESET));
-    private static final String PLAYER_ARG = "player";
+    public static final String PLAYER_ARG = "player";
 
-    @Override
-    public void onInitializeClient() {
+    public static void onInitialize() {
         Ukutils.registerKeybinding(resetCounter, client -> resetPopCounter());
-
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(literal("resetcounter").executes(this::resetCounterCommand).then(
-                    argument(PLAYER_ARG, PlayerArgumentType.player()).executes(this::resetPlayerCounterCommand)
-            ));
-
-            dispatcher.register(literal("showpops").executes(this::showPopsCommand).then(
-                    argument(PLAYER_ARG, PlayerArgumentType.player()).executes(this::showPlayerPopsCommand)
-            ));
-        });
-    }
-
-    private int resetCounterCommand(CommandContext<FabricClientCommandSource> context) {
-        TotemCounter.resetPopCounter();
-
-        Component message = PREFIX.copy().append(Component.translatable("totemcounter.reset.success"));
-        context.getSource().sendFeedback(message);
-        return 0;
-    }
-
-    private int resetPlayerCounterCommand(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
-        Player player = PlayerArgumentType.getPlayer(PLAYER_ARG, context);
-        pops.remove(player.getUUID());
-
-        Component message = PREFIX.copy().append(Component.translatable("totemcounter.reset.player", player.getScoreboardName()).withStyle(Style.EMPTY.withColor(GREEN)));
-        context.getSource().sendFeedback(message);
-        return 0;
-    }
-
-    private int showPopsCommand(CommandContext<FabricClientCommandSource> context) {
-        if (pops.isEmpty()) {
-            context.getSource().sendFeedback(PREFIX.copy().append(Component.translatable("totemcounter.show.noPops")));
-        } else {
-            context.getSource().sendFeedback(HEADER);
-            pops.forEach((uuid, popCount) -> {
-                Player player = context.getSource().getWorld().getPlayerByUUID(uuid);
-                Component text = (player != null ? player.getDisplayName().copy() : Component.literal(uuid.toString())).withStyle(DARK_AQUA)
-                        .append(Component.literal(": ").withStyle(GRAY))
-                        .append(Component.literal("-" + popCount).withStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(popCount))));
-                context.getSource().sendFeedback(text);
-            });
-        }
-
-        return 0;
-    }
-
-    private int showPlayerPopsCommand(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
-        Player player = PlayerArgumentType.getPlayer(PLAYER_ARG, context);
-        Component playerName = player.getDisplayName().copy().withStyle(DARK_AQUA);
-        int popCount = pops.getOrDefault(player.getUUID(), 0);
-        MutableComponent text = PREFIX.copy();
-
-        if (popCount == 0) {
-            text.append(Component.translatable("totemcounter.show.player.noPops", playerName));
-        } else {
-            Component popText = Component.literal(String.valueOf(popCount)).withStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(popCount)));
-            text.append(Component.translatable("totemcounter.show.player", playerName, popText));
-        }
-
-        context.getSource().sendFeedback(text);
-        return 0;
     }
 
     public static int getCount(Player player) {
