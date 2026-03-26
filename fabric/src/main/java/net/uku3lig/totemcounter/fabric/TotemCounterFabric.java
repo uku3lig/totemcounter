@@ -54,7 +54,7 @@ public class TotemCounterFabric implements ClientModInitializer {
         } else {
             context.getSource().sendFeedback(TotemCounter.HEADER);
             TotemCounter.getPops().forEach((uuid, popCount) -> {
-                Player player = context.getSource().getWorld().getPlayerByUUID(uuid);
+                Player player = context.getSource().getLevel().getPlayerByUUID(uuid);
                 Component text = (player != null ? player.getDisplayName().copy() : Component.literal(uuid.toString())).withStyle(DARK_AQUA)
                         .append(Component.literal(": ").withStyle(GRAY))
                         .append(Component.literal("-" + popCount).withStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(popCount))));

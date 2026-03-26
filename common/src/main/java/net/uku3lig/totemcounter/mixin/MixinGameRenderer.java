@@ -25,7 +25,7 @@ public class MixinGameRenderer {
         if (floatingItem.is(Items.TOTEM_OF_UNDYING)) {
             UUID uuid = minecraft.player.getUUID();
             TotemCounter.getPops().putIfAbsent(uuid, 0);
-            TotemCounter.getPops().computeIfPresent(uuid, (u, i) -> i + 1);
+            TotemCounter.getPops().computeIfPresent(uuid, (_, i) -> i + 1);
         }
     }
 }

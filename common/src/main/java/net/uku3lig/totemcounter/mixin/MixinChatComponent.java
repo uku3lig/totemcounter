@@ -1,7 +1,8 @@
 package net.uku3lig.totemcounter.mixin;
 
-import net.minecraft.client.GuiMessageTag;
 import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.client.multiplayer.chat.GuiMessageSource;
+import net.minecraft.client.multiplayer.chat.GuiMessageTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MessageSignature;
 import net.uku3lig.totemcounter.TotemCounter;
@@ -19,8 +20,9 @@ public class MixinChatComponent {
     @Unique
     private static final List<String> roundEndMessages = Arrays.asList("Winners:", "has won the round.", "has won the game!", "Winner: NONE!", "Match Complete");
 
-    @Inject(method = "addMessage(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/MessageSignature;Lnet/minecraft/client/GuiMessageTag;)V", at = @At("HEAD"))
-    public void checkForDeath(Component message, MessageSignature signature, GuiMessageTag indicator, CallbackInfo ci) {
-        if (roundEndMessages.stream().anyMatch(m -> message.getString().contains(m))) TotemCounter.getPops().clear();
+    @Inject(method = "addMessage", at = @At("HEAD"))
+    public void checkForDeath(Component contents, MessageSignature signature, GuiMessageSource source, GuiMessageTag tag, CallbackInfo ci) {
+        if (tag.text() == null) return;
+        if (roundEndMessages.stream().anyMatch(m -> tag.text().getString().contains(m))) TotemCounter.getPops().clear();
     }
 }

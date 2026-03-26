@@ -23,7 +23,7 @@ public class MixinTextDisplayRenderer {
     // and rendered contents all agree on the counter-appended line width
     @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/Display$TextDisplay;Lnet/minecraft/client/renderer/entity/state/TextDisplayEntityRenderState;F)V",
             at = @At("RETURN"))
-    private void totemcounter$injectCounter(Display.TextDisplay entity, TextDisplayEntityRenderState renderState, float partialTick, CallbackInfo ci) {
+    private void injectCounter(Display.TextDisplay entity, TextDisplayEntityRenderState renderState, float partialTick, CallbackInfo ci) {
         if (!TotemCounter.getManager().getConfig().isCounterEnabled()) return;
         if (renderState.cachedInfo == null) return;
         if (!(entity.getVehicle() instanceof Player player)) return;

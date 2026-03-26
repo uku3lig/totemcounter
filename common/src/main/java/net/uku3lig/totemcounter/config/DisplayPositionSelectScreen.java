@@ -1,6 +1,6 @@
 package net.uku3lig.totemcounter.config;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -26,24 +26,24 @@ public class DisplayPositionSelectScreen extends PositionSelectScreen {
     }
 
     @Override
-    protected void draw(GuiGraphics graphics, int mouseX, int mouseY, float delta, int x, int y) {
+    protected void draw(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta, int x, int y) {
         graphics.pose().pushMatrix();
         if (TotemCounter.getManager().getConfig().isUseDefaultTotem()) {
             graphics.blit(RenderPipelines.GUI_TEXTURED, TotemCounter.DEFAULT_TOTEM, x, y, 0, 0, 16, 16, 16, 16);
         } else {
-            graphics.renderItem(TotemCounter.TOTEM, x, y);
+            graphics.item(TotemCounter.TOTEM.create(), x, y);
         }
 
         final Component exampleText = Component.nullToEmpty(String.valueOf(this.ticksElapsed / 4));
         final int color = TotemCounter.getTotemColor(this.ticksElapsed / 10);
         Vector2ic coords = Ukutils.getTextCoords(exampleText, this.width, font, x, y);
 
-        graphics.drawString(this.font, exampleText, coords.x(), coords.y(), color);
+        graphics.text(this.font, exampleText, coords.x(), coords.y(), color);
         graphics.pose().popMatrix();
     }
 
     @Override
-    protected void drawDefault(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+    protected void drawDefault(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         int x = width / 2 - 8;
         int y = height - 38 - font.lineHeight;
         draw(graphics, mouseX, mouseY, delta, x, y);
