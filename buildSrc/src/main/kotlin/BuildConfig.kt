@@ -5,7 +5,7 @@ object BuildConfig {
     const val FABRIC_API_VERSION: String = "0.144.3+26.1"
     const val UKULIB_VERSION: String = "2.0.0+26.1"
 
-    const val MOD_VERSION: String = "1.11.2"
+    const val MOD_VERSION: String = "1.12.0"
 
     const val MODRINTH_PROJECT_ID: String = "T9R7YTnA"
 
