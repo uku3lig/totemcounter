@@ -22,7 +22,6 @@ public class MixinChatComponent {
 
     @Inject(method = "addMessage", at = @At("HEAD"))
     public void checkForDeath(Component contents, MessageSignature signature, GuiMessageSource source, GuiMessageTag tag, CallbackInfo ci) {
-        if (tag.text() == null) return;
-        if (roundEndMessages.stream().anyMatch(m -> tag.text().getString().contains(m))) TotemCounter.getPops().clear();
+        if (roundEndMessages.stream().anyMatch(m -> contents.getString().contains(m))) TotemCounter.getPops().clear();
     }
 }
