@@ -3,7 +3,9 @@
   "minVersion": "0.8",
   "package": "net.uku3lig.totemcounter.fabric.mixin",
   "compatibilityLevel": "JAVA_25",
-  "client": ["MixinGui"],
+  "client": [
+    "MixinHud"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

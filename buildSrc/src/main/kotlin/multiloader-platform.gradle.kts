@@ -49,4 +49,7 @@ modrinth {
     uploadFile.set(tasks.jar)
     gameVersions.add(BuildConfig.MINECRAFT_VERSION)
     loaders.add(project.name) // either fabric or neoforge, which are valid values
+    dependencies {
+        required.project("ukulib")
+    }
 }

@@ -10,7 +10,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.uku3lig.totemcounter.TotemCounter;
-import net.uku3lig.ukulib.fabric.PlayerArgumentType;
+import net.uku3lig.ukulib.utils.PlayerArgumentType;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.*;
 import static net.minecraft.ChatFormatting.*;
