@@ -28,5 +28,4 @@ tasks.jar {
 repositories {
     mavenCentral()
     maven { url = uri("https://maven.uku3lig.net/releases") }
-    maven { url = uri("https://maven.uku3lig.net/snapshots") }
 }
