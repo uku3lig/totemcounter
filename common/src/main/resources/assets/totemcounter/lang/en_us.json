@@ -17,5 +17,6 @@
   "totemcounter.show.noPops": "No one popped totems D:",
   "totemcounter.show.player.noPops": "%s never popped a totem. Simply built different.",
   "totemcounter.show.player": "%s popped %s totem(s)!",
+  "totemcounter.set": "§bSuccessfully set counter for %s§b to %s§b!",
   "key.category.totemcounter.key": "TotemCounter"
 }

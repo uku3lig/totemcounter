@@ -1,5 +1,6 @@
 package net.uku3lig.totemcounter.fabric;
 
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.api.ClientModInitializer;
@@ -27,6 +28,12 @@ public class TotemCounterFabric implements ClientModInitializer {
 
             dispatcher.register(literal("showpops").executes(this::showPopsCommand).then(
                     argument(TotemCounter.PLAYER_ARG, PlayerArgumentType.player()).executes(this::showPlayerPopsCommand)
+            ));
+
+            dispatcher.register(literal("setcounter").then(
+                    argument(TotemCounter.PLAYER_ARG, PlayerArgumentType.player()).then(
+                            argument("pops", IntegerArgumentType.integer(0)).executes(this::setCounterCommand)
+                    )
             ));
         });
     }
@@ -74,11 +81,29 @@ public class TotemCounterFabric implements ClientModInitializer {
         if (popCount == 0) {
             text.append(Component.translatable("totemcounter.show.player.noPops", playerName));
         } else {
-            Component popText = Component.literal(String.valueOf(popCount)).withStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(popCount)));
-            text.append(Component.translatable("totemcounter.show.player", playerName, popText));
+            text.append(Component.translatable("totemcounter.show.player", playerName, getPopText(popCount)));
         }
 
         context.getSource().sendFeedback(text);
         return 0;
+    }
+
+    private int setCounterCommand(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+        Player player = PlayerArgumentType.getPlayer(TotemCounter.PLAYER_ARG, context);
+        int popCount = IntegerArgumentType.getInteger(context, "pops");
+
+        if(popCount == 0) {
+            return this.resetPlayerCounterCommand(context);
+        }
+
+        TotemCounter.getPops().put(player.getUUID(), popCount);
+
+        Component message = TotemCounter.PREFIX.copy().append(Component.translatable("totemcounter.set", player.getScoreboardName(), getPopText(popCount))).withStyle(Style.EMPTY.withColor(GREEN));
+        context.getSource().sendFeedback(message);
+        return 0;
+    }
+
+    private static Component getPopText(int popCount) {
+        return Component.literal(String.valueOf(popCount)).withStyle(Style.EMPTY.withColor(TotemCounter.getPopColor(popCount)));
     }
 }
