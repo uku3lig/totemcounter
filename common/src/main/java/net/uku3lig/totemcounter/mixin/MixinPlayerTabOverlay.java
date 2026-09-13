@@ -15,12 +15,12 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(PlayerTabOverlay.class)
 public class MixinPlayerTabOverlay {
     @ModifyReturnValue(method = "getNameForDisplay", at = @At("RETURN"))
-    public Component addPopCounter(Component original, @Local(argsOnly = true) PlayerInfo entry) {
+    public Component addPopCounter(Component original, @Local(argsOnly = true, name = "info") PlayerInfo info) {
         if (!TotemCounter.getManager().getConfig().isShowInTab()) return original;
 
         Level world = Minecraft.getInstance().level;
         if (world != null) {
-            Player entity = world.getPlayerByUUID(entry.getProfile().id());
+            Player entity = world.getPlayerByUUID(info.getProfile().id());
             if (entity != null) {
                 if (!entity.isAlive()) TotemCounter.getPops().remove(entity.getUUID());
                 return TotemCounter.showPopsInText(entity, original);

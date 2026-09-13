@@ -2,7 +2,7 @@ package net.uku3lig.totemcounter.mixin;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.player.RemotePlayer;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.protocol.game.ClientboundEntityEventPacket;
 import net.minecraft.world.entity.Entity;
 import net.uku3lig.totemcounter.TotemCounter;
@@ -21,9 +21,9 @@ public class MixinClientPacketListener {
     @Inject(method = "handleEntityEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;createTrackingEmitter(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/core/particles/ParticleOptions;I)V"))
     public void updateCounter(ClientboundEntityEventPacket packet, CallbackInfo ci) {
         Entity entity = packet.getEntity(level);
-        if (entity instanceof RemotePlayer player) {
+        if (entity instanceof AbstractClientPlayer player) {
             UUID uuid = player.getUUID();
-            TotemCounter.getPops().compute(uuid, (u, i) -> i == null ? 1 : i + 1);
+            TotemCounter.getPops().compute(uuid, (_, i) -> i == null ? 1 : i + 1);
         }
     }
 }

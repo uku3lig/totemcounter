@@ -22,7 +22,6 @@ import net.uku3lig.totemcounter.config.TotemCounterConfig;
 import net.uku3lig.ukulib.config.ConfigManager;
 import net.uku3lig.ukulib.utils.Ukutils;
 import org.joml.Vector2ic;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +40,7 @@ public class TotemCounter {
     private static final ConfigManager<TotemCounterConfig> manager = ConfigManager.createDefault(TotemCounterConfig.class, MOD_ID);
 
     private static final KeyMapping.Category category = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("totemcounter", "key"));
-    private static final KeyMapping resetCounter = new KeyMapping("totemcounter.reset", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F10, category);
+    private static final KeyMapping resetCounter = new KeyMapping("totemcounter.reset", InputConstants.KEY_F10, category);
 
     private static final List<Identifier> CUSTOM_TOTEMS = List.of(Identifier.fromNamespaceAndPath("voidtotem", "totem_of_void_undying"));
 
