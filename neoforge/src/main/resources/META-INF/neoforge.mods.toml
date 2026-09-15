@@ -7,28 +7,29 @@ modId = "totemcounter"
 displayName = "TotemCounter"
 version = "${version}"
 
-logoFile = "assets/totemcounter/icon.png"
+iconFile = "assets/totemcounter/icon.png"
 authors = "uku"
 description = "counts the amount of skill issues (totem pops)"
+displayURL = "https://modrinth.com/project/T9R7YTnA"
 
 [[dependencies.totemcounter]]
 modId = "minecraft"
 type = "required"
-versionRange = "[26.2,)"
+versionRange = "[26.3,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.totemcounter]]
 modId = "neoforge"
 type = "required"
-versionRange = "[26.2.0.0-beta,)"
+versionRange = "[26.3.0.0-beta,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.totemcounter]]
 modId = "ukulib"
 type = "required"
-versionRange = "[2.1.0,3)"
+versionRange = "[2.2.0,3)"
 ordering = "NONE"
 side = "CLIENT"
 
